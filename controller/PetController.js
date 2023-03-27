@@ -7,12 +7,16 @@ class PetController {
         include: [adobt],
       });
 
-      res.json(pets);
+      // res.json(pets);
+      res.render('pets/index.ejs', { pets });
     } catch (err) {
       res.json(err);
     }
   }
-  static createPage(req, res) {}
+  static createPage(req, res) {
+    res.render('pets/createPage.ejs');
+  }
+  
   static create(req, res) {
     
   }

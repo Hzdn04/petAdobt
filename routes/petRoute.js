@@ -1,6 +1,8 @@
-const pet = require("express").Router();
+const { Router } = require("express");
+const petRoute = Router();
 const { PetController } = require("../controller");
 
-pet.get("/", PetController.getPets);
+petRoute.get("/", PetController.getPets);
+petRoute.get("/create", PetController.createPage);
 
-module.exports = pet;
+module.exports = petRoute;
