@@ -1,6 +1,7 @@
 const routes = require("express").Router();
 const petRoutes = require("./petRoute");
 const adobtRoutes = require("./adobtRoute.js");
+const petadobtRoutes = require("./petadobtRoute.js");
 
 routes.get("/", (req, res) => {
   // res.json({
@@ -11,5 +12,6 @@ routes.get("/", (req, res) => {
 
 routes.use('/pets', petRoutes);
 routes.use("/adobts", adobtRoutes);
+routes.use("/petadobts", petadobtRoutes);
 
 module.exports = routes;
