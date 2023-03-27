@@ -1,74 +1,60 @@
 <%- include('../layouts/header'); %>
 
-<div class="col-8">
-  <form>
-    <!-- 2 column grid layout with text inputs for the first and last names -->
-    <div class="row mb-4">
-      <div class="col">
-        <div class="form-outline">
-          <input type="text" id="form6Example1" class="form-control" />
-          <label class="form-label" for="form6Example1">First name</label>
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-outline">
-          <input type="text" id="form6Example2" class="form-control" />
-          <label class="form-label" for="form6Example2">Last name</label>
-        </div>
+<section class="ftco-section" id="list">
+  <div class="container">
+    <div class="row justify-content-center pt-3 pb-1 mb-3">
+      <div class="col-md-7 heading-section text-center ftco-animate">
+        <h2>Pets</h2>
       </div>
     </div>
-
-    <!-- Text input -->
-    <div class="form-outline mb-4">
-      <input type="text" id="form6Example3" class="form-control" />
-      <label class="form-label" for="form6Example3">Company name</label>
-    </div>
-
-    <!-- Text input -->
-    <div class="form-outline mb-4">
-      <input type="text" id="form6Example4" class="form-control" />
-      <label class="form-label" for="form6Example4">Address</label>
-    </div>
-
-    <!-- Email input -->
-    <div class="form-outline mb-4">
-      <input type="email" id="form6Example5" class="form-control" />
-      <label class="form-label" for="form6Example5">Email</label>
-    </div>
-
-    <!-- Number input -->
-    <div class="form-outline mb-4">
-      <input type="number" id="form6Example6" class="form-control" />
-      <label class="form-label" for="form6Example6">Phone</label>
-    </div>
-
-    <!-- Message input -->
-    <div class="form-outline mb-4">
-      <textarea class="form-control" id="form6Example7" rows="4"></textarea>
-      <label class="form-label" for="form6Example7"
-        >Additional information</label
+    <div class="row">
+      <a href="/pets/create" class="btn btn-sm btn-primary mb-3">+ Add Pet</a>
+      <table
+        id="tableM"
+        class="table table-bordered table-striped"
+        data-toggle="table"
+        data-sticky-header="true"
+        data-click-to-select="true"
+        data-filter-control="true"
+        data-toolbar="#toolbar"
+        data-buttons="buttons"
+        data-search="true"
       >
+        <thead class="bg-success">
+          <tr class="table-success">
+            <th>No</th>
+            <th>Type</th>
+            <th>Race</th>
+            <th>age</th>
+            <th>price</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% pets.forEach(pet => { %>
+          <tr>
+            <td><%= pet.id %></td>
+            <td><%= pet.pet_type %></td>
+            <td><%= pet.race %></td>
+            <td><%= pet.age %></td>
+            <td><%= pet.price %></td>
+            <td>
+              <a href="" class="btn btn-sm btn-info">
+                <i class="fa fa-eye"></i>
+              </a>
+              <a href="" class="btn btn-sm btn-warning">
+                <i class="fa fa-edit"></i>
+              </a>
+              <a href="" class="btn btn-sm btn-danger">
+                <i class="fa fa-trash"></i>
+              </a>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
     </div>
-
-    <!-- Checkbox -->
-    <div class="form-check d-flex justify-content-center mb-4">
-      <input
-        class="form-check-input me-2"
-        type="checkbox"
-        value=""
-        id="form6Example8"
-        checked
-      />
-      <label class="form-check-label" for="form6Example8">
-        Create an account?
-      </label>
-    </div>
-
-    <!-- Submit button -->
-    <button type="submit" class="btn btn-primary btn-block mb-4">
-      Place order
-    </button>
-  </form>
-</div>
+  </div>
+</section>
 
 <%- include('../layouts/footer'); %>

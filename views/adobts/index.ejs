@@ -1,0 +1,60 @@
+<%- include('../layouts/header'); %>
+
+<section class="ftco-section" id="list">
+  <div class="container">
+    <div class="row justify-content-center pt-3 pb-1 mb-3">
+      <div class="col-md-7 heading-section text-center ftco-animate">
+        <h2>Adobts</h2>
+      </div>
+    </div>
+    <div class="row">
+      <a href="/pets/create" class="btn btn-sm btn-primary mb-3">+ Adobter</a>
+      <table
+        id="tableM"
+        class="table table-bordered table-striped"
+        data-toggle="table"
+        data-sticky-header="true"
+        data-click-to-select="true"
+        data-filter-control="true"
+        data-toolbar="#toolbar"
+        data-buttons="buttons"
+        data-search="true"
+      >
+        <thead class="bg-success">
+          <tr class="table-success">
+            <th>No</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Adobt Date</th>
+            <th>Total</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% adobts.forEach(adobt => { %>
+          <tr>
+            <td><%= adobt.id %></td>
+            <td><%= adobt.name %></td>
+            <td><%= adobt.address %></td>
+            <td><%= adobt.adobt_date %></td>
+            <td><%= adobt.total_price %></td>
+            <td>
+              <a href="" class="btn btn-sm btn-info">
+                <i class="fa fa-eye"></i>
+              </a>
+              <a href="" class="btn btn-sm btn-warning">
+                <i class="fa fa-edit"></i>
+              </a>
+              <a href="" class="btn btn-sm btn-danger">
+                <i class="fa fa-trash"></i>
+              </a>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<%- include('../layouts/footer'); %>

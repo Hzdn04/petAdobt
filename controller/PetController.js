@@ -13,16 +13,10 @@ class PetController {
       res.json(err);
     }
   }
-<<<<<<< HEAD
   static createPage(req, res) {
     res.render('pets/createPage.ejs');
   }
   
-=======
-  
-  static createPage(req, res) {}
-
->>>>>>> vinzy
   static create(req, res) {
     try {
       const { pet_type, race, age, price } = req.body;

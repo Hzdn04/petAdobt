@@ -1,5 +1,5 @@
 const routes = require("express").Router();
-const petRoutes = require("./petRoute");
+const petRoutes = require("./petRoute.js");
 const adobtRoutes = require("./adobtRoute.js");
 const petadobtRoutes = require("./petadobtRoute.js");
 
