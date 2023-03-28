@@ -21,8 +21,8 @@ class AdobtController {
           name, address, adobt_date, total_price
       })
 
-      res.json(resultAdobt)
-      // res.redirect('/adobts')
+      // res.json(resultAdobt)
+      res.redirect('/adobts')
   } catch (err) {
       res.json(err)
   }
@@ -37,9 +37,8 @@ class AdobtController {
       });
 
       resAdobt === 1
-        ? res.json({
-            message: `Pet id ${id} has been deleted!`,
-          })
+        ? 
+        res.redirect('/adobts')
         : res.json({
             message: `Pet id ${id} has not been deleted!`,
           });
@@ -63,9 +62,11 @@ class AdobtController {
       );
 
       result[0] === 1
-        ? res.json({
-            message: `Id ${id} has been updated`,
-          })
+        ? 
+        // res.json({
+        //     message: `Id ${id} has been updated`,
+        //   })
+        res.redirect('/adobts')
         : res.json({
             message: `Id ${id} not updated`,
           });
@@ -74,7 +75,9 @@ class AdobtController {
     }
   }
 
-  static createPage(req, res) {}
+  static createPage(req, res) {
+    res.render("adobts/createPage.ejs");
+  }
   static updatePage(req, res) {}
 }
 

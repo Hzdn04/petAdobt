@@ -8,21 +8,52 @@ class PetController {
       });
 
       // res.json(pets);
-      res.render('pets/index.ejs', { pets });
+      res.render("pets/index.ejs", { pets });
     } catch (err) {
       res.json(err);
     }
   }
-  static createPage(req, res) {
-    res.render('pets/createPage.ejs');
+
+  static async getPetById(req, res) {
+    try {
+      const id = Number(req.params.id);
+      const result = await pirate
+        .findByPk(id)
+          result === null ? res.json(`Couldn't this ${id}`) : res.json(result);
+    } catch (error) {
+      res.json(error);
+    }
   }
-  
+
+  static async adobtPage(req, res) {
+    try {
+      const id = Number(req.params.id);
+      const adobts = await adobt.findAll();
+      let result = await pet.findOne({
+        where: {
+            id
+        },
+        include: [adobt]
+    })
+      adobts.length === 0
+        ? res.redirect("../adobts/create")
+        : res.render("petAdobts/createPage.ejs", { adobts, result });
+    } catch (err) {
+      res.json(err);
+    }
+  }
+
+  static async createPage(req, res) {
+    res.render("pets/createPage.ejs");
+  }
+
   static create(req, res) {
     try {
       const { pet_type, race, age, price } = req.body;
       let resPets = pet.create({ pet_type, race, age, price });
 
-      res.json({ message: `Data has been added` });
+      // res.json({ message: `Data has been added` });
+      res.redirect("/pets");
     } catch (err) {
       res.json(err);
     }
@@ -37,9 +68,10 @@ class PetController {
       });
 
       resPet === 1
-        ? res.json({
-            message: `Pet id ${id} has been deleted!`,
-          })
+        ? // res.json({
+          //     message: `Pet id ${id} has been deleted!`,
+          //   })
+          res.redirect("/pets")
         : res.json({
             message: `Pet id ${id} has not been deleted!`,
           });
@@ -48,7 +80,19 @@ class PetController {
     }
   }
 
-  static updatePage(req, res) {}
+  static async updatePage(req, res) {
+    try {
+      const id = Number(req.params.id);
+      pet.getpirateById(id);
+
+      const pet = result[0];
+      res.render("pets/updatePage.ejs", { pirate });
+
+      res.render("pets/updatePage.ejs");
+    } catch (error) {
+      res.json(error);
+    }
+  }
 
   static async update(req, res) {
     try {
@@ -68,9 +112,10 @@ class PetController {
       );
 
       result[0] === 1
-        ? res.json({
-            message: `Id ${id} has been updated`,
-          })
+        ? // res.json({
+          //     message: `Id ${id} has been updated`,
+          //   })
+          res.redirect("/pets")
         : res.json({
             message: `Id ${id} not updated`,
           });

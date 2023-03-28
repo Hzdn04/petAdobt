@@ -3,31 +3,31 @@
 <div class="container mt-5">
   <div class="card">
     <div class="card-header">
-      <h3 class="text-center mt-3">Create Your Identity</h3>
+      <h3 class="text-center mt-3">Get Adobt this Pet</h3>
     </div>
     <div class="card-body">
       <form action="/adobts/create" method="post">
         <!-- Text input -->
         <div class="form-outline mb-4">
-          <input type="text" id="name" name="name" class="form-control" />
+          <select id="adobtId" name="shipId" class="form-select">
+            <option selected>Name</option>
+            <% adobts.forEach(adobt => {%>
+              <option value="<%= adobt.id %>"><%= adobt.name %></option>
+            <% }) %>
+          </select>
           <label class="form-label" for="form6Example3">Name</label>
         </div>
 
         <!-- Message input -->
         <div class="form-outline mb-4">
-          <textarea
-            class="form-control"
-            id="address"
-            name="address"
-            rows="4"
-          ></textarea>
-          <label class="form-label" for="form6Example7">Address</label>
+          <input type="text" value="<%= result.name %>">
+          <label class="form-label" for="form6Example7">Type</label>
         </div>
 
         <!-- Submit button -->
         <div class="row">
           <div class="col-11">
-            <a href="/adobts" class="btn btn-warning">Cancel</a>
+            <a href="/pets" class="btn btn-warning">Cancel</a>
           </div>
           <div class="col-1">
             <button type="submit" class="btn btn-primary btn-block mb-4">Add</button>
