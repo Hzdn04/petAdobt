@@ -3,11 +3,12 @@ const { petAdobt, pet, adobt } = require("../models");
 class PetAdobtController {
   static async getPetAdobts(req, res) {
     try {
-      let results = await petAdobt.findAll({
+      let petAdobts = await petAdobt.findAll({
         include: [pet, adobt],
       });
 
-      res.json(results);
+      //   res.json(petAdobts);
+      res.render("petAdobts/index.ejs", { petAdobts });
     } catch (err) {
       res.json(err);
     }
@@ -22,7 +23,7 @@ class PetAdobtController {
         adobtId: +adobtId,
       });
 
-      res.json(result);
+      res.redirect("/petAdobts");
     } catch (err) {
       res.json(err);
     }

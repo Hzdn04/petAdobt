@@ -9,19 +9,30 @@
       <form action="/adobts/create" method="post">
         <!-- Text input -->
         <div class="form-outline mb-4">
-          <input type="text" id="name" name="name" class="form-control" />
           <label class="form-label" for="form6Example3">Name</label>
+          <input type="text" id="name" name="name" class="form-control" />
         </div>
 
         <!-- Message input -->
         <div class="form-outline mb-4">
+          <label class="form-label" for="form6Example7">Address</label>
           <textarea
             class="form-control"
             id="address"
             name="address"
             rows="4"
           ></textarea>
-          <label class="form-label" for="form6Example7">Address</label>
+        </div>
+
+        <div class="form-outline mb-4" hidden>
+          <label class="form-label" for="form6Example3">petId</label>
+          <input
+            type="text"
+            id="petId"
+            name="petId"
+            class="form-control"
+            value="<%= pets.id %>"
+          />
         </div>
 
         <!-- Submit button -->
@@ -30,7 +41,9 @@
             <a href="/adobts" class="btn btn-warning">Cancel</a>
           </div>
           <div class="col-1">
-            <button type="submit" class="btn btn-primary btn-block mb-4">Add</button>
+            <button type="submit" class="btn btn-primary btn-block mb-4">
+              Add
+            </button>
           </div>
         </div>
       </form>

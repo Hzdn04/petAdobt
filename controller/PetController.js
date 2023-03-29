@@ -17,9 +17,8 @@ class PetController {
   static async getPetById(req, res) {
     try {
       const id = Number(req.params.id);
-      const result = await pet
-        .findByPk(id)
-          result === null ? res.json(`Couldn't this ${id}`) : res.json(result);
+      const result = await pirate.findByPk(id);
+      result === null ? res.json(`Couldn't this ${id}`) : res.json(result);
     } catch (error) {
       res.json(error);
     }
@@ -29,15 +28,11 @@ class PetController {
     try {
       const id = Number(req.params.id);
       const adobts = await adobt.findAll();
-      let result = await pet.findOne({
-        where: {
-            id
-        },
-        include: [adobt]
-    })
+      const pets = await pet.findByPk(id);
       adobts.length === 0
         ? res.redirect("../adobts/create")
-        : res.render("petAdobts/createPage.ejs", { adobts, result });
+        : res.render("petAdobts/createPage.ejs", { adobts, pets });
+      //   res.render("adobts/createPage.ejs");
     } catch (err) {
       res.json(err);
     }
