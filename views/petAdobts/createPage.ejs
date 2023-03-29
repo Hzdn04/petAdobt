@@ -6,22 +6,27 @@
       <h3 class="text-center mt-3">Get Adobt this Pet</h3>
     </div>
     <div class="card-body">
-      <form action="/adobts/create" method="post">
+      <form action="/petAdobts/create" method="post">
         <!-- Text input -->
         <div class="form-outline mb-4">
-          <select id="adobtId" name="shipId" class="form-select">
-            <option selected>Name</option>
+          <label class="form-label" for="form6Example3">Name</label>
+          <select id="adobtId" name="adobtId" class="form-select">
             <% adobts.forEach(adobt => {%>
-              <option value="<%= adobt.id %>"><%= adobt.name %></option>
+            <option value="<%= adobt.id %>"><%= adobt.name %></option>
             <% }) %>
           </select>
-          <label class="form-label" for="form6Example3">Name</label>
         </div>
 
         <!-- Message input -->
-        <div class="form-outline mb-4">
-          <input type="text" value="<%= result.name %>">
-          <label class="form-label" for="form6Example7">Type</label>
+        <div class="form-outline mb-4" hidden>
+          <label class="form-label" for="form6Example7">Pet Id</label>
+          <input
+            type="text"
+            id="petId"
+            name="petId"
+            class="form-control"
+            value="<%= pets.id %>"
+          />
         </div>
 
         <!-- Submit button -->
@@ -30,7 +35,9 @@
             <a href="/pets" class="btn btn-warning">Cancel</a>
           </div>
           <div class="col-1">
-            <button type="submit" class="btn btn-primary btn-block mb-4">Add</button>
+            <button type="submit" class="btn btn-primary btn-block mb-4">
+              Add
+            </button>
           </div>
         </div>
       </form>

@@ -9,6 +9,7 @@ app.use(
     extended: true,
   })
 );
+app.use(express.static(__dirname + '/public'));
 
 app.use(routes);
 
