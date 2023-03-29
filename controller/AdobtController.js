@@ -97,20 +97,6 @@ class AdobtController {
       res.json(err);
     }
   }
-  
-  static async create(req, res) {
-    try {
-      const { name, address, adobt_date, total_price } = req.body;
-      let resultAdobt = await adobt.create({
-          name, address, adobt_date, total_price
-      })
-
-      // res.json(resultAdobt)
-      res.redirect('/adobts')
-  } catch (err) {
-      res.json(err)
-  }
-  }
 
   static async delete(req, res) {
     try {
@@ -157,10 +143,6 @@ class AdobtController {
     } catch (err) {
       res.json(err);
     }
-  }
-
-  static createPage(req, res) {
-    res.render("adobts/createPage.ejs");
   }
 
   static async updatePage(req, res) {
