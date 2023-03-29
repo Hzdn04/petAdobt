@@ -1,0 +1,83 @@
+<%- include('../layouts/header'); %>
+
+<section class="ftco-section" id="list">
+  <div class="container">
+    <div class="row justify-content-center pt-3 pb-1 mb-3">
+      <div class="col-md-7 heading-section text-center ftco-animate">
+        <h2>Pets</h2>
+      </div>
+    </div>
+    <div class="row">
+      <a href="/pets/create" class="btn btn-sm btn-primary mb-3">+ Add Pet</a>
+
+      <% pets.forEach(pet => { %>
+        <div class="card mr-4" style="width: 20rem;">
+          <img src="http://www.alleycat.org/wp-content/uploads/2019/03/FELV-cat.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title"><%= pet.pet_type %> (<%= pet.race %>)</h5>
+            <p class="float-right card-text"><%= pet.age %> Month</p>
+            <p class="card-text">Rp. <%= pet.price %></p>
+            
+            <a href="/pets/delete/<%= pet.id %>" class="btn btn-sm btn-danger">
+              <i class="fa fa-trash"></i>
+            </a>
+            <a href="/pets/update/<%= pet.id %>" class="btn btn-sm btn-warning">
+              <i class="fa fa-edit"></i>
+            </a>
+            <div class="float-right">
+              <a href="/pets/adobt/<%= pet.id %>" class="btn btn-sm btn-success">
+                Get Adobt
+              </a>
+            </div>
+          </div>
+        </div>
+        <% }) %>
+      <!-- <table
+        id="tableM"
+        class="table table-bordered table-striped"
+        data-toggle="table"
+        data-sticky-header="true"
+        data-click-to-select="true"
+        data-filter-control="true"
+        data-toolbar="#toolbar"
+        data-buttons="buttons"
+        data-search="true"
+      >
+        <thead class="bg-success">
+          <tr class="table-success">
+            <th>No</th>
+            <th>Type</th>
+            <th>Race</th>
+            <th>age</th>
+            <th>price</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% pets.forEach(pet => { %>
+          <tr>
+            <td><%= pet.id %></td>
+            <td><%= pet.pet_type %></td>
+            <td><%= pet.race %></td>
+            <td><%= pet.age %></td>
+            <td><%= pet.price %></td>
+            <td>
+              <a href="" class="btn btn-sm btn-info">
+                <i class="fa fa-eye"></i>
+              </a>
+              <a href="" class="btn btn-sm btn-warning">
+                <i class="fa fa-edit"></i>
+              </a>
+              <a href="" class="btn btn-sm btn-danger">
+                <i class="fa fa-trash"></i>
+              </a>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table> -->
+    </div>
+  </div>
+</section>
+
+<%- include('../layouts/footer'); %>
