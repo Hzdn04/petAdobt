@@ -3,12 +3,13 @@ const { pet, adobt } = require("../models");
 class PetController {
   static async getPets(req, res) {
     try {
+      let adobts = await adobt.findAll();
       let pets = await pet.findAll({
         include: [adobt],
       });
 
       // res.json(pets);
-      res.render("pets/index.ejs", { pets });
+      res.render("pets/index.ejs", { pets, adobts });
     } catch (err) {
       res.json(err);
     }
