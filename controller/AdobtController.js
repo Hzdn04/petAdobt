@@ -40,7 +40,7 @@ class AdobtController {
         ? 
         res.redirect('/adobts')
         : res.json({
-            message: `Pet id ${id} has not been deleted!`,
+            message: `Adobt id ${id} has not been deleted!`,
           });
     } catch (err) {
       res.json(err);
@@ -78,7 +78,18 @@ class AdobtController {
   static createPage(req, res) {
     res.render("adobts/createPage.ejs");
   }
-  static updatePage(req, res) {}
+
+  static async updatePage(req, res) {
+    try {
+      const id = Number(req.params.id);
+      const result = await adobt
+        .findByPk(id)
+          result === null ? res.json(`Couldn't this ${id}`) : res.render("adobts/updatePage.ejs", { adobts: result });
+
+    } catch (error) {
+      res.json(error);
+    }
+  }
 }
 
 module.exports = AdobtController;

@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       adobt.belongsToMany(models.pet, { through: models.petAdobt });
     }
   }
+
   adobt.init(
     {
       name: DataTypes.STRING,
@@ -24,5 +25,35 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "adobt",
     }
   );
+
+  adobt.afterCreate((adobt) => {
+    sendNotification(adobt);
+    // showNotification(`Data ${adobt.name} berhasil masuk`);
+  });
+
+  function sendNotification(adobt) {
+    // ... kode untuk mengirimkan notifikasi ...
+    console.log(`Data ${adobt.name} berhasil masuk database`);
+  }
+
+  // function showNotification(message) {
+  //   // Memeriksa apakah browser mendukung Notification API
+  //   if ("Notification" in window) {
+  //     // Memeriksa apakah user telah memberikan izin untuk menampilkan notifikasi
+  //     if (Notification.permission === "granted") {
+  //       // Menampilkan notifikasi
+  //       new Notification("Notifikasi", { body: message });
+  //     } else if (Notification.permission !== "denied") {
+  //       // Meminta izin untuk menampilkan notifikasi
+  //       Notification.requestPermission().then((permission) => {
+  //         if (permission === "granted") {
+  //           // Menampilkan notifikasi
+  //           new Notification("Notifikasi", { body: message });
+  //         }
+  //       });
+  //     }
+  //   }
+  // }
+
   return adobt;
 };

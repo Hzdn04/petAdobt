@@ -17,7 +17,7 @@ class PetController {
   static async getPetById(req, res) {
     try {
       const id = Number(req.params.id);
-      const result = await pirate
+      const result = await pet
         .findByPk(id)
           result === null ? res.json(`Couldn't this ${id}`) : res.json(result);
     } catch (error) {
@@ -83,12 +83,10 @@ class PetController {
   static async updatePage(req, res) {
     try {
       const id = Number(req.params.id);
-      pet.getpirateById(id);
+      const result = await pet
+        .findByPk(id)
+          result === null ? res.json(`Couldn't this ${id}`) : res.render("pets/updatePage.ejs", { pets: result });
 
-      const pet = result[0];
-      res.render("pets/updatePage.ejs", { pirate });
-
-      res.render("pets/updatePage.ejs");
     } catch (error) {
       res.json(error);
     }
