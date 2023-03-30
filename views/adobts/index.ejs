@@ -16,12 +16,13 @@
           <div class="card-body">
             <h5 class="card-title"><%= adobt.name %></h5>
             <p class="card-text"><%= adobt.address %></p>
-            <a href="" class="btn btn-sm btn-danger">
+            <a href="/adobts/delete/<%= adobt.id %>" class="btn btn-sm btn-danger">
               <i class="fa fa-trash"></i>
             </a>
-            <a href="" class="float-right btn btn-sm btn-warning">
-              Get Adobt
+            <a href="/adobts/update/<%= adobt.id %>" class="btn btn-sm btn-warning">
+              <i class="fa fa-edit"></i>
             </a>
+            
           </div>
         </div>
         <% }) %>

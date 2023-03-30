@@ -15,11 +15,11 @@ module.exports = {
       address: {
         type: Sequelize.STRING,
       },
-      adobt_date: {
-        type: Sequelize.DATE,
+      email: {
+        type: Sequelize.STRING,
       },
-      total_price: {
-        type: Sequelize.INTEGER,
+      phone: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,

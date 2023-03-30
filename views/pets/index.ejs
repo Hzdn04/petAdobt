@@ -18,9 +18,42 @@
           alt="..."
         />
         <div class="card-body">
+          <% if (pet.stock !== 0) { %>
           <h5 class="card-title"><%= pet.pet_type %> (<%= pet.race %>)</h5>
           <p class="float-right card-text"><%= pet.age %> Month</p>
           <p class="card-text">Rp. <%= pet.price %></p>
+          <p class="card-text" style="color: green">Stock Available</p>
+
+          <a href="/pets/delete/<%= pet.id %>" class="btn btn-sm btn-danger">
+            <i class="fa fa-trash"></i>
+          </a>
+          <a href="/pets/update/<%= pet.id %>" class="btn btn-sm btn-warning">
+            <i class="fa fa-edit"></i>
+          </a>
+
+          <!-- Button trigger modal -->
+          <% if (adobts.length !== 0) { %>
+          <button
+            type="button"
+            class="btn btn-primary float-right"
+            data-bs-toggle="modal"
+            data-bs-target="#adobtModal<%= pet.id %>"
+          >
+            Get Adopt
+          </button>
+          <% } else { %>
+          <a
+            href="/adobts/create/<%= pet.id %>"
+            class="btn btn-sm btn-primary float-right"
+          >
+            <i class="fa fa-plus"></i> Add You
+          </a>
+          <% } %> <% } else { %>
+
+          <h5 class="card-title"><%= pet.pet_type %> (<%= pet.race %>)</h5>
+          <p class="float-right card-text"><%= pet.age %> Month</p>
+          <p class="card-text">Rp. <%= pet.price %></p>
+          <p class="card-text" style="color: grey">Out of stock</p>
 
           <a href="/pets/delete/<%= pet.id %>" class="btn btn-sm btn-danger">
             <i class="fa fa-trash"></i>
@@ -34,15 +67,18 @@
             type="button"
             class="btn btn-primary float-right"
             data-bs-toggle="modal"
-            data-bs-target="#adobtModal"
+            data-bs-target="#adobtModal<%= pet.id %>"
+            disabled
           >
             Get Adopt
           </button>
 
+          <% } %>
+
           <!-- Modal -->
           <div
             class="modal fade"
-            id="adobtModal"
+            id="adobtModal<%= pet.id %>"
             tabindex="-1"
             aria-labelledby="exampleModalLabel"
             aria-hidden="true"

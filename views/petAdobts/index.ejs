@@ -8,26 +8,7 @@
       </div>
     </div>
     <div class="row">
-      <a href="/adobts/create" class="btn btn-sm btn-primary mb-3">+ Adobter</a>
-
-      <% petAdobts.forEach(data => { %>
-      <div class="card mr-4" style="width: 18rem">
-        <img
-          src="https://images.unsplash.com/photo-1557862921-37829c790f19?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8bWFufGVufDB8fDB8fA%3D%3D&w=1000&q=80"
-          class="card-img-top"
-          alt="..."
-        />
-        <div class="card-body">
-          <h5 class="card-title"><%= data.adobt.name %></h5>
-          <p class="card-text"><%= data.adobt.address %></p>
-          <a href="" class="btn btn-sm btn-danger">
-            <i class="fa fa-trash"></i>
-          </a>
-          <a href="" class="float-right btn btn-sm btn-warning"> Get Adobt </a>
-        </div>
-      </div>
-      <% }) %>
-      <!-- <table
+      <table
         id="tableM"
         class="table table-bordered table-striped"
         data-toggle="table"
@@ -44,18 +25,20 @@
             <th>Name</th>
             <th>Address</th>
             <th>Adobt Date</th>
+            <th>Pet</th>
             <th>Total</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <% petAdobts.forEach(adobt => { %>
+          <% petAdobts.forEach((data,i) => { %>
           <tr>
-            <td><%= adobt.id %></td>
-            <td><%= adobt.name %></td>
-            <td><%= adobt.address %></td>
-            <td><%= adobt.adobt_date %></td>
-            <td><%= adobt.total_price %></td>
+            <td><%= i + 1 %>.</td>
+            <td><%= data.adobt.name %></td>
+            <td><%= data.adobt.address %></td>
+            <td><%= data.adobt_date %></td>
+            <td><%= data.pet.race %></td>
+            <td>Rp. <%= data.total_price %></td>
             <td>
               <a href="" class="btn btn-sm btn-info">
                 <i class="fa fa-eye"></i>
@@ -63,14 +46,17 @@
               <a href="" class="btn btn-sm btn-warning">
                 <i class="fa fa-edit"></i>
               </a>
-              <a href="" class="btn btn-sm btn-danger">
+              <a
+                href="/petAdobts/delete/<%= data.id %>"
+                class="btn btn-sm btn-danger"
+              >
                 <i class="fa fa-trash"></i>
               </a>
             </td>
           </tr>
           <% }) %>
         </tbody>
-      </table> -->
+      </table>
     </div>
   </div>
 </section>

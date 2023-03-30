@@ -3,12 +3,13 @@ const { pet, adobt } = require("../models");
 class PetController {
   static async getPets(req, res) {
     try {
+      let adobts = await adobt.findAll();
       let pets = await pet.findAll({
         include: [adobt],
       });
 
-      // res.json(pets);
-      res.render("pets/index.ejs", { pets });
+      //   res.json(pets);
+      res.render("pets/index.ejs", { pets, adobts });
     } catch (err) {
       res.json(err);
     }
@@ -44,8 +45,9 @@ class PetController {
 
   static create(req, res) {
     try {
-      const { pet_type, race, age, price } = req.body;
-      let resPets = pet.create({ pet_type, race, age, price });
+      const { pet_type, race, age, price, stock } = req.body;
+
+      let resPets = pet.create({ pet_type, race, age, price, stock });
 
       // res.json({ message: `Data has been added` });
       res.redirect("/pets");
@@ -78,12 +80,10 @@ class PetController {
   static async updatePage(req, res) {
     try {
       const id = Number(req.params.id);
-      pet.getpirateById(id);
-
-      const pet = result[0];
-      res.render("pets/updatePage.ejs", { pirate });
-
-      res.render("pets/updatePage.ejs");
+      const result = await pet.findByPk(id);
+      result === null
+        ? res.json(`Couldn't this ${id}`)
+        : res.render("pets/updatePage.ejs", { pets: result });
     } catch (error) {
       res.json(error);
     }
@@ -92,7 +92,7 @@ class PetController {
   static async update(req, res) {
     try {
       const id = Number(req.params.id);
-      const { pet_type, race, age, price } = req.body;
+      const { pet_type, race, age, price, stock } = req.body;
 
       let result = await pet.update(
         {
@@ -100,6 +100,7 @@ class PetController {
           race,
           age,
           price,
+          stock,
         },
         {
           where: { id },

@@ -1,0 +1,50 @@
+<%- include('../layouts/header.ejs'); %>
+
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="text-center mt-3">Edit your Identity</h3>
+    </div>
+    <div class="card-body">
+      <form action="/adobts/update/<%= adobts.id %>" method="post">
+        <!-- Text input -->
+        <div class="form-outline mb-4">
+          <input type="text" id="name" name="name" value="<%= adobts.name %>" class="form-control" />
+          <label class="form-label" for="form6Example3">Name</label>
+        </div>
+
+        <!-- Message input -->
+        <div class="form-outline mb-4">
+          <textarea
+            class="form-control"
+            id="address"
+            name="address"
+            rows="4"
+          ><%= adobts.address %></textarea>
+          <label class="form-label" for="form6Example7">Address</label>
+        </div>
+
+        <!-- Submit button -->
+        <div class="row">
+          <div class="col-11">
+            <a href="/adobts" class="btn btn-warning">Cancel</a>
+          </div>
+          <div class="col-1">
+            <button type="submit" class="btn btn-primary btn-block mb-4">Edit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script
+  src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+  integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+  integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+  crossorigin="anonymous"
+></script>

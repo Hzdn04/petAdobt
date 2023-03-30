@@ -10,13 +10,16 @@
         <div class="row mb-4">
           <div class="col">
             <div class="form-outline">
-              <input
-                type="text"
-                id="pet_type"
+              <select
+                class="form-select"
                 name="pet_type"
-                class="form-control"
-              />
-              <label class="form-label" for="form6Example3">Type</label>
+                for="pet_type"
+                id="pet_type"
+              >
+                <option name="pet_type" value="Dog">Dog</option>
+                <option name="pet_type" value="Cat">Cat</option>
+              </select>
+              <label class="form-label" for="pet_type">Type</label>
             </div>
           </div>
           <div class="col">
@@ -30,8 +33,16 @@
         <div class="row mb-4">
           <div class="col">
             <div class="form-outline">
-              <input type="number" id="age" name="age" class="form-control" />
-              <label class="form-label" for="form6Example5">Age</label>
+              <input
+                type="number"
+                id="age"
+                name="age"
+                class="form-control"
+                placeholder="In Month..."
+              />
+              <label class="form-label" for="form6Example5"
+                >Age (in Month)</label
+              >
             </div>
           </div>
           <div class="col">
@@ -45,6 +56,17 @@
               <label class="form-label" for="form6Example6">Price</label>
             </div>
           </div>
+          <div class="col">
+            <div class="form-outline">
+              <input
+                type="number"
+                id="stock"
+                name="stock"
+                class="form-control"
+              />
+              <label class="form-label" for="stock">Stock</label>
+            </div>
+          </div>
         </div>
 
         <!-- Submit button -->
@@ -53,7 +75,9 @@
             <a href="/pets" class="btn btn-warning">Cancel</a>
           </div>
           <div class="col-1">
-            <button type="submit" class="btn btn-primary btn-block mb-4">Add</button>
+            <button type="submit" class="btn btn-primary btn-block mb-4">
+              Add
+            </button>
           </div>
         </div>
       </form>
