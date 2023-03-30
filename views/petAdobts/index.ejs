@@ -31,22 +31,25 @@
           </tr>
         </thead>
         <tbody>
-          <% petAdobts.forEach(data => { %>
+          <% petAdobts.forEach((data,i) => { %>
           <tr>
-            <td><%= data.adobt.id %></td>
+            <td><%= i + 1 %>.</td>
             <td><%= data.adobt.name %></td>
             <td><%= data.adobt.address %></td>
-            <td><%= data.adobt.adobt_date %></td>
+            <td><%= data.adobt_date %></td>
             <td><%= data.pet.race %></td>
-            <td><%= data.adobt.total_price %></td>
+            <td>Rp. <%= data.total_price %></td>
             <td>
-              <a href="" class="btn btn-sm btn-info">
+              <!-- <a href="" class="btn btn-sm btn-info">
                 <i class="fa fa-eye"></i>
               </a>
               <a href="" class="btn btn-sm btn-warning">
                 <i class="fa fa-edit"></i>
-              </a>
-              <a href="" class="btn btn-sm btn-danger">
+              </a> -->
+              <a
+                href="/petAdobts/delete/<%= data.id %>"
+                class="btn btn-sm btn-danger"
+              >
                 <i class="fa fa-trash"></i>
               </a>
             </td>

@@ -22,7 +22,13 @@
           </div>
           <div class="col">
             <div class="form-outline">
-              <input type="text" id="race" name="race" class="form-control" value="<%= pets.race %>"/>
+              <input
+                type="text"
+                id="race"
+                name="race"
+                class="form-control"
+                value="<%= pets.race %>"
+              />
               <label class="form-label" for="form6Example4">Race</label>
             </div>
           </div>
@@ -31,7 +37,13 @@
         <div class="row mb-4">
           <div class="col">
             <div class="form-outline">
-              <input type="number" id="age" name="age" class="form-control" value="<%= pets.age %>"/>
+              <input
+                type="number"
+                id="age"
+                name="age"
+                class="form-control"
+                value="<%= pets.age %>"
+              />
               <label class="form-label" for="form6Example5">Age</label>
             </div>
           </div>
@@ -47,17 +59,31 @@
               <label class="form-label" for="form6Example6">Price</label>
             </div>
           </div>
+          <div class="col">
+            <div class="form-outline">
+              <input
+                type="number"
+                id="stock"
+                name="stock"
+                class="form-control"
+                value="<%= pets.stock %>"
+              />
+              <label class="form-label" for="form6Example6">Stock</label>
+            </div>
+          </div>
         </div>
 
         <!-- Submit button -->
         <div class="row">
-            <div class="col-11">
-              <a href="/pets" class="btn btn-warning">Cancel</a>
-            </div>
-            <div class="col-1">
-              <button type="submit" class="btn btn-primary btn-block mb-4">Edit</button>
-            </div>
+          <div class="col-11">
+            <a href="/pets" class="btn btn-warning">Cancel</a>
           </div>
+          <div class="col-1">
+            <button type="submit" class="btn btn-primary btn-block mb-4">
+              Edit
+            </button>
+          </div>
+        </div>
       </form>
     </div>
   </div>
