@@ -21,7 +21,7 @@
           <% if (pet.stock !== 0) { %>
           <h5 class="card-title"><%= pet.pet_type %> (<%= pet.race %>)</h5>
           <p class="float-right card-text"><%= pet.age %> Month</p>
-          <p class="card-text">Rp. <%= pet.price %></p>
+          <p class="card-text"><%= convertRp.convert(pet.price) %></p>
           <p class="card-text" style="color: green">Stock Available</p>
 
           <a href="/pets/delete/<%= pet.id %>" class="btn btn-sm btn-danger">

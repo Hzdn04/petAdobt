@@ -38,7 +38,7 @@
             <td><%= data.adobt.address %></td>
             <td><%= data.adobt_date %></td>
             <td><%= data.pet.race %></td>
-            <td>Rp. <%= data.total_price %></td>
+            <td><%= convertRp.convert(data.total_price) %></td>
             <td>
               <a href="" class="btn btn-sm btn-info">
                 <i class="fa fa-eye"></i>

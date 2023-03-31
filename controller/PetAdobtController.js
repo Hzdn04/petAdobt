@@ -7,9 +7,10 @@ class PetAdobtController {
         attributes: ["id", "petId", "adobtId", "adobt_date", "total_price"],
         include: [pet, adobt],
       });
+      const convertRp = require("rupiah-format");
 
       //   res.json(petAdobts);
-      res.render("petAdobts/index.ejs", { petAdobts });
+      res.render("petAdobts/index.ejs", { petAdobts, convertRp });
     } catch (err) {
       res.json(err);
     }

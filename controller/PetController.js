@@ -7,9 +7,10 @@ class PetController {
       let pets = await pet.findAll({
         include: [adobt],
       });
+      const convertRp = require("rupiah-format");
 
       //   res.json(pets);
-      res.render("pets/index.ejs", { pets, adobts });
+      res.render("pets/index.ejs", { pets, adobts, convertRp });
     } catch (err) {
       res.json(err);
     }
