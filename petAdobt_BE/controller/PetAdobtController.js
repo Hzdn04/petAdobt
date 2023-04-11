@@ -15,6 +15,26 @@ class PetAdobtController {
     }
   }
 
+  static async getPetAdobtTotals(req, res) {
+    try {
+      
+      let petAdobts = await petAdobt.findAll({
+        // attributes: [
+        //   "id", "petId", "adobtId", "adobt_date", "total_price"
+        //   // [sequelize.fn("SUM", sequelize.col('total_price')), 'total'],
+        // ],
+        // include: [
+        //   pet, adobt
+        // ],
+        group: 'adobtId',
+      });
+      //   res.json(petAdobts);
+      res.render("petAdobts/detailPage.ejs", { petAdobts });
+    } catch (err) {
+      res.json(err);
+    }
+  }
+
   static async create(req, res) {
     try {
       const { petId, adobtId, phone } = req.body;
