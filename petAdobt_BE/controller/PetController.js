@@ -1,4 +1,4 @@
-const { pet, adobt } = require("../models");
+const { pet, adobt, petAdobt } = require("../models");
 
 class PetController {
   static async getPets(req, res) {
@@ -8,8 +8,9 @@ class PetController {
         include: [adobt],
       });
 
+      const rpConvert = require("rupiah-format");
       //   res.json(pets);
-      res.render("pets/index.ejs", { pets, adobts });
+      res.render("pets/index.ejs", { pets, adobts, rpConvert });
     } catch (err) {
       res.json(err);
     }
@@ -60,11 +61,17 @@ class PetController {
     try {
       const id = Number(req.params.id);
 
-      let resPet = await pet.destroy({
+      let delTransc = await petAdobt.destroy({
+        where: {
+          petId: id,
+        },
+      });
+
+      let delPet = await pet.destroy({
         where: { id },
       });
 
-      resPet === 1
+      delPet === 1
         ? // res.json({
           //     message: `Pet id ${id} has been deleted!`,
           //   })
