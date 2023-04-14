@@ -3,26 +3,26 @@ const { pet, adobt, petAdobt } = require("../models");
 class PetController {
   static async getPets(req, res) {
     try {
-      let adobts = await adobt.findAll();
-      let pets = await pet.findAll({
-        include: [adobt],
-      });
+      let pets = await pet.findAll();
 
       const rpConvert = require("rupiah-format");
-      //   res.json(pets);
-      res.render("pets/index.ejs", { pets, adobts, rpConvert });
+      res.status(200).json(pets);
+      //   res.render("pets/index.ejs", { pets, adobts, rpConvert });
     } catch (err) {
-      res.json(err);
+      res.status(500).json(err);
     }
   }
 
-  static async getPetById(req, res) {
+  static async petInfo(req, res) {
     try {
-      const id = Number(req.params.id);
-      const result = await pirate.findByPk(id);
-      result === null ? res.json(`Couldn't this ${id}`) : res.json(result);
+      const id = +req.params.id;
+      let petInfo = await pet.findByPk(id);
+
+      petInfo
+        ? res.status(200).json(petInfo)
+        : res.status(404).json({ message: `Pet not found` });
     } catch (error) {
-      res.json(error);
+      req.status(500).json(error);
     }
   }
 
@@ -32,8 +32,9 @@ class PetController {
       const adobts = await adobt.findAll();
       const pets = await pet.findByPk(id);
       adobts.length === 0
-        ? res.redirect("../adobts/create")
-        : res.render("petAdobts/createPage.ejs", { adobts, pets });
+        ? res.status(200).json({ message: `` })
+        : // res.redirect("../adobts/create")
+          res.render("petAdobts/createPage.ejs", { adobts, pets });
       //   res.render("adobts/createPage.ejs");
     } catch (err) {
       res.json(err);
@@ -44,16 +45,23 @@ class PetController {
     res.render("pets/createPage.ejs");
   }
 
-  static create(req, res) {
+  static async create(req, res) {
     try {
-      const { pet_type, race, age, price, stock } = req.body;
+      const { pet_type, race, age, price, stock, image } = req.body;
 
-      let resPets = pet.create({ pet_type, race, age, price, stock });
+      let resPets = await pet.create({
+        pet_type,
+        race,
+        age,
+        price,
+        stock,
+        image,
+      });
 
-      // res.json({ message: `Data has been added` });
-      res.redirect("/pets");
+      res.status(200).json(resPets);
+      //   res.redirect("/pets");
     } catch (err) {
-      res.json(err);
+      res.status(500).json(err);
     }
   }
 
@@ -61,26 +69,26 @@ class PetController {
     try {
       const id = Number(req.params.id);
 
-      let delTransc = await petAdobt.destroy({
-        where: {
-          petId: id,
-        },
-      });
+      //   let delTransc = await petAdobt.destroy({
+      //     where: {
+      //       petId: id,
+      //     },
+      //   });
 
       let delPet = await pet.destroy({
         where: { id },
       });
 
       delPet === 1
-        ? // res.json({
-          //     message: `Pet id ${id} has been deleted!`,
-          //   })
-          res.redirect("/pets")
-        : res.json({
+        ? res.status(200).json({
+            message: `Pet id ${id} has been deleted!`,
+          })
+        : //   res.redirect("/pets")
+          res.status(400).json({
             message: `Pet id ${id} has not been deleted!`,
           });
     } catch (err) {
-      res.json(err);
+      res.status(500).json(err);
     }
   }
 
@@ -90,16 +98,17 @@ class PetController {
       const result = await pet.findByPk(id);
       result === null
         ? res.json(`Couldn't this ${id}`)
-        : res.render("pets/updatePage.ejs", { pets: result });
+        : res.status(200).json({ message: `Pet has been updated` });
+      // res.render("pets/updatePage.ejs", { pets: result });
     } catch (error) {
-      res.json(error);
+      res.status(500).json(error);
     }
   }
 
   static async update(req, res) {
     try {
       const id = Number(req.params.id);
-      const { pet_type, race, age, price, stock } = req.body;
+      const { pet_type, race, age, price, stock, image } = req.body;
 
       let result = await pet.update(
         {
@@ -108,6 +117,7 @@ class PetController {
           age,
           price,
           stock,
+          image,
         },
         {
           where: { id },
@@ -115,15 +125,15 @@ class PetController {
       );
 
       result[0] === 1
-        ? // res.json({
-          //     message: `Id ${id} has been updated`,
-          //   })
-          res.redirect("/pets")
-        : res.json({
+        ? res.status(200).json({
+            message: `Id ${id} has been updated`,
+          })
+        : //   res.redirect("/pets")
+          res.status(400).json({
             message: `Id ${id} not updated`,
           });
     } catch (err) {
-      res.json(err);
+      res.status(500).json(err);
     }
   }
 }

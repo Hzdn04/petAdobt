@@ -9,18 +9,40 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      pet.belongsToMany(models.adobt, { through: models.petAdobt });
+      pet.belongsToMany(models.user, { through: models.petAdobt });
     }
   }
   pet.init(
     {
-      pet_type: DataTypes.STRING,
+      pet_type: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: `type cannot be null`,
+          },
+        },
+      },
       race: DataTypes.STRING,
       age: DataTypes.INTEGER,
       price: DataTypes.INTEGER,
       stock: DataTypes.INTEGER,
+      image: DataTypes.STRING,
     },
     {
+      hooks: {
+        beforeCreate: (pet, option) => {
+          if (pet.pet_type === "Dog") {
+            pet.image =
+              pet.image ||
+              "https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=1200:*";
+          } else if (pet.pet_type === "Cat") {
+            pet.image =
+              pet.image ||
+              "https://www.alleycat.org/wp-content/uploads/2019/03/FELV-cat.jpg";
+          }
+        },
+      },
       sequelize,
       modelName: "pet",
     }
