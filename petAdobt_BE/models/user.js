@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      user.belongsToMany(models.pet, { through: models.petAdobt });
     }
   }
   user.init(
@@ -43,15 +44,17 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: DataTypes.STRING,
       age: DataTypes.INTEGER,
-      address: DataTypes.STRING,
+      address: DataTypes.TEXT,
       phone: DataTypes.STRING,
       image: DataTypes.STRING,
+      role: DataTypes.INTEGER,
     },
     {
       hooks: {
         beforeCreate: (user, option) => {
           user.password = encrypt(user.password);
           user.image = user.image || "https://via.placeholder.com/100";
+          user.role = user.role || 2;
         },
       },
       sequelize,

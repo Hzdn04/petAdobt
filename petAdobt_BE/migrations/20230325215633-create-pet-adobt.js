@@ -12,7 +12,7 @@ module.exports = {
       petId: {
         type: Sequelize.INTEGER,
       },
-      adobtId: {
+      userId: {
         type: Sequelize.INTEGER,
       },
       adobt_date: {
@@ -20,6 +20,9 @@ module.exports = {
       },
       total_price: {
         type: Sequelize.INTEGER,
+      },
+      address: {
+        type: Sequelize.TEXT,
       },
       createdAt: {
         allowNull: false,

@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const secretCode = process.env.SECRET_CODE || "bdfdbsdbdsngf";
+const secretCode = process.env.SECRET_CODE || "bebas";
 
 const tokenGenerate = (data) => {
   const { username, email, name, age, address, phone, image } = data;
@@ -11,7 +11,7 @@ const tokenGenerate = (data) => {
 };
 
 const tokenVerify = (data) => {
-  return jwa.verify(data, secretCode);
+  return jwt.verify(data, secretCode);
 };
 
 module.exports = {

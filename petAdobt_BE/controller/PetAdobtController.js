@@ -1,15 +1,15 @@
-const { petAdobt, pet, adobt } = require("../models");
+const { petAdobt, pet, user } = require("../models");
 
 class PetAdobtController {
   static async getPetAdobts(req, res) {
     try {
       let petAdobts = await petAdobt.findAll({
-        attributes: ["id", "petId", "adobtId", "adobt_date", "total_price"],
-        include: [pet, adobt],
+        attributes: ["id", "petId", "userId", "adobt_date", "total_price"],
+        include: [pet, user],
       });
 
-      //   res.json(petAdobts);
-      res.render("petAdobts/index.ejs", { petAdobts });
+      res.status(200).json(petAdobts);
+      //   res.render("petAdobts/index.ejs", { petAdobts });
     } catch (err) {
       res.json(err);
     }
@@ -17,7 +17,6 @@ class PetAdobtController {
 
   static async getPetAdobtTotals(req, res) {
     try {
-      
       let petAdobts = await petAdobt.findAll({
         // attributes: [
         //   "id", "petId", "adobtId", "adobt_date", "total_price"
@@ -26,7 +25,7 @@ class PetAdobtController {
         // include: [
         //   pet, adobt
         // ],
-        group: 'adobtId',
+        group: "adobtId",
       });
       //   res.json(petAdobts);
       res.render("petAdobts/detailPage.ejs", { petAdobts });
@@ -37,24 +36,27 @@ class PetAdobtController {
 
   static async create(req, res) {
     try {
-      const { petId, adobtId, phone } = req.body;
+      const { petId, userId, address } = req.body;
+      let total_price = 0;
       let thisPet = await pet.findByPk(petId);
 
-      let updateStock = await thisPet.decrement("stock");
-      let total_price = thisPet.price;
+      //   let updateStock = await thisPet.decrement("stock");
+      total_price = total_price + thisPet.price;
       const adobt_date = new Date();
 
       let result = await petAdobt.create({
         petId: +petId,
-        adobtId: +adobtId,
+        userId: +userId,
         adobt_date,
         total_price,
+        address,
       });
 
+      res.status(201).json(result);
       // res.json(thisPet);
-      res.redirect("/petAdobts");
+      //   res.redirect("/petAdobts");
     } catch (err) {
-      res.json(err);
+      res.status(500).json(err);
     }
   }
 
@@ -67,12 +69,13 @@ class PetAdobtController {
       });
 
       deleteData === 1
-        ? res.redirect("/petAdobts")
-        : res.json({
-            message: `Pet id ${id} has not been deleted!`,
+        ? //   res.redirect("/petAdobts")
+          res.status(200).json({ message: `Data has been deleted` })
+        : res.status(400).json({
+            message: `Data not deleted!`,
           });
     } catch (err) {
-      res.json(err);
+      res.status(500).json(err);
     }
   }
 }

@@ -25,23 +25,23 @@ class AdobtController {
         phone,
       });
 
-      const { petId } = req.body;
-      const adobtId = resultAdobt.id;
-      const adobt_date = new Date();
+      //   const { petId } = req.body;
+      //   const adobtId = resultAdobt.id;
+      //   const adobt_date = new Date();
 
-      let thispet = await pet.findByPk(petId);
-      let updateStock = await thispet.decrement("stock");
-      let total_price = thispet.price;
+      //   let thispet = await pet.findByPk(petId);
+      //   let updateStock = await thispet.decrement("stock");
+      //   let total_price = thispet.price;
 
-      let resultpetAdobt = await petAdobt.create({
-        petId: +petId,
-        adobtId: +adobtId,
-        adobt_date,
-        total_price,
-      });
+      //   let resultpetAdobt = await petAdobt.create({
+      //     petId: +petId,
+      //     adobtId: +adobtId,
+      //     adobt_date,
+      //     total_price,
+      //   });
 
-      //   res.json(thispet.price);
-      res.redirect("/petAdobts");
+      res.json(resultAdobt);
+      //   res.redirect("/petAdobts");
     } catch (err) {
       res.json(err);
     }

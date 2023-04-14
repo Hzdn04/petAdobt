@@ -10,15 +10,16 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       petAdobt.belongsTo(models.pet);
-      petAdobt.belongsTo(models.adobt);
+      petAdobt.belongsTo(models.user);
     }
   }
   petAdobt.init(
     {
       petId: DataTypes.INTEGER,
-      adobtId: DataTypes.INTEGER,
+      userId: DataTypes.INTEGER,
       adobt_date: DataTypes.DATE,
       total_price: DataTypes.INTEGER,
+      address: DataTypes.TEXT,
     },
     {
       sequelize,
