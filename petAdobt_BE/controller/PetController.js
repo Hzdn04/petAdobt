@@ -5,7 +5,7 @@ class PetController {
     try {
       let pets = await pet.findAll();
 
-      const rpConvert = require("rupiah-format");
+      //   const rpConvert = require("rupiah-format");
       res.status(200).json(pets);
       //   res.render("pets/index.ejs", { pets, adobts, rpConvert });
     } catch (err) {
@@ -49,6 +49,7 @@ class PetController {
     try {
       const { pet_type, race, age, price, stock, image } = req.body;
 
+      //   console.log(req.userData);
       let resPets = await pet.create({
         pet_type,
         race,
