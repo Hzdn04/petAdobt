@@ -24,7 +24,7 @@ const addPet = async (pet) => {
       data: pet
     });
     Swal.fire(
-      'pet has been added',
+      'Pet has been added',
       'Success'
     )
     // console.log(result.data);
@@ -64,7 +64,7 @@ const deletePet = async(id) => {
       if (result.isConfirmed) {
         let result = await axios({
           method: "DELETE",
-          url: `${URL}/remove/${id}`,
+          url: `${URL}/delete/${id}`,
         })
         Swal.fire(
           'Deleted!',

@@ -12,11 +12,12 @@ const CreatePetPage = () => {
   }, []);
 
   const [form, setForm] = useState({
-    name: "",
-    positionId: 0,
+    pet_type: "",
+    race: "",
     age: 0,
-    city: "",
-    photo: "https://via.placeholder.com/100",
+    price: 0,
+    stock: 0,
+    image: "",
   });
 
   const navigation = useNavigate();
@@ -27,33 +28,41 @@ const CreatePetPage = () => {
     // console.log(form);
   };
 
+  const styles = {
+    card:{
+      width: "45rem",
+    }
+  }
+
   return (
     <>
-      <div className="row">
+      <div className="card mx-auto" style={styles.card}>
+        <div className="card-body">
         <h5>Added Pet</h5>
         <form>
           <div className="mb-3">
-            <label>Name</label>
-            <input
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-              type="text"
-              className="form-control"
-              placeholder="Name"
-            />
+            <label>Pet</label>
+            <select
+              onChange={(e) => setForm({ ...form, pet_type: e.target.value })}
+                class="form-select"
+                name="pet_type"
+                for="pet_type"
+                id="pet_type"
+              >
+                <option selected>Type</option>
+                <option name="pet_type" value="Dog">Dog</option>
+                <option name="pet_type" value="Cat">Cat</option>
+              </select>
           </div>
 
           <div className="mb-3">
-            <label>Position</label>
-            <select
-              value={form.positionId}
-              className="form-select"
-              onChange={(e) => setForm({ ...form, positionId: e.target.value })}
-            >
-              <option selected>PILIH POSISI</option>
-              {positions.map((position) => {
-                return <option value={position.id}>{position.name}</option>;
-              })}
-            </select>
+            <label>Race</label>
+            <input
+              onChange={(e) => setForm({ ...form, race: e.target.value })}
+              type="text"
+              className="form-control"
+              placeholder="Persia"
+            />
           </div>
 
           <div className="mb-3">
@@ -62,22 +71,31 @@ const CreatePetPage = () => {
               onChange={(e) => setForm({ ...form, age: e.target.value })}
               type="number"
               className="form-control"
-              placeholder="Age"
+              placeholder="2"
             />
           </div>
           <div className="mb-3">
-            <label>City</label>
+            <label>Price</label>
             <input
-              onChange={(e) => setForm({ ...form, city: e.target.value })}
-              type="text"
+              onChange={(e) => setForm({ ...form, price: e.target.value })}
+              type="number"
               className="form-control"
-              placeholder="City"
+              placeholder="200000"
             />
           </div>
           <div className="mb-3">
-            <label>Photo Link</label>
+            <label>Stock</label>
             <input
-              onChange={(e) => setForm({ ...form, photo: e.target.value })}
+              onChange={(e) => setForm({ ...form, stock: e.target.value })}
+              type="number"
+              className="form-control"
+              placeholder="2"
+            />
+          </div>
+          <div className="mb-3">
+            <label>Image Link</label>
+            <input
+              onChange={(e) => setForm({ ...form, image: e.target.value })}
               type="text"
               className="form-control"
               placeholder="Photo"
@@ -93,6 +111,7 @@ const CreatePetPage = () => {
             </button>
           </div>
         </form>
+        </div>
       </div>
     </>
   );

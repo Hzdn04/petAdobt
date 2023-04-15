@@ -7,7 +7,7 @@ const ListPetPage = () => {
   const [pets, setPets] = useState([]);
 
   useEffect(() => {
-    getPets((result) => setPets(result.pets));
+    getPets((result) => setPets(result));
   }, []);
 
   const deleteHandler = (id) => {
@@ -27,108 +27,108 @@ const ListPetPage = () => {
   return (
     <>
       <Link to="/pets/create" className="btn btn-primary mb-2 mt-2">
-        Add
+        Added Pet
       </Link>
       <div className="row">
-      {pets.length !== 0 ? 
-      (
-        pets.map((pet) => {
-          const { id, pet_type, race, age, price, stock } = pet;
-          return (
-            <div class="card mr-4" style={styles.card} key={id}>
-              <img
-                src="https://via.placeholder.com/100"
-                class="card_img_top img-fluid"
-                style={styles.card_img_top}
-                alt="..."
-              />
-              <div class="card-body">
-                <h5 class="card-title">{pet_type} {race}</h5>
-                <p class="float-right card-text"> {age} Month</p>
-                <p class="card-text">Rp. {price} </p>
-                <p class="card-text"> {stock} Stock Available</p>
+        {pets.length !== 0 ? (
+          pets.map((pet) => {
+            const { id, pet_type, race, age, price, stock, image } = pet;
+            return (
+              <div class="card mr-4" style={styles.card} key={id}>
+                <img
+                  src={image}
+                  class="card_img_top img-fluid"
+                  style={styles.card_img_top}
+                  alt="..."
+                />
+                <div class="card-body">
+                  <h5 class="card-title">
+                    {pet_type} {race}
+                  </h5>
+                  <p class="card-text float-left"> {age} Month</p>
+                  <p class="card-text float-right">Rp. {price} </p>
+                  {
+                    stock > 0 ? 
+                    <p class="card-text text-success"> {stock} Stock Available</p>
+                    :
+                    <p class="card-text text-danger">Out of stock</p>
+                  }
+                  
+                  {
+                    stock > 0 &&
+                    <button
+                    type="button"
+                    class="btn btn-primary float-right"
+                    data-bs-toggle="modal"
+                    data-bs-target="#adobtModal{id}"
+                  >
+                    Get Adopt
+                  </button>
+                  }      
 
-                <button
-                  type="button"
-                  class="btn btn-primary float-right"
-                  data-bs-toggle="modal"
-                  data-bs-target="#adobtModal<%= pet.id %>"
-                >
-                  Get Adopt
-                </button>
+                  <button
+                    onClick={() => deleteHandler(+id)}
+                    class="btn btn-danger"
+                  >
+                    DELETE
+                  </button>
+                  <a
+                    href=""
+                    class="btn btn-warning"
+                  >
+                    EDIT
+                  </a>
 
-                {/* <h5 class="card-title"></h5>
-          <p class="float-right card-text"> Month</p>
-          <p class="card-text">Rp. </p>
-          <p class="card-text" >Out of stock</p>
-
-          <a href="/pets/delete/<%= pet.id %>" class="btn btn-sm btn-danger">
-            <i class="fa fa-trash"></i>
-          </a>
-          <a href="/pets/update/<%= pet.id %>" class="btn btn-sm btn-warning">
-            <i class="fa fa-edit"></i>
-          </a>
-
-          <button
-            type="button"
-            class="btn btn-primary float-right"
-            data-bs-toggle="modal"
-            data-bs-target="#adobtModal<%= pet.id %>"
-            disabled
-          >
-            Get Adopt
-          </button> */}
-
-                <div
-                  class="modal fade"
-                  id="adobtModal<%= pet.id %>"
-                  tabindex="-1"
-                  aria-labelledby="exampleModalLabel"
-                  aria-hidden="true"
-                >
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">
-                          Confirmation
-                        </h1>
-                        <button
-                          type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
-                      </div>
-                      <div class="modal-body">
-                        Have you ever been here before?
-                      </div>
-                      <div class="modal-footer">
-                        <a
-                          type="button"
-                          class="btn btn-secondary"
-                          href="/adobts/create/<%= pet.id %>"
-                        >
-                          Nope
-                        </a>
-                        <a
-                          href="/pets/adobt/<%= pet.id %>"
-                          type="button"
-                          class="btn btn-primary"
-                        >
-                          Of Course!
-                        </a>
+                  <div
+                    class="modal fade"
+                    id="adobtModal{id}"
+                    tabindex="-1"
+                    aria-labelledby="exampleModalLabel"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">
+                            Confirmation
+                          </h1>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="modal-body">
+                          Have you ever been here before?
+                        </div>
+                        <div class="modal-footer">
+                          <a
+                            type="button"
+                            class="btn btn-secondary"
+                            href="/adobts/create/<%= pet.id %>"
+                          >
+                            Nope
+                          </a>
+                          <a
+                            href="/pets/adobt/<%= pet.id %>"
+                            type="button"
+                            class="btn btn-primary"
+                          >
+                            Of Course!
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
+
                 </div>
               </div>
-            </div>
-          );
-        })
-      ) 
-      : (
-        <Loading />
-      )}
+            );
+          })
+        ) : (
+          <Loading />
+        )}
       </div>
     </>
   );
