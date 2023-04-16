@@ -61,6 +61,11 @@ const Navbar = (props) => {
                   Get Adobt
                 </Link>
               </li>
+              <li>
+                <Link class="nav-link scrollto active" to="/adobteds">
+                  Adobted
+                </Link>
+              </li>
               {/* <li><Link class="nav-link scrollto" to="/adobter">Adobters</Link></li>
           <li><Link class="nav-link scrollto" to="/">Adobted Pets</Link></li> */}
               <li>

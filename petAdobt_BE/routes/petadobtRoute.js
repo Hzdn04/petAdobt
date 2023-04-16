@@ -4,7 +4,7 @@ const authentication = require("../middleware/authentication");
 
 petadobt.get("/", authentication, PetAdobtController.getPetAdobts);
 petadobt.get("/detail", authentication, PetAdobtController.getPetAdobtTotals);
-petadobt.get("/create", authentication, PetAdobtController.getPetAdobts);
+petadobt.get("/created", authentication, PetAdobtController.getPetAdobts);
 petadobt.post("/create", authentication, PetAdobtController.create);
 petadobt.delete("/delete/:id", authentication, PetAdobtController.delete);
 

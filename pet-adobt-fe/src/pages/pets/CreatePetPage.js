@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { addPet } from "../../fetchs/petFetch";
-import { getPositions } from "../../fetchs/positionFetch";
+import { getAdobteds } from "../../fetchs/adobtedFetch";
 import { useNavigate } from "react-router-dom";
 
 const CreatePetPage = () => {
   const [positions, setPositions] = useState([]);
 
   useEffect(() => {
-    getPositions((result) => setPositions(result));
+    getAdobteds((result) => setPositions(result));
     // console.log(positions);
   }, []);
 

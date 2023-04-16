@@ -4,6 +4,8 @@ import Swal from "sweetalert2";
 
 const URL = "http://localhost:3001/users";
 
+const token = localStorage.getItem('access_token')
+
 // const loginUser = async (user) => {
 //     try {
 //       let result = await axios({
@@ -21,11 +23,12 @@ const URL = "http://localhost:3001/users";
 //     }
 //   }
 
-const getAccount = async (id, callback) => {
+const getAccount = async (callback) => {
   try {
     const result = await axios({
       method: "GET",
-      url: `${URL}/account/${id}`,
+      url: `${URL}`,
+      headers: { access_token: token }
     });
     // console.log(user.data);
     callback(result.data)

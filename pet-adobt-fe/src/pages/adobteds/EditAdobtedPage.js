@@ -1,30 +1,43 @@
-import React, { useState } from "react";
-import { addPosition } from "../../fetchs/positionFetch";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { getAdobted, editAdobted } from "../../fetchs/adobtedFetch";
+import { useNavigate, useParams } from "react-router-dom";
 
-const CreatePositionPage = () => {
+const EditAdobtedPage = () => {
   const [form, setForm] = useState({
     name: "",
-    position_player: "",
+    Adobted_player: "",
     skill: "",
   });
 
   const navigation = useNavigate();
+  const params = useParams();
+
+  useEffect(() => {
+    const {id} = params;
+    getAdobted(+id, result => {
+      setForm({
+        name: result.name,
+        Adobted_player: result.Adobted_player,
+        skill: result.skill,
+      })
+    })
+  }, [])
 
   const submitHandler = () => {
-    addPosition(form);
-    navigation("/positions");
+    editAdobted(+params.id, form);
+    navigation("/adobteds");
     // console.log(form);
   };
 
   return (
     <>
       <div className="row">
-        <h5>Added Position</h5>
+        <h5>Edit position</h5>
         <form>
           <div className="mb-3">
             <label>Name</label>
             <input
+            value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               type="text"
               className="form-control"
@@ -38,8 +51,8 @@ const CreatePositionPage = () => {
               className="form-select"
               onChange={(e) => setForm({ ...form, position_player: e.target.value })}
             >
-              <option value='' selected>
-                PILIH POSISI
+              <option value={form.position_player} selected>
+                {form.position_player}
               </option>
               <option value='Defender'>
                 Defender
@@ -59,6 +72,7 @@ const CreatePositionPage = () => {
           <div className="mb-3">
             <label>Skill</label>
             <input
+            value={form.skill}
               onChange={(e) => setForm({ ...form, skill: e.target.value })}
               type="text"
               className="form-control"
@@ -80,4 +94,4 @@ const CreatePositionPage = () => {
   );
 };
 
-export default CreatePositionPage;
+export default EditAdobtedPage;

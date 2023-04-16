@@ -5,25 +5,28 @@ import { getAccount } from "../../fetchs/userFetch";
 const ProfilePage = () => {
 
   const navigation = useNavigate();
-  const params = useParams();
   
   const [form, setForm] = useState({});
 
   useEffect(() => {
-    const {id} = params;
-    getAccount(+id, result => {
-      setForm({
-        username: result.username,
-        email: result.email,
-        name: result.name,
-        age: result.age,
-        address: result.address,
-        phone: result.phone,
-        image: result.image,
-        role: result.role,
-      })
+    getAccount(result => {
+      setForm(result
+      //   {
+      //   username: result.username,
+      //   email: result.email,
+      //   name: result.name,
+      //   age: result.age,
+      //   address: result.address,
+      //   phone: result.phone,
+      //   image: result.image,
+      //   role: result.role,
+      // }
+      )
     })
+    
   }, [])
+
+  console.log(form);
 
 
 

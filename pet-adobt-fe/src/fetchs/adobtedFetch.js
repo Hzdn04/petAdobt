@@ -1,30 +1,34 @@
 import axios from 'axios'
 import Swal from "sweetalert2";
 
-const URL = 'http://localhost:3001/positions'
+const URL = 'http://localhost:3001/petadobts'
 
-const getPositions = async (callback) => {
+const token = localStorage.getItem('access_token')
+
+const getAdobteds = async (callback) => {
     try {
-        const positions = await axios({
+        const adobteds = await axios({
             method: "GET",
-            url: `${URL}`
+            url: `${URL}`,
+            headers: { access_token: token }
         })
-        // console.log(positions);
-        callback(positions.data);
+        // console.log(adobteds);
+        callback(adobteds.data);
     } catch (error) {
         console.log(error);
     }
 }
 
-const addPosition = async (position) => {
+const addAdobted = async (adobted) => {
     try {
       const result = await axios({
         method: "POST",
         url: `${URL}/create`,
-        data: position
+        data: adobted,
+        headers: { access_token: token }
       });
       Swal.fire(
-        'position has been added',
+        'Adobted has been added',
         'Success'
       )
       // console.log(result.data);
@@ -33,15 +37,16 @@ const addPosition = async (position) => {
     }
   };
   
-  const editPosition = async (id, position) => {
+  const editAdobted = async (id, adobted) => {
     try {
       const result = await axios({
         method: "PUT",
         url: `${URL}/edit/${id}`,
-        data: position
+        data: adobted,
+        headers: { access_token: token }
       });
       Swal.fire(
-        `position "${position.name}" has been updated`,
+        `Adobted "${adobted.name}" has been updated`,
         'Success'
       )
       // console.log(result.data);
@@ -50,7 +55,7 @@ const addPosition = async (position) => {
     }
   };
   
-  const deletePosition = async(id) => {
+  const deleteAdobted = async(id) => {
     try {
       Swal.fire({
         title: 'Are you sure?',
@@ -64,11 +69,12 @@ const addPosition = async (position) => {
         if (result.isConfirmed) {
           let result = await axios({
             method: "DELETE",
-            url: `${URL}/remove/${id}`,
+            url: `${URL}/delete/${id}`,
+            headers: { access_token: token }
           })
           Swal.fire(
             'Deleted!',
-            `position ${id} has been deleted`,
+            `Adobted ${id} has been deleted`,
             'Success'
           )
         }
@@ -79,11 +85,12 @@ const addPosition = async (position) => {
     }
   };
   
-  const getPosition = async(id, callback) => {
+  const getAdobted = async(id, callback) => {
     try {
       const result = await axios({
         method: "GET",
         url: `${URL}/get/${id}`,
+        headers: { access_token: token }
       })
   
       callback(result.data)
@@ -93,5 +100,5 @@ const addPosition = async (position) => {
   };
 
 export {
-    getPositions, addPosition, editPosition, deletePosition, getPosition
+    getAdobteds, addAdobted, editAdobted, deleteAdobted, getAdobted
 }

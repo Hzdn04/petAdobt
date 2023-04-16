@@ -5,11 +5,12 @@ import ListPetPage from "./pets/ListPetPage";
 import CreatePetPage from "./pets/CreatePetPage";
 import EditPetPage from "./pets/EditPetPage";
 
-import PositionPage from "./positions/PositionPage";
-import ListPositionPage from "./positions/ListPositionPage";
-import CreatePositionPage from "./positions/CreatePositionPage";
-import EditPositionPage from "./positions/EditPositionPage";
+import AdobtedPage from "./adobteds/AdobtedPage";
+import ListAdobtedPage from "./adobteds/ListAdobtedPage";
+import CreateAdobtedPage from "./adobteds/CreateAdobtedPage";
+import EditAdobtedPage from "./adobteds/EditAdobtedPage";
 
+import UserPage from "./users/UserPage";
 import LoginPage from "./users/LoginPage";
 import RegisterPage from "./users/RegisterPage";
 import ProfilePage from "./users/ProfilePage";
@@ -17,6 +18,6 @@ import ProfilePage from "./users/ProfilePage";
 export {
     HomePage, 
     PetPage, ListPetPage, CreatePetPage, EditPetPage,
-    PositionPage, ListPositionPage, CreatePositionPage, EditPositionPage,
-    LoginPage, RegisterPage, ProfilePage
+    AdobtedPage, ListAdobtedPage, CreateAdobtedPage, EditAdobtedPage,
+    UserPage, LoginPage, RegisterPage, ProfilePage
 }
