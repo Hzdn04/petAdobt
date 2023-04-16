@@ -31,17 +31,17 @@ const Navbar = (props) => {
     dropdown: {
       width: "35px",
     },
-    icon:{
-      width:"35px",
-      height: "35px"
-    }
+    icon: {
+      width: "35px",
+      height: "35px",
+    },
   };
 
   return (
     <>
       <header
         id="header"
-        class="sticky-top d-flex align-items-center header-transparent"
+        class="fixed-top d-flex align-items-center header-transparent"
       >
         <div class="container d-flex justify-content-between align-items-center">
           <div id="logo">
@@ -56,16 +56,19 @@ const Navbar = (props) => {
 
           <nav id="navbar" class="navbar">
             <ul>
-              <li>
-                <Link class="nav-link scrollto active" to="/pets">
+              <li class="nav-link scrollto">
+                <Link class="nav-link scrollto " to="/pets">
                   Get Adobt
                 </Link>
               </li>
-              <li>
-                <Link class="nav-link scrollto active" to="/adobteds">
-                  Adobted
-                </Link>
-              </li>
+              {loginStatus && (
+                <li class="nav-link scrollto">
+                  <Link class="nav-link scrollto " to="/adobteds">
+                    Adobted
+                  </Link>
+                </li>
+              )}
+
               {/* <li><Link class="nav-link scrollto" to="/adobter">Adobters</Link></li>
           <li><Link class="nav-link scrollto" to="/">Adobted Pets</Link></li> */}
               <li>
@@ -101,7 +104,9 @@ const Navbar = (props) => {
                     to="/login"
                     // onClick={() => loginHandler()}
                   >
-                    <h3><i class="bi bi-box-arrow-in-right"></i></h3>
+                    <h3>
+                      <i class="bi bi-box-arrow-in-right"></i>
+                    </h3>
                   </Link>
                 </li>
               )}

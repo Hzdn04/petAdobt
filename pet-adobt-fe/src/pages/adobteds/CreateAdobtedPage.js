@@ -6,10 +6,10 @@ import { useNavigate } from "react-router-dom";
 const CreateAdobtedPage = () => {
   const [pets, setPet] = useState([]);
 
-  useEffect(() => {
-    getPet((result) => setPet(result));
-    // console.log(pets);
-  }, []);
+  // useEffect(() => {
+  //   getPet((result) => setPet(result));
+  //   // console.log(pets);
+  // }, []);
 
   const [form, setForm] = useState({
     petId: 0,
@@ -49,7 +49,7 @@ const CreateAdobtedPage = () => {
           </div>
 
           <div className="mb-3">
-            <label>Position</label>
+            <label>User</label>
             <select
               className="form-select"
               onChange={(e) =>

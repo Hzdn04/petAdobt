@@ -2,9 +2,13 @@ import React, { useState, useEffect } from "react";
 import { deletePet, getPets } from "../../fetchs/petFetch";
 import Loading from "../../helpers/Loading";
 import { Link } from "react-router-dom";
+import { addAdobted } from "../../fetchs/adobtedFetch";
 
 const ListPetPage = () => {
+  const token = localStorage.getItem("access_token");
+
   const [pets, setPets] = useState([]);
+  const [adobted, setAdobted] = useState([]);
 
   useEffect(() => {
     getPets((result) => setPets(result));
@@ -15,6 +19,13 @@ const ListPetPage = () => {
     getPets((result) => setPets(result));
   };
 
+  const getAdobtHandler = (pet) => {
+    setAdobted([...adobted, pet]);
+    addAdobted(adobted)
+  };
+
+  console.log(adobted);
+
   const styles = {
     card: {
       width: "20rem",
@@ -22,19 +33,26 @@ const ListPetPage = () => {
     card_img_top: {
       height: "200px",
     },
+    bottom: {
+      height: "100px",
+      width: "100%",
+    },
   };
 
   return (
     <>
-      <Link to="/pets/create" className="btn btn-primary mb-2 mt-2">
-        Added Pet
-      </Link>
+      {token && (
+        <Link to="/pets/create" className="btn btn-primary mb-2 mt-2">
+          Added Pet
+        </Link>
+      )}
+
       <div className="row">
         {pets.length !== 0 ? (
           pets.map((pet) => {
             const { id, pet_type, race, age, price, stock, image } = pet;
             return (
-              <div class="card mr-4" style={styles.card} key={id}>
+              <div class="card mx-2 my-2" style={styles.card} key={id}>
                 <img
                   src={image}
                   class="card_img_top img-fluid"
@@ -47,37 +65,51 @@ const ListPetPage = () => {
                   </h5>
                   <p class="card-text float-left"> {age} Month</p>
                   <p class="card-text float-right">Rp. {price} </p>
-                  {
-                    stock > 0 ? 
-                    <p class="card-text text-success"> {stock} Stock Available</p>
-                    :
+                  {stock > 0 ? (
+                    <p class="card-text text-success">
+                      {" "}
+                      {stock} Stock Available
+                    </p>
+                  ) : (
                     <p class="card-text text-danger">Out of stock</p>
-                  }
-                  
-                  {
-                    stock > 0 &&
-                    <button
-                    type="button"
-                    class="btn btn-primary float-right"
-                    data-bs-toggle="modal"
-                    data-bs-target="#adobtModal{id}"
-                  >
-                    Get Adopt
-                  </button>
-                  }      
+                  )}
 
-                  <button
-                    onClick={() => deleteHandler(+id)}
-                    class="btn btn-danger"
-                  >
-                    DELETE
-                  </button>
-                  <Link
-                    to={`/pets/update/${id}`}
-                    class="btn btn-warning"
-                  >
-                    EDIT
-                  </Link>
+                  {stock > 0 &&
+                    (token ? (
+                      <button
+                        type="button"
+                        class="btn btn-primary float-right"
+                        // data-bs-toggle="modal"
+                        // data-bs-target="#adobtModal{id}"
+                        onClick={() => getAdobtHandler(pet)}
+                      >
+                        Get Adopt
+                      </button>
+                    ) : (
+                      <a
+                        class="btn btn-primary float-right"
+                        // data-bs-toggle="modal"
+                        // data-bs-target="#adobtModal{id}"
+                        href="/login"
+                      >
+                        Get Adopt
+                      </a>
+                    ))}
+
+                  {token && (
+                    <button
+                      onClick={() => deleteHandler(+id)}
+                      class="btn btn-danger"
+                    >
+                      DELETE
+                    </button>
+                  )}
+
+                  {token && (
+                    <Link to={`/pets/update/${id}`} class="btn btn-warning">
+                      EDIT
+                    </Link>
+                  )}
 
                   <div
                     class="modal fade"
@@ -121,7 +153,6 @@ const ListPetPage = () => {
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
             );

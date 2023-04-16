@@ -9,7 +9,7 @@ const Footer = () => {
   }
   return (
     <div>
-      <footer id="footer" className="footer sticky-bottom">
+      <footer id="footer" className="footer fixed-bottom">
         <div class="footer-top">
           <div class="container"></div>
         </div>

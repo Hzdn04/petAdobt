@@ -7,10 +7,13 @@ import { Link } from "react-router-dom";
 
 const ListAdobtedPage = () => {
 
+  // const adobted = JSON.parse(localStorage.getItem('adobted'));
+  
   const [adobteds, setAdobteds] = useState([]);
 
   useEffect(() => {
     getAdobteds((result) => setAdobteds(result));
+    
   }, []);
 
   const deleteHandler = (id) => {
@@ -20,7 +23,10 @@ const ListAdobtedPage = () => {
 
   return (
     <>
-      <Link to="/adobteds/create" className="btn btn-primary mb-2 mt-2">
+      {/* <Link to="/adobteds/create" className="btn btn-primary mb-2 mt-2">
+        Add
+      </Link> */}
+      <Link to="/pets" className="btn btn-primary mb-2 mt-2">
         Add
       </Link>
       <table className="table">
@@ -39,19 +45,19 @@ const ListAdobtedPage = () => {
           {adobteds.length !== 0 ? 
           (
             adobteds.map((adobted, index) => {
-              const { id, pet, user, adobt_date, total_price, address } = adobted;
+              const { id, pet, user, adobt_date, total_price } = adobted;
               return (
                 <tr key={id}>
                   <td>{index + 1}</td>
                   <td>{pet.race}</td>
                   <td>{user.name}</td>
                   <td>{adobt_date}</td>
-                  <td>{address}</td>
+                  <td>{user.address}</td>
                   <td>{total_price}</td>
                   <td>
-                    <Link to={`/adobteds/edit/${id}`} className="btn btn-warning mx-1">
+                    {/* <Link to={`/adobteds/edit/${id}`} className="btn btn-warning mx-1">
                       Edit
-                    </Link>
+                    </Link> */}
                     
                     <button onClick={() => deleteHandler(+id)} className="btn btn-danger">Delete</button>
                   </td>

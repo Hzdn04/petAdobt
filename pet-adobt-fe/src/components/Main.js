@@ -28,6 +28,7 @@ const Main = (props) => {
   const styles = {
     main: {
       height: "100vh",
+      paddingTop: "90px",
     },
   };
   return (
