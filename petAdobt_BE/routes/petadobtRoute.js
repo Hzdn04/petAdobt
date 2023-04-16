@@ -1,10 +1,11 @@
 const petadobt = require("express").Router();
 const { PetAdobtController } = require("../controller");
+const authentication = require("../middleware/authentication");
 
-petadobt.get("/", PetAdobtController.getPetAdobts);
-petadobt.get("/detail", PetAdobtController.getPetAdobtTotals);
-petadobt.get("/create", PetAdobtController.getPetAdobts);
-petadobt.post("/create", PetAdobtController.create);
-petadobt.delete("/delete/:id", PetAdobtController.delete);
+petadobt.get("/", authentication, PetAdobtController.getPetAdobts);
+petadobt.get("/detail", authentication, PetAdobtController.getPetAdobtTotals);
+petadobt.get("/create", authentication, PetAdobtController.getPetAdobts);
+petadobt.post("/create", authentication, PetAdobtController.create);
+petadobt.delete("/delete/:id", authentication, PetAdobtController.delete);
 
 module.exports = petadobt;

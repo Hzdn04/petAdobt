@@ -24,7 +24,11 @@ const addPet = async (pet) => {
       data: pet
     });
     Swal.fire(
+<<<<<<< HEAD
       'Pet has been added',
+=======
+      'pet has been added',
+>>>>>>> back-end
       'Success'
     )
     // console.log(result.data);
@@ -37,11 +41,19 @@ const editPet = async (id, pet) => {
   try {
     const result = await axios({
       method: "PUT",
+<<<<<<< HEAD
       url: `${URL}/update/${id}`,
       data: pet
     });
     Swal.fire(
       `Pet "${pet.race}" has been updated`,
+=======
+      url: `${URL}/edit/${id}`,
+      data: pet
+    });
+    Swal.fire(
+      `pet "${pet.name}" has been updated`,
+>>>>>>> back-end
       'Success'
     )
     // console.log(result.data);
