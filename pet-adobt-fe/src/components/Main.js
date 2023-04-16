@@ -4,7 +4,7 @@ import {
    HomePage,
    PetPage, ListPetPage, CreatePetPage, EditPetPage,
    PositionPage, ListPositionPage, CreatePositionPage, EditPositionPage, 
-   LoginPage, RegisterPage
+   LoginPage, RegisterPage, ProfilePage
   } from "../pages";
 import About from "./About";
 
@@ -29,7 +29,7 @@ const Main = (props) => {
         <Route path="pets" element={<PetPage/>}>
           <Route path="" element={<ListPetPage/>}></Route>
           <Route path="create" element={<CreatePetPage/>}></Route>
-          <Route path="edit">
+          <Route path="update">
             <Route path=":id" element={<EditPetPage/>}></Route>
           </Route>
         </Route>
@@ -45,6 +45,10 @@ const Main = (props) => {
           { !loginStatus &&
             <Route path="login" element={<LoginPage loginStatus={loginStatus}/>}></Route>
           }
+        
+        <Route path="profile">
+          <Route path=":id" element={<ProfilePage/>}></Route>
+        </Route>
         
         <Route path="register" element={<RegisterPage/>}></Route>
         

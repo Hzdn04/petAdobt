@@ -12,10 +12,11 @@ import EditPositionPage from "./positions/EditPositionPage";
 
 import LoginPage from "./users/LoginPage";
 import RegisterPage from "./users/RegisterPage";
+import ProfilePage from "./users/ProfilePage";
 
 export {
     HomePage, 
     PetPage, ListPetPage, CreatePetPage, EditPetPage,
     PositionPage, ListPositionPage, CreatePositionPage, EditPositionPage,
-    LoginPage, RegisterPage
+    LoginPage, RegisterPage, ProfilePage
 }

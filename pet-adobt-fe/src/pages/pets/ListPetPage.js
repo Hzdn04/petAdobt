@@ -72,12 +72,12 @@ const ListPetPage = () => {
                   >
                     DELETE
                   </button>
-                  <a
-                    href=""
+                  <Link
+                    to={`/pets/update/${id}`}
                     class="btn btn-warning"
                   >
                     EDIT
-                  </a>
+                  </Link>
 
                   <div
                     class="modal fade"

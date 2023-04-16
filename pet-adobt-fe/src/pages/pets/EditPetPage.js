@@ -3,7 +3,14 @@ import { getPet, editPet } from "../../fetchs/petFetch";
 import { useNavigate, useParams } from "react-router-dom";
 
 const EditPetPage = () => {
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState({
+    pet_type: "",
+    race: "",
+    age: 0,
+    price: 0,
+    stock: 0,
+    image: "",
+  });
 
   const navigation = useNavigate();
   const params = useParams();
@@ -12,11 +19,12 @@ const EditPetPage = () => {
     const {id} = params;
     getPet(+id, result => {
       setForm({
-        name: result.name,
-        positionId: +result.positionId,
-        age: +result.age,
-        city: result.city,
-        photo: result.photo,
+        pet_type: result.pet_type,
+        race: result.race,
+        age:  result.age,
+        price: result.price,
+        stock: result.stock,
+        image: result.image,
       })
     })
   }, [])
@@ -27,73 +35,79 @@ const EditPetPage = () => {
     // console.log(form);
   };
 
+  const styles = {
+    card:{
+      width: "45rem",
+    }
+  }
+
   return (
     <>
-      <div className="row">
+      <div className="card mx-auto" style={styles.card}>
+        <div className="card-body">
         <h5>Edit Pet</h5>
         <form>
+        <div className="mb-3">
+            <label>Pet</label>
+            <select
+              onChange={(e) => setForm({ ...form, pet_type: e.target.value })}
+                class="form-select"
+                name="pet_type"
+                for="pet_type"
+                id="pet_type"
+              >
+                <option value={form.pet_type} selected>{form.pet_type}</option>
+                <option name="pet_type" value="Dog">Dog</option>
+                <option name="pet_type" value="Cat">Cat</option>
+              </select>
+          </div>
+
           <div className="mb-3">
-            <label>Name</label>
+            <label>Race</label>
             <input
-            value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              value={form.race}
+              onChange={(e) => setForm({ ...form, race: e.target.value })}
               type="text"
               className="form-control"
-              placeholder="Name"
+              placeholder="Persia"
             />
           </div>
-
-          <div className="mb-3">
-            <label>Position</label>
-            <input
-            value={form.positionId}
-              onChange={(e) => setForm({ ...form, positionId: e.target.value })}
-              type="number"
-              className="form-control"
-              placeholder="Position"
-            />
-          </div>
-
-          {/* <div className="mb-3">
-            <label>Position</label>
-            <select
-              id="positionId"
-              name="positionId"
-              className="form-select"
-              onChange={(e) => setForm({ ...form, positionId: e.target.value })}
-            >
-              <option value="" selected>
-                PILIH POSISI
-              </option>
-
-            </select>
-          </div> */}
 
           <div className="mb-3">
             <label>Age</label>
             <input
-            value={form.age}
+              value={form.age}
               onChange={(e) => setForm({ ...form, age: e.target.value })}
               type="number"
               className="form-control"
-              placeholder="Age"
+              placeholder="2"
             />
           </div>
           <div className="mb-3">
-            <label>City</label>
+            <label>Price</label>
             <input
-            value={form.city}
-              onChange={(e) => setForm({ ...form, city: e.target.value })}
-              type="text"
+              value={form.price}
+              onChange={(e) => setForm({ ...form, price: e.target.value })}
+              type="number"
               className="form-control"
-              placeholder="City"
+              placeholder="200000"
             />
           </div>
           <div className="mb-3">
-            <label>Photo Link</label>
+            <label>Stock</label>
             <input
-            value={form.photo}
-              onChange={(e) => setForm({ ...form, photo: e.target.value })}
+              value={form.stock}
+              onChange={(e) => setForm({ ...form, stock: e.target.value })}
+              type="number"
+              className="form-control"
+              placeholder="2"
+            />
+          </div>
+          <div className="mb-3">
+            <label>Image Link</label>
+            <input
+              value={form.image}
+              onChange={(e) => setForm({ ...form, image: e.target.value })}
               type="text"
               className="form-control"
               placeholder="Photo"
@@ -109,6 +123,7 @@ const EditPetPage = () => {
             </button>
           </div>
         </form>
+      </div>
       </div>
     </>
   );

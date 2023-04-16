@@ -11,25 +11,30 @@ const Navbar = (props) => {
 
   const logoutHandler = () => {
     Swal.fire({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       text: "You wanna Logout?",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, logout!'
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, logout!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        localStorage.clear()
-        loginCbHandler(false)
-        Swal.fire(
-          'Logout!',
-          `Now you must login again`,
-          'Success'
-        )
+        localStorage.clear();
+        loginCbHandler(false);
+        Swal.fire("Logout!", `Now you must login again`, "Success");
       }
-    })
-    
+    });
+  };
+
+  const styles = {
+    dropdown: {
+      width: "35px",
+    },
+    icon:{
+      width:"35px",
+      height: "35px"
+    }
   };
 
   return (
@@ -63,25 +68,38 @@ const Navbar = (props) => {
                   About
                 </Link>
               </li>
-              
-              <li>
-                {loginStatus ? (
-                  <Link
-                    class="nav-link scrollto"
-                    onClick={() => logoutHandler()}
-                  >
-                    Logout
-                  </Link>
-                ) : (
+              {loginStatus ? (
+                <div className="dropstart mx-auto" style={styles.dropdown}>
+                  <li class="dropdown">
+                    <h2 className="text-white mt-3 mx-3">
+                      <i class="bi bi-person-circle"></i>
+                    </h2>
+                    <ul className="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
+                      <li>
+                        {loginStatus && <Link to="/profile">Profile</Link>}
+                      </li>
+                      <li>
+                        <Link
+                          class="nav-link scrollto"
+                          onClick={() => logoutHandler()}
+                        >
+                          Logout
+                        </Link>
+                      </li>
+                    </ul>
+                  </li>
+                </div>
+              ) : (
+                <li>
                   <Link
                     class="nav-link scrollto"
                     to="/login"
                     // onClick={() => loginHandler()}
                   >
-                    Login
+                    <h3><i class="bi bi-box-arrow-in-right"></i></h3>
                   </Link>
-                )}
-              </li>
+                </li>
+              )}
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
           </nav>

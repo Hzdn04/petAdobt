@@ -37,11 +37,11 @@ const editPet = async (id, pet) => {
   try {
     const result = await axios({
       method: "PUT",
-      url: `${URL}/edit/${id}`,
+      url: `${URL}/update/${id}`,
       data: pet
     });
     Swal.fire(
-      `pet "${pet.name}" has been updated`,
+      `Pet "${pet.race}" has been updated`,
       'Success'
     )
     // console.log(result.data);
@@ -83,7 +83,7 @@ const getPet = async(id, callback) => {
   try {
     const result = await axios({
       method: "GET",
-      url: `${URL}/get/${id}`,
+      url: `${URL}/info/${id}`,
     })
 
     callback(result.data)
