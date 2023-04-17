@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const Navbar = (props) => {
-  const { loginStatus, loginCbHandler } = props;
+  const { loginStatus, loginCbHandler, user } = props;
 
   const loginHandler = () => {
     loginCbHandler(true);
@@ -58,10 +58,18 @@ const Navbar = (props) => {
             <ul>
               <li class="nav-link scrollto">
                 <Link class="nav-link scrollto " to="/pets">
-                  Get Adobt
+                {
+                loginStatus &&
+                user.role === 1 ?
+                "Manage Pet"
+                : 
+                "Get Adobt"
+                }
+                  
                 </Link>
               </li>
               {loginStatus && (
+                user.role !== 1 &&
                 <li class="nav-link scrollto">
                   <Link class="nav-link scrollto " to="/adobteds">
                     Adobted

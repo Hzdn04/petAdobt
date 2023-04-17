@@ -3,15 +3,22 @@ import { deletePet, getPets } from "../../fetchs/petFetch";
 import Loading from "../../helpers/Loading";
 import { Link } from "react-router-dom";
 import { addAdobted } from "../../fetchs/adobtedFetch";
+import { getAccount } from "../../fetchs/userFetch";
 
 const ListPetPage = () => {
   const token = localStorage.getItem("access_token");
 
   const [pets, setPets] = useState([]);
-  const [adobted, setAdobted] = useState([]);
+
+  const [user, setUser] = useState([]);
+
+  const [adobted, setAdobted] = useState({
+    petId: 0
+  });
 
   useEffect(() => {
     getPets((result) => setPets(result));
+    getAccount((result) => setUser(result));
   }, []);
 
   const deleteHandler = (id) => {
@@ -19,12 +26,10 @@ const ListPetPage = () => {
     getPets((result) => setPets(result));
   };
 
-  const getAdobtHandler = (pet) => {
-    setAdobted([...adobted, pet]);
+  const getAdobtHandler = () => {
     addAdobted(adobted)
+    // console.log(adobted);
   };
-
-  console.log(adobted);
 
   const styles = {
     card: {
@@ -42,6 +47,7 @@ const ListPetPage = () => {
   return (
     <>
       {token && (
+        user.role === 1 &&
         <Link to="/pets/create" className="btn btn-primary mb-2 mt-2">
           Added Pet
         </Link>
@@ -76,12 +82,14 @@ const ListPetPage = () => {
 
                   {stock > 0 &&
                     (token ? (
+                      user.role !== 1 &&
                       <button
                         type="button"
-                        class="btn btn-primary float-right"
+                        class="btn btn-primary float-right" 
+                        data-bs-toggle="tooltip" data-bs-placement="top" title="Please, Click 2x"
                         // data-bs-toggle="modal"
                         // data-bs-target="#adobtModal{id}"
-                        onClick={() => getAdobtHandler(pet)}
+                        onClick={() => getAdobtHandler(setAdobted({...adobted, petId:pet.id}))}
                       >
                         Get Adopt
                       </button>
@@ -97,6 +105,7 @@ const ListPetPage = () => {
                     ))}
 
                   {token && (
+                    user.role === 1 &&
                     <button
                       onClick={() => deleteHandler(+id)}
                       class="btn btn-danger"
@@ -106,6 +115,7 @@ const ListPetPage = () => {
                   )}
 
                   {token && (
+                    user.role === 1 &&
                     <Link to={`/pets/update/${id}`} class="btn btn-warning">
                       EDIT
                     </Link>

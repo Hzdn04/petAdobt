@@ -26,11 +26,12 @@ const addAdobted = async (adobted) => {
         url: `${URL}/create`,
         data: adobted,
         headers: { access_token: token }
-      });
+      })
       Swal.fire(
-        'Adobted has been added',
+        `Adobted has been added`,
         'Success'
       )
+      
       // console.log(result.data);
     } catch (error) {
       console.log(error);

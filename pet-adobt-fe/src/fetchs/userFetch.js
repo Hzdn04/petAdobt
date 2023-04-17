@@ -54,10 +54,29 @@ const getAccount = async (callback) => {
     }
   };
 
+  const editAccount = async (id, user) => {
+    try {
+      const result = await axios({
+        method: "PUT",
+        url: `${URL}/update/${id}`,
+        data: user,
+        headers: { access_token: token }
+      });
+      Swal.fire(
+        `"${user.name}" has been updated`,
+        'Success'
+      )
+      // console.log(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   
 
 export { 
   // loginUser, 
   RegisterUser,
   getAccount,
+  editAccount
 };

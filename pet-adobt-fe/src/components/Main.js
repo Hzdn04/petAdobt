@@ -8,12 +8,11 @@ import {
   EditPetPage,
   AdobtedPage,
   ListAdobtedPage,
-  CreateAdobtedPage,
-  EditAdobtedPage,
   UserPage,
   LoginPage,
   RegisterPage,
   ProfilePage,
+  EditUserPage
 } from "../pages";
 import About from "./About";
 
@@ -46,14 +45,13 @@ const Main = (props) => {
 
         <Route path="adobteds" element={<AdobtedPage />}>
           <Route path="" element={<ListAdobtedPage />}></Route>
-          <Route path="create" element={<CreateAdobtedPage />}></Route>
-          <Route path="edit">
-            <Route path=":id" element={<EditAdobtedPage />}></Route>
-          </Route>
         </Route>
 
         <Route path="profile" element={<UserPage />}>
           <Route path="" element={<ProfilePage />}></Route>
+          <Route path="update">
+            <Route path=":id" element={<EditUserPage />}></Route>
+          </Route>
         </Route>
 
         {!loginStatus && (

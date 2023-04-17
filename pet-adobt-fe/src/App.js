@@ -6,10 +6,17 @@ import {
   Main,
   Footer
 } from './components'
+import { getAccount } from './fetchs/userFetch';
 
-function App(props) {
+function App() {
 
   const [loginStatus, setLoginStatus] = useState(false)
+
+  const [user, setUser] = useState([]);
+
+  useEffect(() => {
+    getAccount((result) => setUser(result));
+  }, []);
 
   const loginCbHandler = (result) => {
     setLoginStatus(result)
@@ -25,7 +32,7 @@ function App(props) {
 
   return (
     <div className="main-page">
-      <Navbar loginStatus={loginStatus} loginCbHandler={loginCbHandler}></Navbar>
+      <Navbar loginStatus={loginStatus} user={user} loginCbHandler={loginCbHandler}></Navbar>
       <Main loginStatus={loginStatus} loginCbHandler={loginCbHandler}></Main>
       <Footer></Footer>
     </div>

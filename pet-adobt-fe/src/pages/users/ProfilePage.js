@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { getAccount } from "../../fetchs/userFetch";
 
 const ProfilePage = () => {
-  const navigation = useNavigate();
 
   const [form, setForm] = useState({});
 
   useEffect(() => {
     getAccount((result) => {
       setForm(
-        // result
-        {
+        (result = {
+          id: result.id,
           username: result.username,
           email: result.email,
           name: result.name,
@@ -20,12 +19,20 @@ const ProfilePage = () => {
           phone: result.phone,
           image: result.image,
           role: result.role,
-        }
+        })
       );
     });
   }, []);
 
-  console.log(form);
+  // console.log(form);
+  const styles = {
+    height: {
+      height: "300px",
+    },
+    float: {
+      float:"right"
+    }
+  };
 
   return (
     <div className="mx-auto col-6 mt-3">
@@ -33,21 +40,23 @@ const ProfilePage = () => {
         <div className="card-header">
           <div className="text-center">
             <img
-              src="https://akcdn.detik.net.id/community/media/visual/2023/03/19/zlatan-ibrahimovic_169.jpeg?w=700&q=90"
-              class="card-img-top img-fluid rounded"
+              src={form.image}
+              class="card-img-top img-fluid rounded" style={styles.height}
               alt="..."
             />
           </div>
         </div>
         <div class="card-body">
           <h5 class="card-title text-center">{form.name}</h5>
-          <p class="card-text">
-            This is a wider card with supporting text below as a natural lead-in
-            to additional content. This content is a little bit longer.
-          </p>
+          <p class="card-text">{form.email}</p>
           <p class="card-text">
             <small class="text-body-secondary">{form.address}</small>
           </p>
+          <div className="float-right">
+            <Link to={`/profile/update/${form.id}`} class="btn btn-warning" style={styles.float}>
+              EDIT
+            </Link>
+          </div>
         </div>
       </div>
     </div>
