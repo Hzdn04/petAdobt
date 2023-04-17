@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getPet, editPet } from "../../fetchs/petFetch";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const EditPetPage = () => {
   const [form, setForm] = useState({
@@ -38,6 +38,9 @@ const EditPetPage = () => {
   const styles = {
     card:{
       width: "45rem",
+    },
+    float:{
+      float:"right"
     }
   }
 
@@ -114,10 +117,12 @@ const EditPetPage = () => {
             />
           </div>
           <div className="mb-3">
+          <Link className="btn btn-warning" to="/pets" >Cancel</Link>
             <button
               onClick={() => submitHandler()}
               type="button"
               className="btn btn-block btn-primary"
+              style={styles.float}
             >
               SUBMIT
             </button>

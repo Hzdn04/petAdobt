@@ -6,20 +6,50 @@ import Loading from "../../helpers/Loading";
 import { Link } from "react-router-dom";
 
 const ListAdobtedPage = () => {
-
   // const adobted = JSON.parse(localStorage.getItem('adobted'));
-  
+
   const [adobteds, setAdobteds] = useState([]);
+
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  // Paginate
+  const [currentPage, setCurrentPage] = useState(1);
+  const [adobtedsPerPage, setAdobtedsPerPage] = useState(5);
+
+  const indexOfLastAdobted = currentPage * adobtedsPerPage;
+  const indexOfFirstAdobted = indexOfLastAdobted - adobtedsPerPage;
+  const currentAdobteds = adobteds.slice(indexOfFirstAdobted, indexOfLastAdobted);
+  const totalPages = Math.ceil(adobteds.length / adobtedsPerPage);
+
+  const handleClick = (page) => {
+    setCurrentPage(page);
+  };
+
+  const renderPagination = () => {
+    const pages = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(
+        <li
+          key={i}
+          className={`page-item ${currentPage === i ? "active" : null}`}
+        >
+          <a href="#" className="page-link" onClick={() => handleClick(i)}>
+            {i}
+          </a>
+        </li>
+      );
+    }
+    return pages;
+  };
 
   useEffect(() => {
     getAdobteds((result) => setAdobteds(result));
-    
   }, []);
 
   const deleteHandler = (id) => {
-    deleteAdobted(id)
-    getAdobteds(result => setAdobteds(result))
-  }
+    deleteAdobted(id);
+    getAdobteds((result) => setAdobteds(result));
+  };
 
   return (
     <>
@@ -42,9 +72,8 @@ const ListAdobtedPage = () => {
           </tr>
         </thead>
         <tbody>
-          {adobteds.length !== 0 ? 
-          (
-            adobteds.map((adobted, index) => {
+          {currentAdobteds.length !== 0 ? (
+            currentAdobteds.map((adobted, index) => {
               const { id, pet, user, adobt_date, total_price } = adobted;
               return (
                 <tr key={id}>
@@ -58,18 +87,60 @@ const ListAdobtedPage = () => {
                     {/* <Link to={`/adobteds/edit/${id}`} className="btn btn-warning mx-1">
                       Edit
                     </Link> */}
-                    
-                    <button onClick={() => deleteHandler(+id)} className="btn btn-danger">Delete</button>
+
+                    <button
+                      onClick={() => deleteHandler(+id)}
+                      className="btn btn-danger"
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               );
             })
-          ) : 
-          (
+          ) : (
             <Loading></Loading>
           )}
         </tbody>
+        {/* <tfoot>
+              <tr>
+                <td colspan="5"></td>
+                <td> {totalPrice} </td>
+                <td> Totals </td>
+              </tr>
+        </tfoot> */}
       </table>
+      <div className="col-12 mx-auto">
+          <nav aria-label="Page navigation example">
+            <ul className="pagination">
+              <li
+                className={`page-item ${currentPage === 1 ? "disabled" : null}`}
+              >
+                <a
+                  href="#"
+                  className="page-link"
+                  onClick={() => handleClick(currentPage - 1)}
+                >
+                  Previous
+                </a>
+              </li>
+              {renderPagination()}
+              <li
+                className={`page-item ${
+                  currentPage === totalPages ? "disabled" : null
+                }`}
+              >
+                <a
+                  href="#"
+                  className="page-link"
+                  onClick={() => handleClick(currentPage + 1)}
+                >
+                  Next
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
     </>
   );
 };

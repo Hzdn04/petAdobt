@@ -12,8 +12,64 @@ const ListPetPage = () => {
 
   const [user, setUser] = useState([]);
 
+  // Filter Category
+  const [filteredPets, setFilteredPets] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  // const [selectedType, setSelectedType] = useState("");
+
+  const handleCategoryChange = (event) => {
+    const type = event.target.value;
+    setSelectedCategory(type);
+
+    if (type === '') {
+      setFilteredPets(pets);
+    } else {
+      const filtered = pets.filter(pet => pet.pet_type === type);
+      setFilteredPets(filtered);
+    }
+  };
+
+  // Pagination
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [petsPerPage, setPetsPerPage] = useState(5);
+
+  // const indexOfLastPet = currentPage * petsPerPage;
+  // const indexOfFirstPet = indexOfLastPet - petsPerPage;
+  // const currentPets = filteredPets.slice(indexOfFirstPet, indexOfLastPet);
+  // const totalPages = Math.ceil(pets.length / petsPerPage);
+
+  // const handleClick = (page) => {
+  //   setCurrentPage(page);
+  // };
+
+  // const renderPagination = () => {
+  //   const pages = [];
+  //   for (let i = 1; i <= totalPages; i++) {
+  //     pages.push(
+  //       <li
+  //         key={i}
+  //         className={`page-item ${currentPage === i ? "active" : null}`}
+  //       >
+  //         <a href="#" className="page-link" onClick={() => handleClick(i)}>
+  //           {i}
+  //         </a>
+  //       </li>
+  //     );
+  //   }
+  //   return pages;
+  // };
+
+  // const handleTypeChange = (event) => {
+  //   setSelectedType(event.target.value);
+  // };
+
+  // const handleTypeChange = (event) => {
+  //   setSelectedType(event.target.value);
+  // };
+
+  // mengambil data pet untuk dikirm ke petAdobt
   const [adobted, setAdobted] = useState({
-    petId: 0
+    petId: 0,
   });
 
   useEffect(() => {
@@ -27,7 +83,7 @@ const ListPetPage = () => {
   };
 
   const getAdobtHandler = () => {
-    addAdobted(adobted)
+    addAdobted(adobted);
     // console.log(adobted);
   };
 
@@ -42,20 +98,30 @@ const ListPetPage = () => {
       height: "100px",
       width: "100%",
     },
+    float: {
+      float: "right",
+    },
   };
 
   return (
     <>
-      {token && (
-        user.role === 1 &&
+      {token && user.role === 1 && (
         <Link to="/pets/create" className="btn btn-primary mb-2 mt-2">
           Added Pet
         </Link>
       )}
-
+      <div className="row my-3">
+        <div className="col-3">
+        <select class="form-select" value={selectedCategory} onChange={handleCategoryChange}>
+          <option value="">All Categories</option>
+          <option value="Cat">Cat</option>
+          <option value="Dog">Dog</option>
+        </select>
+        </div>
+      </div>
       <div className="row">
-        {pets.length !== 0 ? (
-          pets.map((pet) => {
+        {filteredPets.length !== 0 ? (
+          filteredPets.map((pet) => {
             const { id, pet_type, race, age, price, stock, image } = pet;
             return (
               <div class="card mx-2 my-2" style={styles.card} key={id}>
@@ -82,41 +148,51 @@ const ListPetPage = () => {
 
                   {stock > 0 &&
                     (token ? (
-                      user.role !== 1 &&
-                      <button
-                        type="button"
-                        class="btn btn-primary float-right" 
-                        data-bs-toggle="tooltip" data-bs-placement="top" title="Please, Click 2x"
-                        // data-bs-toggle="modal"
-                        // data-bs-target="#adobtModal{id}"
-                        onClick={() => getAdobtHandler(setAdobted({...adobted, petId:pet.id}))}
-                      >
-                        Get Adopt
-                      </button>
+                      user.role !== 1 && (
+                        <button
+                          type="button"
+                          class="btn btn-primary float-right"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title="Please, Click 2x"
+                          style={styles.float}
+                          // data-bs-toggle="modal"
+                          // data-bs-target="#adobtModal{id}"
+                          onClick={() =>
+                            getAdobtHandler(
+                              setAdobted({ ...adobted, petId: pet.id })
+                            )
+                          }
+                        >
+                          Get Adopt
+                        </button>
+                      )
                     ) : (
                       <a
                         class="btn btn-primary float-right"
-                        // data-bs-toggle="modal"
-                        // data-bs-target="#adobtModal{id}"
+                        style={styles.float}
                         href="/login"
                       >
                         Get Adopt
                       </a>
                     ))}
 
-                  {token && (
-                    user.role === 1 &&
+                  {token && user.role === 1 && (
                     <button
                       onClick={() => deleteHandler(+id)}
                       class="btn btn-danger"
+                      style={styles.float}
                     >
                       DELETE
                     </button>
                   )}
 
-                  {token && (
-                    user.role === 1 &&
-                    <Link to={`/pets/update/${id}`} class="btn btn-warning">
+                  {token && user.role === 1 && (
+                    <Link
+                      to={`/pets/update/${id}`}
+                      class="btn btn-warning mx-2"
+                      style={styles.float}
+                    >
                       EDIT
                     </Link>
                   )}

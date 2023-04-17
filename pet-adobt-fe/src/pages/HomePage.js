@@ -95,7 +95,7 @@ const HomePage = (props) => {
           <h2>
           Highest Quality Care For Pets You'll Love
           </h2>
-          <Link to="/" class="btn-get-started">
+          <Link to="/pets" class="btn-get-started">
             Get Adobt
           </Link>
         </div>

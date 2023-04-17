@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { addPet } from "../../fetchs/petFetch";
 import { getAdobteds } from "../../fetchs/adobtedFetch";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CreatePetPage = () => {
   const [positions, setPositions] = useState([]);
@@ -31,6 +31,9 @@ const CreatePetPage = () => {
   const styles = {
     card:{
       width: "45rem",
+    },
+    float:{
+      float:"right"
     }
   }
 
@@ -102,10 +105,12 @@ const CreatePetPage = () => {
             />
           </div>
           <div className="mb-3">
+          <Link className="btn btn-warning" to="/pets" >Cancel</Link>
             <button
               onClick={() => submitHandler()}
               type="button"
               className="btn btn-block btn-primary"
+              style={styles.float}
             >
               SUBMIT
             </button>
