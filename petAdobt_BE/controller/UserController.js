@@ -38,17 +38,14 @@ class UserController {
 
   static async register(req, res) {
     try {
-      const {
-        username,
-        email,
-        password,
-        name,
-        age,
-        address,
-        phone,
-        image,
-        role,
-      } = req.body;
+      const { username, email, password, name, age, address, phone, role } =
+        req.body;
+
+      const image =
+        req.protocol + `://` + req.get("host") + "/assets/" + req.file.filename;
+
+      //   console.log(image);
+      //   console.log(req.get("host"));
 
       let userRegister = await user.create({
         username,
@@ -89,6 +86,7 @@ class UserController {
 
           const verifyToken = tokenVerify(access_token);
           console.log(verifyToken);
+          //   console.log(access_token);
         } else {
           res.status(403).json({ message: "Invalid credential" });
         }

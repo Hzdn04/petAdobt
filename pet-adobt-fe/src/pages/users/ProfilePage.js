@@ -3,7 +3,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { getAccount } from "../../fetchs/userFetch";
 
 const ProfilePage = () => {
-
   const [form, setForm] = useState({});
 
   useEffect(() => {
@@ -26,12 +25,13 @@ const ProfilePage = () => {
 
   // console.log(form);
   const styles = {
-    height: {
-      height: "300px",
+    size: {
+      width: "200px",
+      height: "200px",
     },
     float: {
-      float:"right"
-    }
+      float: "right",
+    },
   };
 
   return (
@@ -41,7 +41,8 @@ const ProfilePage = () => {
           <div className="text-center">
             <img
               src={form.image}
-              class="card-img-top img-fluid rounded" style={styles.height}
+              class="card-img-top img-fluid rounded rounded-circle"
+              style={styles.size}
               alt="..."
             />
           </div>
@@ -53,7 +54,11 @@ const ProfilePage = () => {
             <small class="text-body-secondary">{form.address}</small>
           </p>
           <div className="float-right">
-            <Link to={`/profile/update/${form.id}`} class="btn btn-warning" style={styles.float}>
+            <Link
+              to={`/profile/update/${form.id}`}
+              class="btn btn-warning"
+              style={styles.float}
+            >
               EDIT
             </Link>
           </div>

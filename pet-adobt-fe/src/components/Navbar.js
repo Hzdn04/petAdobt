@@ -41,9 +41,9 @@ const Navbar = (props) => {
     <>
       <header
         id="header"
-        class="fixed-top d-flex align-items-center header-transparent"
+        className="fixed-top d-flex align-items-center header-transparent"
       >
-        <div class="container d-flex justify-content-between align-items-center">
+        <div className="container d-flex justify-content-between align-items-center">
           <div id="logo">
             {/* <Link to="index.html"><img src="assets/img/logo.png" alt=""></Link> */}
 
@@ -54,41 +54,33 @@ const Navbar = (props) => {
             </h3>
           </div>
 
-          <nav id="navbar" class="navbar">
+          <nav id="navbar" className="navbar">
             <ul>
-              <li class="nav-link scrollto">
-                <Link class="nav-link scrollto " to="/pets">
-                {
-                loginStatus &&
-                user.role === 1 ?
-                "Manage Pet"
-                : 
-                "Get Adobt"
-                }
-                  
+              <li className="nav-link scrollto">
+                <Link className="nav-link scrollto " to="/pets">
+                  {loginStatus && user.role === 1 ? "Manage Pet" : "Get Adobt"}
                 </Link>
               </li>
-              {loginStatus && (
-                user.role !== 1 &&
-                <li class="nav-link scrollto">
-                  <Link class="nav-link scrollto " to="/adobteds">
+              {loginStatus && user.role !== 1 && (
+                <li className="nav-link scrollto">
+                  <Link className="nav-link scrollto " to="/adobteds">
                     Adobted
                   </Link>
                 </li>
               )}
 
-              {/* <li><Link class="nav-link scrollto" to="/adobter">Adobters</Link></li>
-          <li><Link class="nav-link scrollto" to="/">Adobted Pets</Link></li> */}
+              {/* <li><Link className="nav-link scrollto" to="/adobter">Adobters</Link></li>
+          <li><Link className="nav-link scrollto" to="/">Adobted Pets</Link></li> */}
               <li>
-                <Link class="nav-link scrollto" to="/about">
+                <Link className="nav-link scrollto" to="/about">
                   About
                 </Link>
               </li>
               {loginStatus ? (
                 <div className="dropstart mx-auto" style={styles.dropdown}>
-                  <li class="dropdown">
+                  <li className="dropdown">
                     <h2 className="text-white mt-3 mx-3">
-                      <i class="bi bi-person-circle"></i>
+                      <i className="bi bi-person-circle"></i>
                     </h2>
                     <ul className="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
                       <li>
@@ -96,7 +88,7 @@ const Navbar = (props) => {
                       </li>
                       <li>
                         <Link
-                          class="nav-link scrollto"
+                          className="nav-link scrollto"
                           onClick={() => logoutHandler()}
                         >
                           Logout
@@ -108,18 +100,18 @@ const Navbar = (props) => {
               ) : (
                 <li>
                   <Link
-                    class="nav-link scrollto"
+                    className="nav-link scrollto"
                     to="/login"
                     // onClick={() => loginHandler()}
                   >
                     <h3>
-                      <i class="bi bi-box-arrow-in-right"></i>
+                      <i className="bi bi-box-arrow-in-right"></i>
                     </h3>
                   </Link>
                 </li>
               )}
             </ul>
-            <i class="bi bi-list mobile-nav-toggle"></i>
+            <i className="bi bi-list mobile-nav-toggle"></i>
           </nav>
         </div>
       </header>
