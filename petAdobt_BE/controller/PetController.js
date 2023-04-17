@@ -47,9 +47,11 @@ class PetController {
 
   static async create(req, res) {
     try {
-      const { pet_type, race, age, price, stock, image } = req.body;
+      const { pet_type, race, age, price, stock } = req.body;
+      const image = req.file.path;
+      //   console.log(req.file.path);
 
-      //   console.log(req.userData);
+      //     console.log(req.userData);
       let resPets = await pet.create({
         pet_type,
         race,
