@@ -27,7 +27,7 @@ const getAccount = async (callback) => {
   try {
     const result = await axios({
       method: "GET",
-      url: `${URL}`,
+      url: `${URL}/account`,
       headers: { access_token: token }
     });
     // console.log(user.data);

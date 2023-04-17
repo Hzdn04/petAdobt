@@ -17,7 +17,7 @@ class UserController {
 
   static async account(req, res) {
     try {
-      const id = +req.params.id;
+      const id = +req.userData.id;
       let userProfile = await user.findByPk(id);
 
       userProfile
