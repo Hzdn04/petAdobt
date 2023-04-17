@@ -16,6 +16,11 @@ petRoute.post(
   PetController.create
 );
 petRoute.delete("/delete/:id", authentication, PetController.delete);
-petRoute.put("/update/:id", authentication, PetController.update);
+petRoute.put(
+  "/update/:id",
+  authentication,
+  upload.single("image"),
+  PetController.update
+);
 
 module.exports = petRoute;

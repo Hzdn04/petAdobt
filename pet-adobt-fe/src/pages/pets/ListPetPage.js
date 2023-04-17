@@ -4,6 +4,8 @@ import Loading from "../../helpers/Loading";
 import { Link } from "react-router-dom";
 import { addAdobted } from "../../fetchs/adobtedFetch";
 import { getAccount } from "../../fetchs/userFetch";
+import Swal from "sweetalert2";
+import convertRp from "../../helpers/RpFormatter";
 
 const ListPetPage = () => {
   const token = localStorage.getItem("access_token");
@@ -21,10 +23,10 @@ const ListPetPage = () => {
     const type = event.target.value;
     setSelectedCategory(type);
 
-    if (type === '') {
+    if (type === "") {
       setFilteredPets(pets);
     } else {
-      const filtered = pets.filter(pet => pet.pet_type === type);
+      const filtered = pets.filter((pet) => pet.pet_type === type);
       setFilteredPets(filtered);
     }
   };
@@ -83,7 +85,26 @@ const ListPetPage = () => {
   };
 
   const getAdobtHandler = () => {
-    addAdobted(adobted);
+    Swal.fire({
+      title: "Adopt this pet?",
+      text: "This pet will be add to your transaction",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sure!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        // console.log(adobted);
+        addAdobted(adobted);
+        // Swal.fire("Adopted!", `Go see your pets!`, "Success");
+      }
+      //   addAdobted(adobted);
+      // localStorage.clear();
+      //   loginCbHandler(false);
+      //   navigate("/");
+    });
+    // addAdobted(adobted);
     // console.log(adobted);
   };
 
@@ -112,11 +133,15 @@ const ListPetPage = () => {
       )}
       <div className="row my-3">
         <div className="col-3">
-        <select class="form-select" value={selectedCategory} onChange={handleCategoryChange}>
-          <option value="">All Categories</option>
-          <option value="Cat">Cat</option>
-          <option value="Dog">Dog</option>
-        </select>
+          <select
+            class="form-select"
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+          >
+            <option value="">All Categories</option>
+            <option value="Cat">Cat</option>
+            <option value="Dog">Dog</option>
+          </select>
         </div>
       </div>
       <div className="row">
@@ -136,7 +161,7 @@ const ListPetPage = () => {
                     {pet_type} {race}
                   </h5>
                   <p class="card-text float-left"> {age} Month</p>
-                  <p class="card-text float-right">Rp. {price} </p>
+                  <p class="card-text float-right">{convertRp(price)} </p>
                   {stock > 0 ? (
                     <p class="card-text text-success">
                       {" "}
@@ -152,9 +177,9 @@ const ListPetPage = () => {
                         <button
                           type="button"
                           class="btn btn-primary float-right"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="top"
-                          title="Please, Click 2x"
+                          //   data-bs-toggle="tooltip"
+                          //   data-bs-placement="top"
+                          //   title="Please, Click 2x"
                           style={styles.float}
                           // data-bs-toggle="modal"
                           // data-bs-target="#adobtModal{id}"

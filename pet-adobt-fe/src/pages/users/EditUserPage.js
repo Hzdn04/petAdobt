@@ -11,7 +11,7 @@ const EditUserPage = () => {
     age: 0,
     address: "",
     phone: "",
-    image: "",
+    image: null,
     role: 0,
   });
 
@@ -46,8 +46,8 @@ const EditUserPage = () => {
       width: "45rem",
     },
     float: {
-      float:"right"
-    }
+      float: "right",
+    },
   };
 
   return (
@@ -63,7 +63,7 @@ const EditUserPage = () => {
                 onChange={(e) => setForm({ ...form, username: e.target.value })}
                 type="text"
                 className="form-control"
-                readOnly
+                // readOnly
               />
             </div>
             <div className="mb-3">
@@ -93,7 +93,7 @@ const EditUserPage = () => {
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 type="text"
                 className="form-control"
-                placeholder="2"
+                placeholder="Name"
               />
             </div>
             <div className="mb-3">
@@ -103,7 +103,7 @@ const EditUserPage = () => {
                 onChange={(e) => setForm({ ...form, age: e.target.value })}
                 type="number"
                 className="form-control"
-                placeholder="2"
+                placeholder="Age"
               />
             </div>
             <div className="mb-3">
@@ -129,27 +129,33 @@ const EditUserPage = () => {
             <div className="mb-3">
               <label>Image Link</label>
               <input
-                value={form.image}
-                onChange={(e) => setForm({ ...form, image: e.target.value })}
-                type="text"
+                // value={form.image}
+                onChange={(e) => setForm({ ...form, image: e.target.files[0] })}
+                type="file"
                 className="form-control"
                 placeholder="Photo"
               />
             </div>
-            <div className="mb-3">
-            <label>Role</label>
-            <select
-              onChange={(e) => setForm({ ...form, role: e.target.value })}
+            {/* <div className="mb-3">
+              <label>Role</label>
+              <select
+                onChange={(e) => setForm({ ...form, role: e.target.value })}
                 class="form-select"
                 name="role"
                 for="role"
                 id="role"
               >
-                <option value={form.role} selected>{form.role === 1 ? "Admin" : "User"}</option>
-                <option name="role" value={1}>Admin</option>
-                <option name="role" value={2}>User</option>
+                <option value={form.role} selected>
+                  {form.role === 1 ? "Admin" : "User"}
+                </option>
+                <option name="role" value={1}>
+                  Admin
+                </option>
+                <option name="role" value={2}>
+                  User
+                </option>
               </select>
-          </div>
+            </div> */}
             <div className="mb-3">
               <button
                 style={styles.float}
@@ -159,7 +165,9 @@ const EditUserPage = () => {
               >
                 SUBMIT
               </button>
-              <Link className="btn btn-warning" to="/profile" >Cancel</Link>
+              <Link className="btn btn-warning" to="/profile">
+                Cancel
+              </Link>
             </div>
           </form>
         </div>

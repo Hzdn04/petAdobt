@@ -59,7 +59,7 @@ const editAccount = async (id, user) => {
       method: "PUT",
       url: `${URL}/update/${id}`,
       data: user,
-      headers: { access_token: token },
+      headers: { access_token: token, "Content-Type": "multipart/form-data" },
     });
     Swal.fire(`"${user.name}" has been updated`, "Success");
     // console.log(result.data);

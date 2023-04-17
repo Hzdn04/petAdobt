@@ -3,14 +3,14 @@ import Swal from "sweetalert2";
 
 const URL = "http://localhost:3001/pets";
 
-const token = localStorage.getItem('access_token')
+const token = localStorage.getItem("access_token");
 
 const getPets = async (callback) => {
   try {
     const pets = await axios({
       method: "GET",
       url: `${URL}`,
-      headers: { access_token: token }
+      headers: { access_token: token },
     });
     // console.log(pets.headers);
     callback(pets.data);
@@ -25,12 +25,9 @@ const addPet = async (pet) => {
       method: "POST",
       url: `${URL}/create`,
       data: pet,
-      headers: { access_token: token }
+      headers: { access_token: token, "Content-Type": "multipart/form-data" },
     });
-    Swal.fire(
-      'Pet has been added',
-      'Success'
-    )
+    Swal.fire("Pet has been added", "Success");
     // console.log(result.data);
   } catch (error) {
     console.log(error);
@@ -43,57 +40,49 @@ const editPet = async (id, pet) => {
       method: "PUT",
       url: `${URL}/update/${id}`,
       data: pet,
-      headers: { access_token: token }
+      headers: { access_token: token, "Content-Type": "multipart/form-data" },
     });
-    Swal.fire(
-      `Pet "${pet.race}" has been updated`,
-      'Success'
-    )
+    Swal.fire(`Pet "${pet.race}" has been updated`, "Success");
     // console.log(result.data);
   } catch (error) {
     console.log(error);
   }
 };
 
-const deletePet = async(id) => {
+const deletePet = async (id) => {
   try {
     Swal.fire({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       text: "You won't be able to revert this!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
         let result = await axios({
           method: "DELETE",
           url: `${URL}/delete/${id}`,
-          headers: { access_token: token }
-        })
-        Swal.fire(
-          'Deleted!',
-          `pet ${id} has been deleted`,
-          'Success'
-        )
+          headers: { access_token: token },
+        });
+        Swal.fire("Deleted!", `pet ${id} has been deleted`, "Success");
       }
-    })
-    
+    });
   } catch (error) {
     console.log(error);
   }
 };
 
-const getPet = async(id, callback) => {
+const getPet = async (id, callback) => {
   try {
     const result = await axios({
       method: "GET",
       url: `${URL}/info/${id}`,
-      headers: { access_token: token }
-    })
+      headers: { access_token: token },
+    });
 
-    callback(result.data)
+    callback(result.data);
   } catch (error) {
     console.log(error);
   }

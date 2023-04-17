@@ -1,13 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const Navbar = (props) => {
   const { loginStatus, loginCbHandler, user } = props;
 
-  const loginHandler = () => {
-    loginCbHandler(true);
-  };
+  //   const loginHandler = () => {
+  //     loginCbHandler(true);
+  //   };
+
+  const navigate = useNavigate();
 
   const logoutHandler = () => {
     Swal.fire({
@@ -22,6 +24,7 @@ const Navbar = (props) => {
       if (result.isConfirmed) {
         localStorage.clear();
         loginCbHandler(false);
+        navigate("/");
         Swal.fire("Logout!", `Now you must login again`, "Success");
       }
     });
