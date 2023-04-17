@@ -37,13 +37,17 @@ class PetAdobtController {
   static async create(req, res) {
     try {
       const { petId, address } = req.body;
-      const userId = req.userData;
-
-      let total_price;
+      const userId = req.userData.id;
       let thisPet = await pet.findByPk(petId);
+      //   let tempPrice = await petAdobt.findAll({
+      //     attributes: ["total_price"],
+      //     where: { userId: userId },
+      //   });
 
+      //   res.json(tempPrice[0].total_price);
       let updateStock = await thisPet.decrement("stock");
-      total_price = total_price + thisPet.price;
+
+      let total_price = thisPet.price;
       const adobt_date = new Date();
 
       let result = await petAdobt.create({
