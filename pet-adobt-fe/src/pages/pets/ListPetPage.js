@@ -126,6 +126,7 @@ const ListPetPage = () => {
             return (
               <div class="card mx-2 my-2" style={styles.card} key={id}>
                 <img
+                  // src={image[0].url}
                   src={image}
                   class="card_img_top img-fluid"
                   style={styles.card_img_top}

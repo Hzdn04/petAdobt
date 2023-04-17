@@ -12,13 +12,16 @@ const ListAdobtedPage = () => {
 
   const [totalPrice, setTotalPrice] = useState(0);
 
+  const [user, setUser] = useState([]);
+
   // Paginate
   const [currentPage, setCurrentPage] = useState(1);
   const [adobtedsPerPage, setAdobtedsPerPage] = useState(5);
+  const filtered = adobteds.filter(adobted => adobted.userId === user.id);
 
   const indexOfLastAdobted = currentPage * adobtedsPerPage;
   const indexOfFirstAdobted = indexOfLastAdobted - adobtedsPerPage;
-  const currentAdobteds = adobteds.slice(indexOfFirstAdobted, indexOfLastAdobted);
+  const currentAdobteds = filtered.slice(indexOfFirstAdobted, indexOfLastAdobted);
   const totalPages = Math.ceil(adobteds.length / adobtedsPerPage);
 
   const handleClick = (page) => {
@@ -44,6 +47,7 @@ const ListAdobtedPage = () => {
 
   useEffect(() => {
     getAdobteds((result) => setAdobteds(result));
+    getAccount((result) => setUser(result));
   }, []);
 
   const deleteHandler = (id) => {

@@ -19,7 +19,7 @@ const Footer = () => {
             &copy; Copyright <strong>petAdobt</strong>. All Rights Reserved
           </div>
           <div class="credits">
-            Designed by <a className="link" href="https://www.instagram.com/h_zdn04/">Hzdn04</a>
+            Designed by <a className="link" href="https://www.instagram.com/h_zdn04/">GGMU</a>
           </div>
         </div>
       </footer>

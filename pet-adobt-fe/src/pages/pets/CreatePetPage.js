@@ -17,7 +17,7 @@ const CreatePetPage = () => {
     age: 0,
     price: 0,
     stock: 0,
-    image: "",
+    image: null,
   });
 
   const navigation = useNavigate();
@@ -96,14 +96,23 @@ const CreatePetPage = () => {
             />
           </div>
           <div className="mb-3">
+            <label>Image</label>
+            <input
+              onChange={(e) => setForm({ ...form, image: e.target.files })}
+              type="file"
+              className="form-control"
+              placeholder="Image"
+            />
+          </div>
+          {/* <div className="mb-3">
             <label>Image Link</label>
             <input
               onChange={(e) => setForm({ ...form, image: e.target.value })}
               type="text"
               className="form-control"
-              placeholder="Photo"
+              placeholder="Image"
             />
-          </div>
+          </div> */}
           <div className="mb-3">
           <Link className="btn btn-warning" to="/pets" >Cancel</Link>
             <button
