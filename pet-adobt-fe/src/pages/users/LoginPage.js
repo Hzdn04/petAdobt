@@ -9,6 +9,8 @@ const LoginPage = (props) => {
     password: "",
   });
 
+  const navigate = useNavigate();
+
   const loginUser = async () => {
     try {
       let result = await axios({
@@ -17,17 +19,19 @@ const LoginPage = (props) => {
         data: form,
       });
       const access_token = result.data.access_token;
+      console.log(access_token);
       localStorage.setItem("access_token", access_token);
 
       loginCbHandler(true);
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
   };
 
   const submitHandler = () => {
-    loginUser()
-  }
+    loginUser();
+  };
 
   const styles = {
     card: {
@@ -45,43 +49,43 @@ const LoginPage = (props) => {
       >
         <div className="card-body">
           <form>
-            <h1 class="h3 mb-4 fw-normal">Please sign in</h1>
+            <h1 className="h3 mb-4 fw-normal">Please sign in</h1>
 
-            <div class="form-floating mb-3">
+            <div className="form-floating mb-3">
               <input
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 type="email"
-                class="form-control"
+                className="form-control"
                 id="floatingInput"
                 placeholder="name@example.com"
               />
               <label for="floatingInput">Email address</label>
             </div>
-            <div class="form-floating">
+            <div className="form-floating">
               <input
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
                 type="password"
-                class="form-control"
+                className="form-control"
                 id="floatingPassword"
                 placeholder="Password"
               />
               <label for="floatingPassword">Password</label>
             </div>
 
-            <div class="checkbox mb-3">
+            <div className="checkbox mb-3">
               <label>
                 <input type="checkbox" value="remember-me" /> Remember me
               </label>
             </div>
             <button
-              class="w-100 btn btn-lg btn-primary"
+              className="w-100 btn btn-lg btn-primary"
               onClick={() => submitHandler()}
               type="submit"
             >
               Sign in
             </button>
             <Link className="link" to="/register">
-              <p class="mt-2 mb-3 text-muted">have't account?</p>
+              <p className="mt-2 mb-3 text-muted">have't account?</p>
             </Link>
           </form>
         </div>

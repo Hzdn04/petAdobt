@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { RegisterUser } from "../../fetchs/userFetch";
 
 const RegisterPage = () => {
-  const [users, setUsers] = useState([]);
+  //   const [saveimage, setSaveImage] = useState(null);
 
   const [form, setForm] = useState({
     username: "",
@@ -13,15 +13,22 @@ const RegisterPage = () => {
     age: 0,
     phone: "",
     address: "",
-    photo: "",
+    image: null,
   });
 
   const navigation = useNavigate();
 
   const submitHandler = () => {
+    console.log(form);
     RegisterUser(form);
-    navigation("/login");
+    navigation("/");
   };
+
+  //   const uploadImageHandler = (e) => {
+  //     console.log(e.target.files[0]);
+  //     let image = e.target.files[0];
+  //     setSaveImage(image);
+  //   };
 
   const styles = {
     card: {
@@ -48,6 +55,7 @@ const RegisterPage = () => {
                     setForm({ ...form, username: e.target.value })
                   }
                   type="text"
+                  name="username"
                   class="form-control"
                   id="username"
                   placeholder="roketo23"
@@ -59,6 +67,7 @@ const RegisterPage = () => {
               <div class="col-6 form-floating mb-3">
                 <input
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  name="email"
                   type="email"
                   class="form-control"
                   id="floatingInput"
@@ -76,6 +85,7 @@ const RegisterPage = () => {
                     setForm({ ...form, password: e.target.value })
                   }
                   type="password"
+                  name="password"
                   class="form-control"
                   id="floatingPassword"
                   placeholder="Password"
@@ -88,6 +98,7 @@ const RegisterPage = () => {
                 <input
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   type="text"
+                  name="name"
                   class="form-control"
                   id="name"
                   placeholder="Joko Susilo"
@@ -102,6 +113,7 @@ const RegisterPage = () => {
                 <input
                   onChange={(e) => setForm({ ...form, age: e.target.value })}
                   type="number"
+                  name="age"
                   class="form-control"
                   id="age"
                   placeholder="name@example.com"
@@ -115,6 +127,7 @@ const RegisterPage = () => {
                 <input
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
                   type="text"
+                  name="phone"
                   class="form-control"
                   id="phone"
                   placeholder="085767287872"
@@ -131,6 +144,7 @@ const RegisterPage = () => {
               <textarea
                 onChange={(e) => setForm({ ...form, address: e.target.value })}
                 class="form-control"
+                name="address"
                 id="address"
                 rows="3"
               ></textarea>
@@ -138,10 +152,11 @@ const RegisterPage = () => {
             <div class="mb-3">
               <label className="mb-2 mt-3 mx-2">Upload your pict</label>
               <input
-                onChange={(e) => setForm({ ...form, photo: e.target.value })}
-                type="text"
+                onChange={(e) => setForm({ ...form, image: e.target.files[0] })}
+                name="image"
+                type="file"
                 class="form-control"
-                id="floatingInput"
+                id="image"
               />
             </div>
 
