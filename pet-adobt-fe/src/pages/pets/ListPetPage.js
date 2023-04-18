@@ -21,10 +21,10 @@ const ListPetPage = () => {
     const type = event.target.value;
     setSelectedCategory(type);
 
-    if (type === '') {
+    if (type === "") {
       setFilteredPets(pets);
     } else {
-      const filtered = pets.filter(pet => pet.pet_type === type);
+      const filtered = pets.filter((pet) => pet.pet_type === type);
       setFilteredPets(filtered);
     }
   };
@@ -105,18 +105,32 @@ const ListPetPage = () => {
 
   return (
     <>
-      {token && user.role === 1 && (
-        <Link to="/pets/create" className="btn btn-primary mb-2 mt-2">
-          Added Pet
-        </Link>
+      {token && user.role === 1 ? (
+        <div className="row">
+          <h4 className="text-center mt-3">Pets Management</h4>
+          <Link to="/pets/create" className="btn btn-primary mb-2 mt-2">
+            Added Pet
+          </Link>
+        </div>
+      ) : (
+        <div class="alert alert-warning my-3" role="alert">
+          <h4 class="alert-heading text-center">Pets Collection</h4>
+          <p className="text-center my-3">
+            please adopt a pet that you think is suitable
+          </p>
+        </div>
       )}
       <div className="row my-3">
         <div className="col-3">
-        <select class="form-select" value={selectedCategory} onChange={handleCategoryChange}>
-          <option value="">All Categories</option>
-          <option value="Cat">Cat</option>
-          <option value="Dog">Dog</option>
-        </select>
+          <select
+            class="form-select"
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+          >
+            <option value="">All Categories</option>
+            <option value="Cat">Cat</option>
+            <option value="Dog">Dog</option>
+          </select>
         </div>
       </div>
       <div className="row">

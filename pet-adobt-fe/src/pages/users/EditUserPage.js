@@ -11,7 +11,7 @@ const EditUserPage = () => {
     age: 0,
     address: "",
     phone: "",
-    image: "",
+    image: null,
     role: 0,
   });
 
@@ -127,7 +127,14 @@ const EditUserPage = () => {
               />
             </div>
             <div className="mb-3">
-              <label>Image Link</label>
+              <label>Photo</label>
+              {/* <input
+                value={form.image}
+                onChange={(e) => setForm({ ...form, image: e.target.files[0] })}
+                type="file"
+                className="form-control"
+                placeholder="Photo"
+              /> */}
               <input
                 value={form.image}
                 onChange={(e) => setForm({ ...form, image: e.target.value })}

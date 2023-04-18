@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 const Navbar = (props) => {
   const { loginStatus, loginCbHandler, user } = props;
 
+  console.log(user.role);
   const loginHandler = () => {
     loginCbHandler(true);
   };
@@ -65,6 +66,7 @@ const Navbar = (props) => {
                 <li className="nav-link scrollto">
                   <Link className="nav-link scrollto " to="/adobteds">
                     Adobted
+                    {/* <span class="badge rounded-pill badge-notification bg-danger">9</span> */}
                   </Link>
                 </li>
               )}

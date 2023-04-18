@@ -9,7 +9,7 @@ const EditPetPage = () => {
     age: 0,
     price: 0,
     stock: 0,
-    image: "",
+    image: null,
   });
 
   const navigation = useNavigate();
@@ -107,7 +107,14 @@ const EditPetPage = () => {
             />
           </div>
           <div className="mb-3">
-            <label>Image Link</label>
+            <label>Image</label>
+            {/* <input
+              value={form.image}
+              onChange={(e) => setForm({ ...form, image: e.target.files[0] })}
+              type="file"
+              className="form-control"
+              placeholder="Photo"
+            /> */}
             <input
               value={form.image}
               onChange={(e) => setForm({ ...form, image: e.target.value })}
