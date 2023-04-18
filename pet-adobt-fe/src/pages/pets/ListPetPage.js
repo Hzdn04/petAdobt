@@ -95,7 +95,7 @@ const ListPetPage = () => {
       confirmButtonText: "Sure!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        // console.log(adobted);
+        console.log(adobted);
         addAdobted(adobted);
         // Swal.fire("Adopted!", `Go see your pets!`, "Success");
       }
@@ -196,7 +196,7 @@ const ListPetPage = () => {
                           // data-bs-target="#adobtModal{id}"
                           onClick={() =>
                             getAdobtHandler(
-                              setAdobted({ ...adobted, petId: pet.id })
+                              setAdobted({ ...adobted, petId: id })
                             )
                           }
                         >

@@ -22,10 +22,7 @@ const ListAdobtedPage = () => {
 
   const indexOfLastAdobted = currentPage * adobtedsPerPage;
   const indexOfFirstAdobted = indexOfLastAdobted - adobtedsPerPage;
-  const currentAdobteds = adobteds.slice(
-    indexOfFirstAdobted,
-    indexOfLastAdobted
-  );
+  const currentAdobteds = filtered.slice(indexOfFirstAdobted, indexOfLastAdobted);
   const totalPages = Math.ceil(adobteds.length / adobtedsPerPage);
 
   const handleClick = (page) => {
