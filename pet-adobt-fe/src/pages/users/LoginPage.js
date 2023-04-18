@@ -23,7 +23,7 @@ const LoginPage = (props) => {
       localStorage.setItem("access_token", access_token);
 
       loginCbHandler(true);
-      navigate("/");
+      //   navigate("/");
     } catch (err) {
       console.log(err);
     }

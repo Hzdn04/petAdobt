@@ -4,6 +4,7 @@ import { getPet } from "../../fetchs/petFetch";
 import { getAccount } from "../../fetchs/userFetch";
 import Loading from "../../helpers/Loading";
 import { Link } from "react-router-dom";
+import convertRp from "../../helpers/RpFormatter";
 
 const ListAdobtedPage = () => {
   // const adobted = JSON.parse(localStorage.getItem('adobted'));
@@ -21,7 +22,10 @@ const ListAdobtedPage = () => {
 
   const indexOfLastAdobted = currentPage * adobtedsPerPage;
   const indexOfFirstAdobted = indexOfLastAdobted - adobtedsPerPage;
-  const currentAdobteds = filtered.slice(indexOfFirstAdobted, indexOfLastAdobted);
+  const currentAdobteds = adobteds.slice(
+    indexOfFirstAdobted,
+    indexOfLastAdobted
+  );
   const totalPages = Math.ceil(adobteds.length / adobtedsPerPage);
 
   const handleClick = (page) => {
@@ -86,7 +90,7 @@ const ListAdobtedPage = () => {
                   <td>{user.name}</td>
                   <td>{adobt_date}</td>
                   <td>{user.address}</td>
-                  <td>{total_price}</td>
+                  <td>{convertRp(total_price)}</td>
                   <td>
                     {/* <Link to={`/adobteds/edit/${id}`} className="btn btn-warning mx-1">
                       Edit
@@ -115,36 +119,36 @@ const ListAdobtedPage = () => {
         </tfoot> */}
       </table>
       <div className="col-12 mx-auto">
-          <nav aria-label="Page navigation example">
-            <ul className="pagination">
-              <li
-                className={`page-item ${currentPage === 1 ? "disabled" : null}`}
+        <nav aria-label="Page navigation example">
+          <ul className="pagination">
+            <li
+              className={`page-item ${currentPage === 1 ? "disabled" : null}`}
+            >
+              <a
+                href="#"
+                className="page-link"
+                onClick={() => handleClick(currentPage - 1)}
               >
-                <a
-                  href="#"
-                  className="page-link"
-                  onClick={() => handleClick(currentPage - 1)}
-                >
-                  Previous
-                </a>
-              </li>
-              {renderPagination()}
-              <li
-                className={`page-item ${
-                  currentPage === totalPages ? "disabled" : null
-                }`}
+                Previous
+              </a>
+            </li>
+            {renderPagination()}
+            <li
+              className={`page-item ${
+                currentPage === totalPages ? "disabled" : null
+              }`}
+            >
+              <a
+                href="#"
+                className="page-link"
+                onClick={() => handleClick(currentPage + 1)}
               >
-                <a
-                  href="#"
-                  className="page-link"
-                  onClick={() => handleClick(currentPage + 1)}
-                >
-                  Next
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
+                Next
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </>
   );
 };

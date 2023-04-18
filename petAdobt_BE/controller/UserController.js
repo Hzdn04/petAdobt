@@ -101,17 +101,11 @@ class UserController {
   static async update(req, res) {
     try {
       const id = req.params.id;
-      const {
-        username,
-        email,
-        password,
-        name,
-        age,
-        address,
-        phone,
-        image,
-        role,
-      } = req.body;
+      const { username, email, password, name, age, address, phone, role } =
+        req.body;
+
+      const image =
+        req.protocol + `://` + req.get("host") + "/assets/" + req.file.filename;
 
       const hashPass = encrypt(password);
 

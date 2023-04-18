@@ -3,7 +3,7 @@ const { pet, adobt, petAdobt } = require("../models");
 class PetController {
   static async getPets(req, res) {
     try {
-      let pets = await pet.findAll();
+      let pets = await pet.findAll({ order: [["race", "ASC"]] });
 
       //   const rpConvert = require("rupiah-format");
       res.status(200).json(pets);
@@ -48,7 +48,8 @@ class PetController {
   static async create(req, res) {
     try {
       const { pet_type, race, age, price, stock } = req.body;
-      const image = req.file.path;
+      const image =
+        req.protocol + `://` + req.get("host") + "/assets/" + req.file.filename;
       //   console.log(req.file.path);
 
       //     console.log(req.userData);
@@ -111,7 +112,10 @@ class PetController {
   static async update(req, res) {
     try {
       const id = Number(req.params.id);
-      const { pet_type, race, age, price, stock, image } = req.body;
+      const { pet_type, race, age, price, stock } = req.body;
+
+      const image =
+        req.protocol + `://` + req.get("host") + "/assets/" + req.file.filename;
 
       let result = await pet.update(
         {

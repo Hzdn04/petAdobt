@@ -25,10 +25,7 @@ const addPet = async (pet) => {
       method: "POST",
       url: `${URL}/create`,
       data: pet,
-      headers: { 
-        access_token: token, 
-        "Content-Type": "multipart/form-data" 
-      },
+      headers: { access_token: token, "Content-Type": "multipart/form-data" },
     });
     Swal.fire("Pet has been added", "Success");
     // console.log(result.data);
@@ -43,10 +40,7 @@ const editPet = async (id, pet) => {
       method: "PUT",
       url: `${URL}/update/${id}`,
       data: pet,
-      headers: { 
-        access_token: token,
-        // "Content-Type": "multipart/form-data"
-      },
+      headers: { access_token: token, "Content-Type": "multipart/form-data" },
     });
     Swal.fire(`Pet "${pet.race}" has been updated`, "Success");
     // console.log(result.data);

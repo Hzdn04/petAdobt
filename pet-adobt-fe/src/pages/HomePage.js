@@ -2,8 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const HomePage = (props) => {
-
-  const {loginStatus, loginCbHandler} = props
+  const { loginStatus, loginCbHandler } = props;
 
   const styles = {
     hero: {
@@ -90,12 +89,10 @@ const HomePage = (props) => {
     // </div>
     <>
       <section id="hero">
-        <div class="hero-container" data-aos="zoom-in" data-aos-delay="100">
+        <div className="hero-container" data-aos="zoom-in" data-aos-delay="100">
           <h1>Welcome to petAdobt</h1>
-          <h2>
-          Highest Quality Care For Pets You'll Love
-          </h2>
-          <Link to="/pets" class="btn-get-started">
+          <h2>Highest Quality Care For Pets You'll Love</h2>
+          <Link to="/pets" className="btn-get-started">
             Get Adobt
           </Link>
         </div>
