@@ -73,11 +73,11 @@ class PetController {
     try {
       const id = Number(req.params.id);
 
-      //   let delTransc = await petAdobt.destroy({
-      //     where: {
-      //       petId: id,
-      //     },
-      //   });
+        let delPetAdobt = await petAdobt.destroy({
+          where: {
+            petId: id,
+          },
+        });
 
       let delPet = await pet.destroy({
         where: { id },
