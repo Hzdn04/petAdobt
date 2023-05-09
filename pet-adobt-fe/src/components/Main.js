@@ -12,7 +12,7 @@ import {
   LoginPage,
   RegisterPage,
   ProfilePage,
-  EditUserPage
+  EditUserPage,
 } from "../pages";
 import About from "./About";
 
@@ -54,12 +54,10 @@ const Main = (props) => {
           </Route>
         </Route>
 
-        {!loginStatus && (
-          <Route
-            path="login"
-            element={<LoginPage loginStatus={loginStatus} />}
-          ></Route>
-        )}
+        <Route
+          path="login"
+          element={<LoginPage loginStatus={loginStatus} />}
+        ></Route>
 
         <Route path="register" element={<RegisterPage />}></Route>
 

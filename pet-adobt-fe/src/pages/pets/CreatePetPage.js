@@ -105,6 +105,7 @@ const CreatePetPage = () => {
               <input
                 onChange={(e) => setForm({ ...form, image: e.target.files[0] })}
                 type="file"
+                accept="image/*"
                 className="form-control"
                 placeholder="Photo"
               />

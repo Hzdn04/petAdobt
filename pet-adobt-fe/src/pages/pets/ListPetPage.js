@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { deletePet, getPets } from "../../fetchs/petFetch";
 import Loading from "../../helpers/Loading";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { addAdobted } from "../../fetchs/adobtedFetch";
 import { getAccount } from "../../fetchs/userFetch";
 import Swal from "sweetalert2";
@@ -9,6 +9,8 @@ import convertRp from "../../helpers/RpFormatter";
 
 const ListPetPage = () => {
   const token = localStorage.getItem("access_token");
+
+  const navigate = useNavigate();
 
   const [pets, setPets] = useState([]);
 
@@ -79,9 +81,29 @@ const ListPetPage = () => {
     getAccount((result) => setUser(result));
   }, []);
 
-  const deleteHandler = (id) => {
-    deletePet(id);
-    getPets((result) => setPets(result));
+  const deleteHandler = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await deletePet(id);
+        await Swal.fire("Deleted!", `pet ${id} has been deleted`, "Success");
+        window.location.reload();
+      }
+    });
+    // try {
+    //   await deletePet(id);
+    //   getPets((result) => setPets(result));
+    //   navigate("/pets");
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
   const getAdobtHandler = () => {
@@ -97,6 +119,7 @@ const ListPetPage = () => {
       if (result.isConfirmed) {
         console.log(adobted);
         addAdobted(adobted);
+        navigate("/adobteds");
         // Swal.fire("Adopted!", `Go see your pets!`, "Success");
       }
       //   addAdobted(adobted);

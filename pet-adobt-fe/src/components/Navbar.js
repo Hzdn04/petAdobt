@@ -57,66 +57,70 @@ const Navbar = (props) => {
             </h3>
           </div>
 
-          <nav id="navbar" className="navbar">
-            <ul>
-              <li className="nav-link scrollto">
-                <Link className="nav-link scrollto " to="/pets">
-                  {loginStatus && user.role === 1 ? "Manage Pet" : "Get Adobt"}
-                </Link>
-              </li>
-              {loginStatus && user.role !== 1 && (
+          {loginStatus && user.role === 1 && (
+            <nav id="navbar" className="navbar">
+              <ul>
                 <li className="nav-link scrollto">
-                  <Link className="nav-link scrollto " to="/adobteds">
-                    Adobted
-                    {/* <span class="badge rounded-pill badge-notification bg-danger">9</span> */}
+                  <Link className="nav-link scrollto " to="/pets">
+                    {loginStatus && user.role === 1
+                      ? "Manage Pet"
+                      : "Get Adobt"}
                   </Link>
                 </li>
-              )}
-
-              {/* <li><Link className="nav-link scrollto" to="/adobter">Adobters</Link></li>
-          <li><Link className="nav-link scrollto" to="/">Adobted Pets</Link></li> */}
-              <li>
-                <Link className="nav-link scrollto" to="/about">
-                  About
-                </Link>
-              </li>
-              {loginStatus ? (
-                <div className="dropstart mx-auto" style={styles.dropdown}>
-                  <li className="dropdown">
-                    <h2 className="text-white mt-3 mx-3">
-                      <i className="bi bi-person-circle"></i>
-                    </h2>
-                    <ul className="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
-                      <li>
-                        {loginStatus && <Link to="/profile">Profile</Link>}
-                      </li>
-                      <li>
-                        <Link
-                          className="nav-link scrollto"
-                          onClick={() => logoutHandler()}
-                        >
-                          Logout
-                        </Link>
-                      </li>
-                    </ul>
+                {loginStatus && user.role !== 1 && (
+                  <li className="nav-link scrollto">
+                    <Link className="nav-link scrollto " to="/adobteds">
+                      Adobted
+                      {/* <span class="badge rounded-pill badge-notification bg-danger">9</span> */}
+                    </Link>
                   </li>
-                </div>
-              ) : (
+                )}
+
+                {/* <li><Link className="nav-link scrollto" to="/adobter">Adobters</Link></li>
+          <li><Link className="nav-link scrollto" to="/">Adobted Pets</Link></li> */}
                 <li>
-                  <Link
-                    className="nav-link scrollto"
-                    to="/login"
-                    // onClick={() => loginHandler()}
-                  >
-                    <h3>
-                      <i className="bi bi-box-arrow-in-right"></i>
-                    </h3>
+                  <Link className="nav-link scrollto" to="/about">
+                    About
                   </Link>
                 </li>
-              )}
-            </ul>
-            <i className="bi bi-list mobile-nav-toggle"></i>
-          </nav>
+                {loginStatus ? (
+                  <div className="dropstart mx-auto" style={styles.dropdown}>
+                    <li className="dropdown">
+                      <h2 className="text-white mt-3 mx-3">
+                        <i className="bi bi-person-circle"></i>
+                      </h2>
+                      <ul className="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
+                        <li>
+                          {loginStatus && <Link to="/profile">Profile</Link>}
+                        </li>
+                        <li>
+                          <Link
+                            className="nav-link scrollto"
+                            onClick={() => logoutHandler()}
+                          >
+                            Logout
+                          </Link>
+                        </li>
+                      </ul>
+                    </li>
+                  </div>
+                ) : (
+                  <li>
+                    <Link
+                      className="nav-link scrollto"
+                      to="/login"
+                      // onClick={() => loginHandler()}
+                    >
+                      <h3>
+                        <i className="bi bi-box-arrow-in-right"></i>
+                      </h3>
+                    </Link>
+                  </li>
+                )}
+              </ul>
+              <i className="bi bi-list mobile-nav-toggle"></i>
+            </nav>
+          )}
         </div>
       </header>
     </>
