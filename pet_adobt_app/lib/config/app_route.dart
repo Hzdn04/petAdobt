@@ -3,6 +3,7 @@ class AppRoute {
   static const home = "/home";
   static const list = "/list";
   static const history = "/history";
+  static const profile = "/profile";
   static const signin = "/signin";
   static const detail = "/detail";
   static const checkout = "/checkout";

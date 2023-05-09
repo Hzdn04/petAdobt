@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pet_adobt_app/pages/adobt_page.dart';
 import 'package:pet_adobt_app/pages/history_page.dart';
+import 'package:pet_adobt_app/pages/profile_page.dart';
 
 import '../config/app_asset.dart';
 import '../config/app_color.dart';
@@ -22,7 +23,7 @@ class HomePage extends StatelessWidget {
         } else if (cHome.indexPage == 2) {
           return const HistoryPage();
         } else if (cHome.indexPage == 3) {
-          return const AdobtPage();
+          return const ProfilePage();
         }
         return const AdobtPage();
       }),
