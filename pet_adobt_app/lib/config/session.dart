@@ -22,6 +22,7 @@ class Session {
   static Future<User> getUser() async {
     User user = User();
     final pref = await SharedPreferences.getInstance();
+    String? token = pref.getString('access_token');
     String? stringUser = pref.getString('user');
     if (stringUser != null) {
       Map<String, dynamic> mapUser = jsonDecode(stringUser);
@@ -37,6 +38,13 @@ class Session {
     bool success = await pref.remove('user');
     final cUser = Get.put(CUser());
     cUser.setData(User());
+    return success;
+  }
+
+  static Future<bool> saveToken(token) async{
+    final pref = await SharedPreferences.getInstance();
+    bool success = await pref.setString('token', token);
+    
     return success;
   }
 }

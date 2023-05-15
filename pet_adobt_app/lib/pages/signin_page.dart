@@ -1,34 +1,39 @@
 import 'package:d_info/d_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pet_adobt_app/source/source_user.dart';
 
 import '../config/app_asset.dart';
 import '../config/app_color.dart';
 import '../config/app_route.dart';
 import '../widget/button_custom.dart';
+import 'home_page.dart';
 
+class SigninPage extends StatefulWidget {
+  const SigninPage({Key? key}) : super(key: key);
 
-class SigninPage extends StatelessWidget {
-  SigninPage({Key? key}) : super(key: key);
+  @override
+  State<SigninPage> createState() => _SigninPageState();
+}
+
+class _SigninPageState extends State<SigninPage> {
   final controllerEmail = TextEditingController();
   final controllerPassword = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  // login(BuildContext context) {
-  //   if (formKey.currentState!.validate()) {
-  //     UserSource.signIn(controllerEmail.text, controllerPassword.text).then((response) {
-  //       if (response['success']) {
-  //         DInfo.dialogSuccess(response['message']);
-  //         DInfo.closeDialog(actionAfterClose: (){
-  //           // Navigator.pushReplacementNamed(context, AppRoute.home);
-  //           Get.off(() => HomePage());
-  //         });
-  //       }else{
-  //         DInfo.dialogError(response['message']);
-  //       }
-  //     });
-  //   }
-  // }
+  login() async {
+    if (formKey.currentState!.validate()) {
+      String? token =
+          await SourceUser.login(controllerEmail.text, controllerPassword.text);
+      if (token != null) {
+        DInfo.dialogSuccess('Success');
+        DInfo.closeDialog(actionAfterClose: () {
+          Get.off(() => HomePage());
+          // Navigator.pushReplacementNamed(context, AppRoute.home);
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,10 +126,13 @@ class SigninPage extends StatelessWidget {
                         ),
                         SizedBox(
                           width: double.infinity,
-                          // child: ButtonCustom(label: 'Login', onTap: () => login(context), marginHorizontal: 80,),
-                          child: ButtonCustom(label: 'Login', onTap: () => {
-                            Navigator.pushNamed(context, AppRoute.home)
-                          }, marginHorizontal: 80,),
+                          child: ButtonCustom(label: 'Login', onTap: () => login(), marginHorizontal: 80,),
+                          // child: ButtonCustom(
+                          //   label: 'Login',
+                          //   onTap: () =>
+                          //       {Navigator.pushNamed(context, AppRoute.home)},
+                          //   marginHorizontal: 80,
+                          // ),
                         ),
                         const SizedBox(
                           height: 30,

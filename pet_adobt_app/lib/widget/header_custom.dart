@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../config/app_asset.dart';
+import '../config/app_route.dart';
+import '../config/session.dart';
 
 class HeaderPage extends StatelessWidget {
   const HeaderPage({super.key, required this.title, this.subTitle = ""});
@@ -43,7 +45,10 @@ class HeaderPage extends StatelessWidget {
                           color: Colors.black, fontWeight: FontWeight.bold),
                     ),
                   )
-                ]).then((value) {});
+                ]).then((value) {
+              Session.clearUser();
+              Navigator.pushReplacementNamed(context, AppRoute.signin);
+            });
           },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(50),

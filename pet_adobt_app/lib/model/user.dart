@@ -12,7 +12,7 @@ class User {
     this.role,
   });
 
-  String? id;
+  int? id;
   String? username;
   String? email;
   String? password;

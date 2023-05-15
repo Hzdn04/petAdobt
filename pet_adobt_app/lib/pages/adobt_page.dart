@@ -193,7 +193,7 @@ class AdobtPage extends StatelessWidget {
                 ),
                 SizedBox(
                   width: 80,
-                  height: 25,
+                  height: 27,
                   child: TextButton(
                     onPressed: () => {},
                     style: TextButton.styleFrom(
@@ -203,7 +203,7 @@ class AdobtPage extends StatelessWidget {
                     child: Text(
                       'Join Now',
                       style: whiteTextStyle.copyWith(
-                        fontSize: 12,
+                        fontSize: 10,
                         fontWeight: FontWeight.normal,
                       ),
                     ),
@@ -213,8 +213,8 @@ class AdobtPage extends StatelessWidget {
             ),
             Image.asset(
               'assets/woman.png',
-              width: 150,
-              height: 110,
+              width: 130,
+              height: 100,
             )
           ],
         ),

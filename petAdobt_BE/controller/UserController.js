@@ -82,7 +82,7 @@ class UserController {
         if (decrypt(password, userLogin.password)) {
           const access_token = tokenGenerate(userLogin);
           //   res.status(200).json(userLogin);
-          res.status(200).json({ access_token });
+          res.status(200).json({ access_token, data: userLogin });
 
           const verifyToken = tokenVerify(access_token);
           console.log(verifyToken);
