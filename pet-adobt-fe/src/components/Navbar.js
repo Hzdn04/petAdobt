@@ -67,15 +67,22 @@ const Navbar = (props) => {
                       : "Get Adobt"}
                   </Link>
                 </li>
-                {loginStatus && user.role !== 1 && (
+
+                <li className="nav-link scrollto">
+                  <Link className="nav-link scrollto " to="profile/users">
+                    Manage User
+                    {/* <span class="badge rounded-pill badge-notification bg-danger">9</span> */}
+                  </Link>
+                </li>
+
+                {loginStatus && user.role === 1 && (
                   <li className="nav-link scrollto">
                     <Link className="nav-link scrollto " to="/adobteds">
-                      Adobted
+                      Transaction
                       {/* <span class="badge rounded-pill badge-notification bg-danger">9</span> */}
                     </Link>
                   </li>
                 )}
-
                 {/* <li><Link className="nav-link scrollto" to="/adobter">Adobters</Link></li>
           <li><Link className="nav-link scrollto" to="/">Adobted Pets</Link></li> */}
                 <li>

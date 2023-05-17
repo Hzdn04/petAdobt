@@ -15,6 +15,15 @@ module.exports = {
       race: {
         type: Sequelize.STRING,
       },
+      sex: {
+        type: Sequelize.STRING,
+      },
+      color: {
+        type: Sequelize.STRING,
+      },
+      weight: {
+        type: Sequelize.INTEGER,
+      },
       age: {
         type: Sequelize.INTEGER,
       },

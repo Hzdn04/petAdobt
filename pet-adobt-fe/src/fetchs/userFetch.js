@@ -68,9 +68,37 @@ const editAccount = async (id, user) => {
   }
 };
 
+const getUsers = async (callback) => {
+  try {
+    const users = await axios({
+      method: "GET",
+      url: `${URL}`,
+      headers: { access_token: token },
+    });
+    // console.log(users.headers);
+    callback(users.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deleteUser = async (id) => {
+  try {
+    let result = await axios({
+      method: "DELETE",
+      url: `${URL}/delete/${id}`,
+      headers: { access_token: token },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export {
   // loginUser,
   RegisterUser,
   getAccount,
   editAccount,
+  getUsers,
+  deleteUser,
 };

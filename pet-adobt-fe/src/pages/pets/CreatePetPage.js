@@ -54,11 +54,23 @@ const CreatePetPage = () => {
                 id="pet_type"
               >
                 <option selected>Type</option>
+                <option name="pet_type" value="Cat">
+                  Cat
+                </option>
                 <option name="pet_type" value="Dog">
                   Dog
                 </option>
-                <option name="pet_type" value="Cat">
-                  Cat
+                <option name="pet_type" value="Turt">
+                  Turtle
+                </option>
+                <option name="pet_type" value="Hams">
+                  Hams
+                </option>
+                <option name="pet_type" value="Bird">
+                  Bird
+                </option>
+                <option name="pet_type" value="Fish">
+                  Fish
                 </option>
               </select>
             </div>

@@ -13,6 +13,7 @@ import {
   RegisterPage,
   ProfilePage,
   EditUserPage,
+  UsersPage,
 } from "../pages";
 import About from "./About";
 
@@ -49,6 +50,7 @@ const Main = (props) => {
 
         <Route path="profile" element={<UserPage />}>
           <Route path="" element={<ProfilePage />}></Route>
+          <Route path="users" element={<UsersPage />}></Route>
           <Route path="update">
             <Route path=":id" element={<EditUserPage />}></Route>
           </Route>

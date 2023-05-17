@@ -62,11 +62,23 @@ const EditPetPage = () => {
                 <option value={form.pet_type} selected>
                   {form.pet_type}
                 </option>
+                <option name="pet_type" value="Cat">
+                  Cat
+                </option>
                 <option name="pet_type" value="Dog">
                   Dog
                 </option>
-                <option name="pet_type" value="Cat">
-                  Cat
+                <option name="pet_type" value="Turt">
+                  Turtle
+                </option>
+                <option name="pet_type" value="Hams">
+                  Hams
+                </option>
+                <option name="pet_type" value="Bird">
+                  Bird
+                </option>
+                <option name="pet_type" value="Fish">
+                  Fish
                 </option>
               </select>
             </div>
