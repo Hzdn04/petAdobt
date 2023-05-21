@@ -1,23 +1,23 @@
 class Pet {
   Pet({
-    required this.id,
-    required this.petType,
-    required this.race,
-    required this.name,
-    required this.age,
-    required this.price,
-    required this.stock,
-    required this.image,
+    this.id,
+    this.petType,
+    this.race,
+    this.name,
+    this.age,
+    this.price,
+    this.stock,
+    this.image,
   });
 
-  String id;
-  String petType;
-  String race;
-  String name;
-  int age;
-  int price;
-  int stock;
-  String image;
+  int? id;
+  String? petType;
+  String? race;
+  String? name;
+  int? age;
+  int? price;
+  int? stock;
+  String? image;
 
   factory Pet.fromJson(Map<String, dynamic> json) => Pet(
         id: json["id"],
@@ -29,6 +29,8 @@ class Pet {
         stock: json["stock"],
         image: json["image"],
       );
+
+  get data => null;
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -42,13 +44,3 @@ class Pet {
       };
 }
 
-Pet get initPet => Pet(
-    id: '',
-    petType: '',
-    race: '',
-    name: '',
-    age: 0,
-    price: 0,
-    stock: 0,
-    image: '',
-  );

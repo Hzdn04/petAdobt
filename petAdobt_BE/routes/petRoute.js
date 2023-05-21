@@ -4,7 +4,7 @@ const { PetController } = require("../controller");
 const authentication = require("../middleware/authentication.js");
 const upload = require("../middleware/multer");
 
-petRoute.get("/", PetController.getPets);
+petRoute.get("/", authentication, PetController.getPets);
 petRoute.get("/info/:id", authentication, PetController.petInfo);
 // pet.get("/create", PetController.createPage);
 // pet.get("/update/:id", PetController.updatePage);

@@ -8,5 +8,5 @@ class AppRoute {
   static const detail = "/detail";
   static const checkout = "/checkout";
   static const checkoutSuccess = "/checkout_success";
-  static const detailBooking = "/detail_boking";
+  static const editProfile = "/edit_profile";
 }

@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:pet_adobt_app/config/app_color.dart';
+import 'package:pet_adobt_app/controller/c_pet.dart';
+import 'package:pet_adobt_app/model/pet.dart';
+import 'package:pet_adobt_app/pages/list_page.dart';
 import 'package:pet_adobt_app/widget/button_custom.dart';
 import 'package:pet_adobt_app/widget/pet_custom.dart';
 
 import '../config/app_asset.dart';
 import '../config/app_font.dart';
+import '../config/app_format.dart';
+import '../config/app_route.dart';
+import '../config/session.dart';
 import '../widget/category_custom.dart';
+import 'detail_page.dart';
 
 class AdobtPage extends StatelessWidget {
   const AdobtPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final cPet = Get.put(CPet());
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: ListView(
@@ -31,75 +42,92 @@ class AdobtPage extends StatelessWidget {
           const SizedBox(
             height: 18,
           ),
-          classRecom(context),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    'News ',
+                    style: blackTextStyle.copyWith(
+                        fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  Text(
+                    '5 Pets',
+                    style: purpleTextStyle.copyWith(
+                        fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              SizedBox(
+                  height: 230,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 15),
+                    child: petRecom(cPet),
+                  )),
+            ],
+          )
         ],
       ),
     );
   }
 
-  Column classRecom(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Recommendation',
-              style: blackTextStyle.copyWith(
-                  fontSize: 16, fontWeight: FontWeight.w600),
-            ),
-            GestureDetector(
+  GetBuilder<CPet> petRecom(CPet cPet) {
+    return GetBuilder<CPet>(builder: (_) {
+      List<Pet> list = _.listPet;
+
+      if (list.isEmpty) {
+        return const Center(
+          child: Text('Empty',
+              style: TextStyle(
+                  color: AppColor.secondary,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold)),
+        );
+      }
+      return ListView.builder(
+        scrollDirection: Axis.horizontal,
+        shrinkWrap: true,
+        reverse: true,
+        itemCount: list.length < 2 ? list.length : 2,
+        itemBuilder: (context, index) {
+          Pet pet = list[index];
+          return GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, '/class');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DetailPage(
+                            pet: pet,
+                          )),
+                );
               },
-              child: const Text('See All',
-                  style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400)),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        SizedBox(
-            height: 250,
-            child: ListView(scrollDirection: Axis.horizontal, children: const [
-              PetCustom(
-                  name: 'Jack',
-                  location: 'Malang',
-                  gender: true,
-                  asset: 'assets/cat2.jpg',
-                  width: 239,
-                  height: 80),
-              SizedBox(
-                width: 16,
-              ),
-              PetCustom(
-                  name: 'Angela',
-                  location: 'Malang',
-                  gender: false,
-                  asset: 'assets/cat1.jpg',
-                  width: 239,
-                  height: 80),
-              SizedBox(
-                width: 16,
-              ),
-              PetCustom(
-                  name: 'Jack',
-                  location: 'Malang',
-                  gender: true,
-                  asset: 'assets/dog1.jpg',
-                  width: 239,
-                  height: 80),
-              SizedBox(
-                width: 16,
-              ),
-            ])),
-      ],
-    );
+              child: Container(
+                margin: EdgeInsets.fromLTRB(
+                  0,
+                  index == 0 ? 0 : 1,
+                  12,
+                  index == list.length - 1 ? 3 : 1,
+                ),
+                child: PetCustom(
+                    name: pet.race ?? '',
+                    gender: true,
+                    asset: 'assets/dog1.jpg',
+                    width: 300,
+                    height: 220,
+                    price: NumberFormat.currency(
+                                      locale: 'id',
+                                      symbol: 'Rp ',
+                                      decimalDigits: 0)
+                                  .format(pet.price),
+                    type: pet.petType!),
+              ));
+        },
+      );
+    });
   }
 
   Column categories() {
@@ -261,33 +289,35 @@ class AdobtPage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 5),
           child: GestureDetector(
-          onTap: () {
-            showMenu(
-                context: context,
-                position: const RelativeRect.fromLTRB(20, 20, 0, 0),
-                items: [
-                  const PopupMenuItem(
-                    value: 'logout',
-                    child: Text(
-                      'LOGOUT',
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ]).then((value) {
-              
-            });
-          },
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: Image.asset(
-              AppAsset.profile,
-              width: 50,
-              height: 50,
-              fit: BoxFit.cover,
+            onTap: () {
+              showMenu(
+                  context: context,
+                  position: const RelativeRect.fromLTRB(20, 20, 0, 0),
+                  items: [
+                    const PopupMenuItem(
+                      value: 'logout',
+                      child: Text(
+                        'LOGOUT',
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  ]).then((value) {
+                Session.clearUser();
+                Session.clearToken();
+                Navigator.pushReplacementNamed(context, AppRoute.signin);
+              });
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: Image.asset(
+                AppAsset.profile,
+                width: 50,
+                height: 50,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-        ),
         ),
       ],
     );

@@ -4,9 +4,9 @@ class PetController {
   static async getPets(req, res) {
     try {
       let pets = await pet.findAll({ order: [["race", "ASC"]] });
-
+      let status = true;
       //   const rpConvert = require("rupiah-format");
-      res.status(200).json(pets);
+      res.status(200).json({status, data: pets});
       //   res.render("pets/index.ejs", { pets, adobts, rpConvert });
     } catch (err) {
       res.status(500).json(err);

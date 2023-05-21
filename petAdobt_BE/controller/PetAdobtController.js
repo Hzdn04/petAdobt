@@ -15,6 +15,24 @@ class PetAdobtController {
     }
   }
 
+  static async getPetAdobtsByUser(req, res) {
+    try {
+      const userId = req.params.userId;
+      let petAdobts = await petAdobt.findAll({
+        attributes: ["id", "petId", "userId", "adobt_date", "total_price"],
+        include: [pet, user],
+        where: {
+          "userId": userId
+        }
+      });
+
+      res.status(200).json({data: petAdobts});
+      //   res.render("petAdobts/index.ejs", { petAdobts });
+    } catch (err) {
+      res.json(err);
+    }
+  }
+
   static async getPetAdobtTotals(req, res) {
     try {
       let petAdobts = await petAdobt.findAll({
@@ -58,7 +76,9 @@ class PetAdobtController {
         address,
       });
 
-      res.status(201).json(result);
+      let status = true;
+
+      res.status(201).json({status, result});
       // res.json(thisPet);
       //   res.redirect("/petAdobts");
     } catch (err) {
@@ -76,9 +96,9 @@ class PetAdobtController {
 
       deleteData === 1
         ? //   res.redirect("/petAdobts")
-          res.status(200).json({ message: `Data has been deleted` })
+          res.status(200).json({ message: true })
         : res.status(400).json({
-            message: `Data not deleted!`,
+            message: false,
           });
     } catch (err) {
       res.status(500).json(err);

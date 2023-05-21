@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pet_adobt_app/pages/adobt_page.dart';
+import 'package:pet_adobt_app/pages/checkout_page.dart';
 import 'package:pet_adobt_app/pages/history_page.dart';
 import 'package:pet_adobt_app/pages/profile_page.dart';
 
@@ -23,7 +24,7 @@ class HomePage extends StatelessWidget {
         } else if (cHome.indexPage == 2) {
           return const HistoryPage();
         } else if (cHome.indexPage == 3) {
-          return const ProfilePage();
+          return ProfilePage();
         }
         return const AdobtPage();
       }),
@@ -50,12 +51,12 @@ class HomePage extends StatelessWidget {
                   label: 'Home',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.list_alt),
+                  icon: Icon(Icons.pets),
                   label: 'Pet List',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.pets),
-                  label: 'Adobted',
+                  icon: Icon(Icons.shopping_cart),
+                  label: 'History',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.person_outline),

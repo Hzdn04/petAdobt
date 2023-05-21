@@ -61,7 +61,7 @@ class UserController {
 
       res.status(200).json(userRegister);
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json({ message: "failed", error});
     }
   }
 

@@ -5,7 +5,8 @@ import '../config/app_font.dart';
 class PetCustom extends StatelessWidget {
   final String name;
   final String asset;
-  final String location;
+  final String price;
+  final String type;
   final bool gender;
   final double width;
   final double height;
@@ -13,16 +14,13 @@ class PetCustom extends StatelessWidget {
   const PetCustom(
       {super.key,
       required this.name,
-      required this.location,
       required this.gender,
-      required this.asset, required this.width, required this.height});
+      required this.asset, required this.width, required this.height, required this.price, required this.type});
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, '/detail');
-      },
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 5),
       child: Container(
         width: width,
         height: height,
@@ -67,10 +65,20 @@ class PetCustom extends StatelessWidget {
                   const SizedBox(
                     height: 8,
                   ),
-                  Text(
-                    location,
-                    style: greyTextStyle.copyWith(
-                        fontSize: 12, fontWeight: FontWeight.w400),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                            price,
+                            style: blackTextStyle.copyWith(
+                                fontSize: 16, fontWeight: FontWeight.w500),
+                          ),
+                      Text(
+                            type,
+                            style: blackTextStyle.copyWith(
+                                fontSize: 16, fontWeight: FontWeight.w500),
+                          ),
+                    ],
                   ),
                   ],
               ),

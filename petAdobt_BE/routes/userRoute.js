@@ -5,7 +5,7 @@ const upload = require("../middleware/multer");
 
 user.post("/register", upload.single("image"), UserController.register);
 user.post("/login", UserController.login);
-user.get("/", UserController.getUsers);
+user.get("/", authentication, UserController.getUsers);
 user.get("/account", authentication, UserController.account);
 user.put(
   "/update/:id",
