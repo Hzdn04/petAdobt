@@ -1,25 +1,18 @@
 import 'package:d_info/d_info.dart';
-import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:grouped_list/grouped_list.dart';
-import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:pet_adobt_app/controller/c_adobted.dart';
-import 'package:pet_adobt_app/pages/history_page.dart';
 import 'package:pet_adobt_app/source/source_adobted.dart';
 import 'package:pet_adobt_app/widget/button_custom.dart';
 
 import '../config/app_asset.dart';
 import '../config/app_color.dart';
 import '../config/app_format.dart';
-import '../config/app_route.dart';
 import '../config/session.dart';
 import '../controller/c_home.dart';
 import '../controller/c_user.dart';
-import '../model/adobted.dart';
 import '../model/pet.dart';
-import '../widget/header_custom.dart';
 import 'home_page.dart';
 
 class COPage extends StatelessWidget {

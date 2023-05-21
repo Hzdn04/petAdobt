@@ -4,13 +4,10 @@ import 'package:intl/intl.dart';
 import 'package:pet_adobt_app/config/app_color.dart';
 import 'package:pet_adobt_app/controller/c_pet.dart';
 import 'package:pet_adobt_app/model/pet.dart';
-import 'package:pet_adobt_app/pages/list_page.dart';
-import 'package:pet_adobt_app/widget/button_custom.dart';
 import 'package:pet_adobt_app/widget/pet_custom.dart';
 
 import '../config/app_asset.dart';
 import '../config/app_font.dart';
-import '../config/app_format.dart';
 import '../config/app_route.dart';
 import '../config/session.dart';
 import '../widget/category_custom.dart';

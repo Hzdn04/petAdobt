@@ -6,7 +6,6 @@ import 'package:pet_adobt_app/model/adobted.dart';
 import 'package:pet_adobt_app/model/pet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../controller/c_pet.dart';
 import '../controller/c_user.dart';
 import '../model/user.dart';
 
@@ -27,7 +26,6 @@ class Session {
   static Future<User> getUser() async {
     User user = User();
     final pref = await SharedPreferences.getInstance();
-    String? token = pref.getString('access_token');
     String? stringUser = pref.getString('user');
     if (stringUser != null) {
       Map<String, dynamic> mapUser = jsonDecode(stringUser);
@@ -56,7 +54,7 @@ class Session {
       Map<String, dynamic> mapPet = jsonDecode(stringPet);
       pet =Pet.fromJson(mapPet);
     }
-    final cPet = Get.put(CPet());
+    // final cPet = Get.put(CPet());
     // cPet.setData(pet);
     return pet;
   }

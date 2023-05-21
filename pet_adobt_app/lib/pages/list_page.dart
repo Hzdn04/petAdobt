@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pet_adobt_app/controller/c_pet.dart';
-import 'package:pet_adobt_app/controller/c_user.dart';
 import 'package:pet_adobt_app/pages/detail_page.dart';
 import 'package:pet_adobt_app/widget/header_custom.dart';
 import 'package:d_view/d_view.dart';
@@ -10,9 +9,7 @@ import 'package:pet_adobt_app/widget/pet_custom.dart';
 import '../config/app_color.dart';
 import '../config/app_font.dart';
 import '../config/app_format.dart';
-import '../config/app_route.dart';
 import '../model/pet.dart';
-import '../widget/category_custom.dart';
 
 class ListPage extends StatefulWidget {
   const ListPage({super.key});

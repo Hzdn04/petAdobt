@@ -1,16 +1,10 @@
-import 'package:bcrypt/bcrypt.dart';
-
-import 'package:d_info/d_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pet_adobt_app/source/source_user.dart';
 
-import '../config/app_asset.dart';
 import '../config/app_color.dart';
-import '../config/app_route.dart';
 import '../controller/c_user.dart';
 import '../widget/button_custom.dart';
-import 'home_page.dart';
 // import 'package:image_picker/image_picker.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -81,6 +75,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   @override
   void initState() {
+    // ignore: unnecessary_null_comparison
     if (cUser.data != null) {
       controllerName.text = cUser.data.name!;
       controllerEmail.text = cUser.data.email!;

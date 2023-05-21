@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:d_info/d_info.dart';
 import 'package:pet_adobt_app/config/api.dart';
 import 'package:pet_adobt_app/config/app_request.dart';
@@ -7,7 +5,6 @@ import 'package:pet_adobt_app/config/session.dart';
 import 'package:pet_adobt_app/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:http/http.dart' as http;
 
 
 class SourceUser {

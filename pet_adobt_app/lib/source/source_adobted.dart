@@ -1,6 +1,5 @@
 import 'package:d_info/d_info.dart';
 import 'package:pet_adobt_app/config/session.dart';
-import 'package:pet_adobt_app/model/pet.dart';
 
 import '../config/api.dart';
 import '../config/app_request.dart';

@@ -1,4 +1,3 @@
-import 'package:d_info/d_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pet_adobt_app/pages/signin_page.dart';
@@ -6,9 +5,7 @@ import 'package:pet_adobt_app/source/source_user.dart';
 
 import '../config/app_asset.dart';
 import '../config/app_color.dart';
-import '../config/app_route.dart';
 import '../widget/button_custom.dart';
-import 'home_page.dart';
 // import 'package:image_picker/image_picker.dart';
 
 class RegisterPage extends StatefulWidget {

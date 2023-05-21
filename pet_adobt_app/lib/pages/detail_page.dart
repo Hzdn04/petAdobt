@@ -1,16 +1,11 @@
-import 'package:d_info/d_info.dart';
+
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:pet_adobt_app/source/source_adobted.dart';
 
 import '../config/app_asset.dart';
 import '../config/app_color.dart';
 import '../config/app_font.dart';
-import '../config/app_format.dart';
 import '../config/app_route.dart';
-import '../config/session.dart';
-import '../controller/c_user.dart';
 import '../model/pet.dart';
 import '../widget/button_custom.dart';
 

@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:pet_adobt_app/config/app_asset.dart';
-import 'package:pet_adobt_app/config/app_color.dart';
 import 'package:pet_adobt_app/config/app_font.dart';
 import 'package:pet_adobt_app/controller/c_user.dart';
 import 'package:pet_adobt_app/widget/button_custom.dart';

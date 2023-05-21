@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pet_adobt_app/pages/adobt_page.dart';
-import 'package:pet_adobt_app/pages/checkout_page.dart';
 import 'package:pet_adobt_app/pages/history_page.dart';
 import 'package:pet_adobt_app/pages/profile_page.dart';
 
-import '../config/app_asset.dart';
 import '../config/app_color.dart';
 import '../controller/c_home.dart';
 import 'list_page.dart';

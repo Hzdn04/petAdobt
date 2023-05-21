@@ -6,7 +6,6 @@ import 'package:pet_adobt_app/source/source_user.dart';
 
 import '../config/app_asset.dart';
 import '../config/app_color.dart';
-import '../config/app_route.dart';
 import '../widget/button_custom.dart';
 import 'home_page.dart';
 
