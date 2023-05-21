@@ -15,10 +15,22 @@ import LoginPage from "./users/LoginPage";
 import RegisterPage from "./users/RegisterPage";
 import ProfilePage from "./users/ProfilePage";
 import EditUserPage from "./users/EditUserPage";
+import UsersPage from "./users/UsersPage";
 
 export {
-    HomePage, 
-    PetPage, ListPetPage, CreatePetPage, EditPetPage,
-    AdobtedPage, ListAdobtedPage, CreateAdobtedPage, EditAdobtedPage,
-    UserPage, LoginPage, RegisterPage, ProfilePage, EditUserPage
-}
+  HomePage,
+  PetPage,
+  ListPetPage,
+  CreatePetPage,
+  EditPetPage,
+  AdobtedPage,
+  ListAdobtedPage,
+  CreateAdobtedPage,
+  EditAdobtedPage,
+  UserPage,
+  LoginPage,
+  RegisterPage,
+  ProfilePage,
+  EditUserPage,
+  UsersPage,
+};

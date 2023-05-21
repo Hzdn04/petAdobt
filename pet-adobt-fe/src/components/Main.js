@@ -12,7 +12,8 @@ import {
   LoginPage,
   RegisterPage,
   ProfilePage,
-  EditUserPage
+  EditUserPage,
+  UsersPage,
 } from "../pages";
 import About from "./About";
 
@@ -49,17 +50,16 @@ const Main = (props) => {
 
         <Route path="profile" element={<UserPage />}>
           <Route path="" element={<ProfilePage />}></Route>
+          <Route path="users" element={<UsersPage />}></Route>
           <Route path="update">
             <Route path=":id" element={<EditUserPage />}></Route>
           </Route>
         </Route>
 
-        {!loginStatus && (
-          <Route
-            path="login"
-            element={<LoginPage loginStatus={loginStatus} />}
-          ></Route>
-        )}
+        <Route
+          path="login"
+          element={<LoginPage loginStatus={loginStatus} />}
+        ></Route>
 
         <Route path="register" element={<RegisterPage />}></Route>
 

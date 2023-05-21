@@ -8,8 +8,19 @@ const LoginPage = (props) => {
     email: "",
     password: "",
   });
+  //   const [timeout, setTimeout] = useState(null);
 
   const navigate = useNavigate();
+  //   const setSessionTimeout = () => {
+  //     setTimeout(() => {
+  //       localStorage.removeItem("access_token");
+  //     }, 10 * 60 * 1000);
+  //   };
+
+  //   const resetTimeout = () => {
+  //     clearTimeout(timeout);
+  //     setSessionTimeout();
+  //   };
 
   const loginUser = async () => {
     try {
@@ -19,15 +30,20 @@ const LoginPage = (props) => {
         data: form,
       });
       const access_token = result.data.access_token;
-      console.log(access_token);
       localStorage.setItem("access_token", access_token);
+      //   console.log(access_token);
 
       loginCbHandler(true);
-      //   navigate("/");
+      //   navigate("/pets");
+      //   resetTimeout();
     } catch (err) {
       console.log(err);
     }
   };
+
+  //   useEffect(() => {
+  //     resetTimeout();
+  //   }, [timeout]);
 
   const submitHandler = () => {
     loginUser();

@@ -18,11 +18,15 @@ const ListAdobtedPage = () => {
   // Paginate
   const [currentPage, setCurrentPage] = useState(1);
   const [adobtedsPerPage, setAdobtedsPerPage] = useState(5);
-  const filtered = adobteds.filter(adobted => adobted.userId === user.id);
+  //   const filtered = adobteds.filter((adobted) => adobted.userId === user.id);
+  const filtered = adobteds;
 
   const indexOfLastAdobted = currentPage * adobtedsPerPage;
   const indexOfFirstAdobted = indexOfLastAdobted - adobtedsPerPage;
-  const currentAdobteds = filtered.slice(indexOfFirstAdobted, indexOfLastAdobted);
+  const currentAdobteds = filtered.slice(
+    indexOfFirstAdobted,
+    indexOfLastAdobted
+  );
   const totalPages = Math.ceil(adobteds.length / adobtedsPerPage);
 
   const handleClick = (page) => {
@@ -82,7 +86,7 @@ const ListAdobtedPage = () => {
               const { id, pet, user, adobt_date, total_price } = adobted;
               return (
                 <tr key={id}>
-                  <td>{index + 1}</td>
+                  <td>{index + 1}.</td>
                   <td>{pet.race}</td>
                   <td>{user.name}</td>
                   <td>{adobt_date}</td>

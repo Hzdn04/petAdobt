@@ -54,11 +54,23 @@ const CreatePetPage = () => {
                 id="pet_type"
               >
                 <option selected>Type</option>
+                <option name="pet_type" value="Cat">
+                  Cat
+                </option>
                 <option name="pet_type" value="Dog">
                   Dog
                 </option>
-                <option name="pet_type" value="Cat">
-                  Cat
+                <option name="pet_type" value="Turt">
+                  Turtle
+                </option>
+                <option name="pet_type" value="Hams">
+                  Hams
+                </option>
+                <option name="pet_type" value="Bird">
+                  Bird
+                </option>
+                <option name="pet_type" value="Fish">
+                  Fish
                 </option>
               </select>
             </div>
@@ -105,6 +117,7 @@ const CreatePetPage = () => {
               <input
                 onChange={(e) => setForm({ ...form, image: e.target.files[0] })}
                 type="file"
+                accept="image/*"
                 className="form-control"
                 placeholder="Photo"
               />

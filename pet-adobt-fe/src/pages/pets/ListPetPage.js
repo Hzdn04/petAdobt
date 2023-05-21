@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { deletePet, getPets } from "../../fetchs/petFetch";
 import Loading from "../../helpers/Loading";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { addAdobted } from "../../fetchs/adobtedFetch";
 import { getAccount } from "../../fetchs/userFetch";
 import Swal from "sweetalert2";
@@ -10,25 +10,29 @@ import convertRp from "../../helpers/RpFormatter";
 const ListPetPage = () => {
   const token = localStorage.getItem("access_token");
 
+  const navigate = useNavigate();
+
   const [pets, setPets] = useState([]);
 
   const [user, setUser] = useState([]);
 
   // Filter Category
   const [filteredPets, setFilteredPets] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
   // const [selectedType, setSelectedType] = useState("");
 
   const handleCategoryChange = (event) => {
     const type = event.target.value;
     setSelectedCategory(type);
 
-    if (type === "") {
-      setFilteredPets(pets);
-    } else {
+    if (type !== "all") {
       const filtered = pets.filter((pet) => pet.pet_type === type);
       setFilteredPets(filtered);
+      console.log(filtered);
+    } else {
+      setFilteredPets(pets);
     }
+    console.log(pets);
   };
 
   // Pagination
@@ -79,9 +83,29 @@ const ListPetPage = () => {
     getAccount((result) => setUser(result));
   }, []);
 
-  const deleteHandler = (id) => {
-    deletePet(id);
-    getPets((result) => setPets(result));
+  const deleteHandler = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await deletePet(id);
+        await Swal.fire("Deleted!", `pet ${id} has been deleted`, "Success");
+        window.location.reload();
+      }
+    });
+    // try {
+    //   await deletePet(id);
+    //   getPets((result) => setPets(result));
+    //   navigate("/pets");
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
   const getAdobtHandler = () => {
@@ -97,6 +121,7 @@ const ListPetPage = () => {
       if (result.isConfirmed) {
         console.log(adobted);
         addAdobted(adobted);
+        navigate("/adobteds");
         // Swal.fire("Adopted!", `Go see your pets!`, "Success");
       }
       //   addAdobted(adobted);
@@ -130,12 +155,12 @@ const ListPetPage = () => {
         <div className="row">
           <h4 className="text-center mt-3">Pets Management</h4>
           <Link to="/pets/create" className="btn btn-primary mb-2 mt-2">
-            Added Pet
+            Add Pet
           </Link>
         </div>
       ) : (
-        <div class="alert alert-warning my-3" role="alert">
-          <h4 class="alert-heading text-center">Pets Collection</h4>
+        <div className="alert alert-warning my-3" role="alert">
+          <h4 className="alert-heading text-center">Pets Collection</h4>
           <p className="text-center my-3">
             please adopt a pet that you think is suitable
           </p>
@@ -144,13 +169,19 @@ const ListPetPage = () => {
       <div className="row my-3">
         <div className="col-3">
           <select
-            class="form-select"
+            className="form-select"
             value={selectedCategory}
             onChange={handleCategoryChange}
           >
-            <option value="">All Categories</option>
+            <option value="all" selected>
+              All Categories
+            </option>
             <option value="Cat">Cat</option>
             <option value="Dog">Dog</option>
+            <option value="Turtle">Turtle</option>
+            <option value="Hams">Hams</option>
+            <option value="Bird">Bird</option>
+            <option value="Fish">Fish</option>
           </select>
         </div>
       </div>
@@ -159,27 +190,27 @@ const ListPetPage = () => {
           filteredPets.map((pet) => {
             const { id, pet_type, race, age, price, stock, image } = pet;
             return (
-              <div class="card mx-2 my-2" style={styles.card} key={id}>
+              <div className="card mx-2 my-2" style={styles.card} key={id}>
                 <img
                   // src={image[0].url}
                   src={image}
-                  class="card_img_top img-fluid"
+                  className="card_img_top img-fluid"
                   style={styles.card_img_top}
                   alt="..."
                 />
-                <div class="card-body">
-                  <h5 class="card-title">
+                <div className="card-body">
+                  <h5 className="card-title">
                     {pet_type} {race}
                   </h5>
-                  <p class="card-text float-left"> {age} Month</p>
-                  <p class="card-text float-right">{convertRp(price)} </p>
+                  <p className="card-text float-left"> {age} Month</p>
+                  <p className="card-text float-right">{convertRp(price)} </p>
                   {stock > 0 ? (
-                    <p class="card-text text-success">
+                    <p className="card-text text-success">
                       {" "}
                       {stock} Stock Available
                     </p>
                   ) : (
-                    <p class="card-text text-danger">Out of stock</p>
+                    <p className="card-text text-danger">Out of stock</p>
                   )}
 
                   {stock > 0 &&
@@ -187,7 +218,7 @@ const ListPetPage = () => {
                       user.role !== 1 && (
                         <button
                           type="button"
-                          class="btn btn-primary float-right"
+                          className="btn btn-primary float-right"
                           //   data-bs-toggle="tooltip"
                           //   data-bs-placement="top"
                           //   title="Please, Click 2x"
@@ -205,7 +236,7 @@ const ListPetPage = () => {
                       )
                     ) : (
                       <a
-                        class="btn btn-primary float-right"
+                        className="btn btn-primary float-right"
                         style={styles.float}
                         href="/login"
                       >
@@ -216,7 +247,7 @@ const ListPetPage = () => {
                   {token && user.role === 1 && (
                     <button
                       onClick={() => deleteHandler(+id)}
-                      class="btn btn-danger"
+                      className="btn btn-danger"
                       style={styles.float}
                     >
                       DELETE
@@ -226,7 +257,7 @@ const ListPetPage = () => {
                   {token && user.role === 1 && (
                     <Link
                       to={`/pets/update/${id}`}
-                      class="btn btn-warning mx-2"
+                      className="btn btn-warning mx-2"
                       style={styles.float}
                     >
                       EDIT
@@ -234,32 +265,32 @@ const ListPetPage = () => {
                   )}
 
                   <div
-                    class="modal fade"
+                    className="modal fade"
                     id="adobtModal{id}"
                     tabindex="-1"
                     aria-labelledby="exampleModalLabel"
                     aria-hidden="true"
                   >
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h1 class="modal-title fs-5" id="exampleModalLabel">
+                    <div className="modal-dialog">
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h1 className="modal-title fs-5" id="exampleModalLabel">
                             Confirmation
                           </h1>
                           <button
                             type="button"
-                            class="btn-close"
+                            className="btn-close"
                             data-bs-dismiss="modal"
                             aria-label="Close"
                           ></button>
                         </div>
-                        <div class="modal-body">
+                        <div className="modal-body">
                           Have you ever been here before?
                         </div>
-                        <div class="modal-footer">
+                        <div className="modal-footer">
                           <a
                             type="button"
-                            class="btn btn-secondary"
+                            className="btn btn-secondary"
                             href="/adobts/create/<%= pet.id %>"
                           >
                             Nope
@@ -267,7 +298,7 @@ const ListPetPage = () => {
                           <a
                             href="/pets/adobt/<%= pet.id %>"
                             type="button"
-                            class="btn btn-primary"
+                            className="btn btn-primary"
                           >
                             Of Course!
                           </a>

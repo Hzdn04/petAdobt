@@ -26,6 +26,7 @@ class Session {
   static Future<User> getUser() async {
     User user = User();
     final pref = await SharedPreferences.getInstance();
+    String? token = pref.getString('access_token');
     String? stringUser = pref.getString('user');
     if (stringUser != null) {
       Map<String, dynamic> mapUser = jsonDecode(stringUser);
