@@ -5,6 +5,8 @@ class Adobted {
     this.userId,
     this.adobtDate,
     this.totalPrice,
+    this.address,
+    this.user,
   });
 
   int? id;
@@ -12,6 +14,8 @@ class Adobted {
   int? userId;
   String? adobtDate;
   int? totalPrice;
+  String? address;
+  List<dynamic>? user;
 
   factory Adobted.fromJson(Map<String, dynamic> json) => Adobted(
         id: json["id"],
@@ -19,6 +23,8 @@ class Adobted {
         userId: json["userId"],
         adobtDate: json["adobt_date"],
         totalPrice: json["total_price"],
+        address: json["address"],
+        // user: List<dynamic>.from(json["user"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -27,6 +33,8 @@ class Adobted {
         "userId": userId,
         "adobt_date": adobtDate,
         "total_price": totalPrice,
+        "address": address,
+        "user": user,
       };
 }
 

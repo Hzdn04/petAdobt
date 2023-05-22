@@ -7,7 +7,7 @@ class PetCustom extends StatelessWidget {
   final String asset;
   final String price;
   final String type;
-  final bool gender;
+  final String gender;
   final double width;
   final double height;
 
@@ -56,7 +56,7 @@ class PetCustom extends StatelessWidget {
                         style: blackTextStyle.copyWith(
                             fontSize: 16, fontWeight: FontWeight.w500),
                       ),
-                      gender == true ?
+                      gender == 'male' ?
                       const Icon(Icons.male_rounded)
                       :
                       const Icon(Icons.female_rounded)

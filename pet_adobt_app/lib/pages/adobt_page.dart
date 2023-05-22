@@ -73,16 +73,13 @@ class AdobtPage extends StatelessWidget {
   }
 
   GetBuilder<CPet> petRecom(CPet cPet) {
+    bool isLoading = true;
     return GetBuilder<CPet>(builder: (_) {
       List<Pet> list = _.listPet;
 
       if (list.isEmpty) {
-        return const Center(
-          child: Text('Empty',
-              style: TextStyle(
-                  color: AppColor.secondary,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold)),
+        return Center(
+          child: LoadingScreen(isLoading: isLoading),
         );
       }
       return ListView.builder(
@@ -111,15 +108,13 @@ class AdobtPage extends StatelessWidget {
                 ),
                 child: PetCustom(
                     name: pet.race ?? '',
-                    gender: true,
+                    gender: 'male',
                     asset: 'assets/dog1.jpg',
                     width: 300,
                     height: 220,
                     price: NumberFormat.currency(
-                                      locale: 'id',
-                                      symbol: 'Rp ',
-                                      decimalDigits: 0)
-                                  .format(pet.price),
+                            locale: 'id', symbol: 'Rp ', decimalDigits: 0)
+                        .format(pet.price),
                     type: pet.petType!),
               ));
         },
@@ -317,6 +312,103 @@ class AdobtPage extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class LoadingScreen extends StatelessWidget {
+  final bool isLoading;
+
+  LoadingScreen({required this.isLoading});
+
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: isLoading,
+      child: Scaffold(
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 5),
+            child: Container(
+              width: 300,
+              height: 210,
+              decoration: BoxDecoration(boxShadow: const [
+                BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 2,
+                    offset: Offset(0, 0.5))
+              ], color: Colors.white, borderRadius: BorderRadius.circular(16)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: 124,
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(16),
+                          topRight: Radius.circular(16),
+                        ),
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage('assets/loading.gif'))),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(14),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: 180,
+                              child: LinearProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.grey),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 30,
+                              child: LinearProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.grey),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: 180,
+                              child: LinearProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.grey),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 30,
+                              child: LinearProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.grey),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

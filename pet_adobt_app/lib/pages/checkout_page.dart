@@ -2,7 +2,6 @@ import 'package:d_info/d_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:pet_adobt_app/controller/c_adobted.dart';
 import 'package:pet_adobt_app/source/source_adobted.dart';
 import 'package:pet_adobt_app/widget/button_custom.dart';
 
@@ -19,12 +18,11 @@ class COPage extends StatelessWidget {
   COPage({super.key});
 
   final cUser = Get.put(CUser());
-  final cAdobtedList = Get.put(CAdobtedList());
-  final cHome = Get.put(CHome());
 
 
   @override
   Widget build(BuildContext context) {
+    final cHome = Get.put(CHome());
     Pet pet = ModalRoute.of(context)!.settings.arguments as Pet;
 
     Future<String?> token = Session.getToken();
@@ -44,8 +42,8 @@ class COPage extends StatelessWidget {
         DInfo.dialogSuccess('Adobted ${pet.race} Successfully');
         DInfo.closeDialog(
           actionAfterClose: () {
-          cHome.indexPage = 2;
-              Get.offAll(() => HomePage());
+          cHome.indexPage = 0;
+          Get.offAll(() => HomePage());
         }
         );
       } else {
@@ -90,7 +88,9 @@ class COPage extends StatelessWidget {
           height: 90,
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
           child: ButtonCustom(
-              label: 'Payment', onTap: () => addAdobted(), marginHorizontal: 25)),
+              label: 'Payment', onTap: () => addAdobted()
+              
+              ,marginHorizontal: 25)),
     );
   }
 

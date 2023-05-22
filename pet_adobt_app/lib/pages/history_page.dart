@@ -1,4 +1,3 @@
-
 import 'package:d_info/d_info.dart';
 import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +8,7 @@ import 'package:pet_adobt_app/controller/c_adobted.dart';
 import 'package:pet_adobt_app/source/source_adobted.dart';
 
 import '../config/app_color.dart';
+import '../config/app_font.dart';
 import '../config/app_format.dart';
 import '../config/session.dart';
 import '../controller/c_pet.dart';
@@ -29,7 +29,7 @@ class _HistoryPageState extends State<HistoryPage> {
   final cAdobtedList = Get.put(CAdobtedList());
 
   refresh() {
-    cAdobtedList.getList(cUser.data.id!);
+    cAdobtedList.getList();
   }
 
   Future<String?> token = Session.getToken();
@@ -65,37 +65,68 @@ class _HistoryPageState extends State<HistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          toolbarHeight: 110,
+          automaticallyImplyLeading: false,
+          toolbarHeight: 190,
           backgroundColor: AppColor.bgScaffold,
           elevation: 0,
           title: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Column(
-              children: const [
-                SizedBox(
+              children: [
+                const SizedBox(
                   height: 15,
                 ),
-                HeaderPage(title: 'History', subTitle: 'Adobted'),
-                SizedBox(
+                const HeaderPage(title: 'History', subTitle: 'Adobted'),
+                const SizedBox(
                   height: 20,
                 ),
+                categories()
               ],
             ),
           )),
       body: GetBuilder<CAdobtedList>(builder: (_) {
         if (_.loading) return DView.loadingCircle();
-        if (_.listAdobted.isEmpty) return DView.empty('Empty');
-
+        if (_.listAdobted.isEmpty) {
+          return Padding(
+            padding: const EdgeInsets.only(top: 80),
+            child: Center(
+              child: Column(
+                children: [
+                  Container(
+                    width: 220,
+                    height: 230,
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(16),
+                          topRight: Radius.circular(16),
+                        ),
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage('assets/no.png'))),
+                  ),
+                  Text(
+                    'Not Transaction',
+                    style: blackTextStyle.copyWith(
+                        fontSize: 26, fontWeight: FontWeight.w800),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+        List<Adobted> list = _.status == 'PENDING'
+            ? _.listAdobted
+            : _.listAdobted.where((e) => e.petId.toString() == cAdobtedList.status).toList();
         return RefreshIndicator(
           onRefresh: () async => refresh(),
           child: ListView(
             children: [
               // Adobted adobted = _.listAdobted[index];
-               GroupedListView<Adobted, String>(
+              GroupedListView<Adobted, String>(
                 padding: const EdgeInsets.fromLTRB(25, 0, 16, 25),
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                elements: _.listAdobted,
+                elements: list,
                 groupBy: (element) => element.adobtDate.toString(),
                 groupSeparatorBuilder: (String groupByValue) {
                   String date =
@@ -115,12 +146,14 @@ class _HistoryPageState extends State<HistoryPage> {
                   );
                 },
                 itemBuilder: (context, element) {
+                  
                   return GestureDetector(
                       onTap: () {
                         // Navigator.pushNamed(context, AppRoute.detailAdobted,
                         //     arguments: element);
                       },
-                      child: item(context, element));
+                      child: item(context, element)
+                    );
                 },
                 itemComparator: (item1, item2) =>
                     item1.adobtDate!.compareTo(item2.adobtDate!),
@@ -165,15 +198,15 @@ class _HistoryPageState extends State<HistoryPage> {
               //     ],
               //   ),
               // );
-            
-          ],),
+            ],
+          ),
         );
       }),
     );
   }
 
   Widget item(BuildContext context, Adobted element) {
-    
+    // Map user = element.user![index] ?? '';
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -200,7 +233,8 @@ class _HistoryPageState extends State<HistoryPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  element.petId.toString(),
+                  element.address ?? '',
+                  // user['name'],
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium!
@@ -208,10 +242,8 @@ class _HistoryPageState extends State<HistoryPage> {
                 ),
                 Text(
                   NumberFormat.currency(
-                                      locale: 'id',
-                                      symbol: 'Rp ',
-                                      decimalDigits: 0)
-                                  .format(element.totalPrice),
+                          locale: 'id', symbol: 'Rp ', decimalDigits: 0)
+                      .format(element.totalPrice),
                   style: const TextStyle(
                       color: Colors.grey, fontWeight: FontWeight.w300),
                 ),
@@ -223,14 +255,65 @@ class _HistoryPageState extends State<HistoryPage> {
           ),
           Container(
             decoration: BoxDecoration(
-                color: true == 'PAID' ? AppColor.secondary : Colors.red,
+                color: true == 'UNPAID' ? AppColor.secondary : Colors.red,
                 borderRadius: BorderRadius.circular(30)),
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-            child: Text('PAID',
-                style: const TextStyle(color: Colors.white, fontSize: 12)),
+            child: const Text('UNPAID',
+                style: TextStyle(color: Colors.white, fontSize: 12)),
           ),
         ],
       ),
     );
   }
+
+  GetBuilder<CAdobtedList> categories() {
+    return GetBuilder<CAdobtedList>(builder: (_) {
+      return Padding(
+        padding: const EdgeInsets.only(top: 15),
+        child: SizedBox(
+          height: 45,
+          child: ListView.builder(
+            itemCount: _.statuses.length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              String status = _.statuses[index];
+              return Padding(
+                padding: EdgeInsets.fromLTRB(
+                  index == 0 ? 16 : 8,
+                  0,
+                  index == cPet.categories.length - 1 ? 16 : 8,
+                  0,
+                ),
+                child: Material(
+                  color:
+                      status == _.status ? AppColor.primary : Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  child: InkWell(
+                    onTap: () {
+                      cAdobtedList.status = status;
+                    },
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: Text(
+                        status,
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: status == _.status
+                                  ? AppColor.white
+                                  : Colors.black,
+                            ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      );
+    });
+  }
+
 }

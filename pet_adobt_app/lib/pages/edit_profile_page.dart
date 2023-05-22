@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:pet_adobt_app/source/source_user.dart';
 
 import '../config/app_color.dart';
+import '../config/session.dart';
 import '../controller/c_user.dart';
 import '../widget/button_custom.dart';
 // import 'package:image_picker/image_picker.dart';
@@ -16,10 +17,10 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   final controllerEmail = TextEditingController();
-  final controllerPassword = TextEditingController();
-  final controllerPasswordConfrim = TextEditingController();
   final controllerName = TextEditingController();
+  final controllerUsername = TextEditingController();
   final controllerPhone = TextEditingController();
+  final controllerAge = TextEditingController();
   final controllerAddress = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
@@ -52,35 +53,34 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   final cUser = Get.put(CUser());
 
-  register() async {
+  Future<String?> token = Session.getToken();
+
+  editProfile() async {
     if (formKey.currentState!.validate()) {
-      await SourceUser.register(
-          controllerName.text,
-          controllerPhone.text,
-          controllerEmail.text, 
-          controllerPasswordConfrim.text,
-          controllerAddress.text
-          );
+      await SourceUser.edit(
+        controllerUsername.text,
+        controllerEmail.text,
+        controllerName.text,
+        controllerAge.text,
+        controllerAddress.text,
+        controllerPhone.text,
+        cUser.data.id.toString(),
+        token,
+        context
+      );
     }
   }
-
-  //decrypt password
-  // String decryptPassword(String password) {
-    // Lakukan proses enkripsi pada password menggunakan bcrypt
-    // String salt = bcrypt.genSalt();
-    // String hashedPassword = bcrypt.hashpw(password, salt);
-
-    // return hashedPassword;
-  // }
 
   @override
   void initState() {
     // ignore: unnecessary_null_comparison
-    if (cUser.data != null) {
+    if (cUser.data.id != null) {
       controllerName.text = cUser.data.name!;
+      controllerUsername.text = cUser.data.username!;
       controllerEmail.text = cUser.data.email!;
       controllerPhone.text = cUser.data.phone!;
-      controllerAddress.text = cUser.data.address!;
+      controllerAddress.text = cUser.data.address ?? '';
+      controllerAge.text = cUser.data.age.toString();
     }
     super.initState();
   }
@@ -89,15 +89,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          foregroundColor: Colors.black,
-          title: const Text(
-            'Update My Profile',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.black,
+        title: const Text(
+          'Update My Profile',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: LayoutBuilder(builder: (context, constraints) {
           return SingleChildScrollView(
@@ -139,6 +139,31 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           height: 20,
                         ),
                         TextFormField(
+                          controller: controllerUsername,
+                          validator: (value) =>
+                              value == '' ? "Don't be empty" : null,
+                          decoration: InputDecoration(
+                              isDense: true,
+                              filled: true,
+                              fillColor: Colors.white,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 16),
+                              hintText: 'Username',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                  borderSide: const BorderSide(
+                                      color: AppColor.secondary)),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                  borderSide: BorderSide.none)),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
                           controller: controllerPhone,
                           validator: (value) =>
                               value == '' ? "Don't be empty" : null,
@@ -148,7 +173,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               fillColor: Colors.white,
                               contentPadding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 16),
-                              hintText: 'Phone',
+                              hintText: 'Number Phone',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(25),
                               ),
@@ -189,74 +214,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           height: 20,
                         ),
                         TextFormField(
-                          controller: controllerPassword,
-                          maxLength: 6,
+                          controller: controllerAge,
                           validator: (value) =>
                               value == '' ? "Don't be empty" : null,
-                          obscureText: !passwordVisible,
                           decoration: InputDecoration(
-                              suffixIcon: IconButton(
-                                color: Colors.grey,
-                                splashRadius: 1,
-                                icon: Icon(passwordVisible
-                                    ? Icons.visibility_outlined
-                                    : Icons.visibility_off_outlined),
-                                onPressed: togglePassword,
-                              ),
                               isDense: true,
                               filled: true,
                               fillColor: Colors.white,
                               contentPadding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 16),
-                              hintText: 'Password',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(25),
-                                  borderSide: const BorderSide(
-                                      color: AppColor.secondary)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(25),
-                                  borderSide: BorderSide.none)),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        TextFormField(
-                          controller: controllerPasswordConfrim,
-                          maxLength: 6,
-                          validator: (value) {
-                            if (value == '') {
-                              return "Don't be empty";
-                              // ignore: unrelated_type_equality_checks
-                            } else if (value != controllerPassword.text) {
-                              return "passwords are not the same";
-                            } else {
-                              return null;
-                            }
-                          },
-                          obscureText: !passwordConfirmVisible,
-                          decoration: InputDecoration(
-                              suffixIcon: IconButton(
-                                color: Colors.grey,
-                                splashRadius: 1,
-                                icon: Icon(passwordConfirmVisible
-                                    ? Icons.visibility_outlined
-                                    : Icons.visibility_off_outlined),
-                                onPressed: () {
-                                  setState(() {
-                                    passwordConfirmVisible =
-                                        !passwordConfirmVisible;
-                                  });
-                                },
-                              ),
-                              isDense: true,
-                              filled: true,
-                              fillColor: Colors.white,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 16),
-                              hintText: 'Password Confirmation',
+                              hintText: 'Age',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(25),
                               ),
@@ -314,9 +281,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         ),
                         SizedBox(
                           width: double.infinity,
-                          child: ButtonCustom(
+                          child: 
+                          ButtonCustom(
                             label: 'Update',
-                            onTap: () => register(),
+                            onTap: () => editProfile(),
                             marginHorizontal: 80,
                           ),
                         ),

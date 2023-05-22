@@ -7,6 +7,7 @@ class PetController {
       let status = true;
       //   const rpConvert = require("rupiah-format");
       res.status(200).json({status, data: pets});
+      // res.status(200).json(pets);
       //   res.render("pets/index.ejs", { pets, adobts, rpConvert });
     } catch (err) {
       res.status(500).json(err);

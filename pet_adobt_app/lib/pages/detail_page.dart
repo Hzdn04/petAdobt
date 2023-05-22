@@ -1,11 +1,14 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:pet_adobt_app/pages/signin_page.dart';
 
 import '../config/app_asset.dart';
 import '../config/app_color.dart';
 import '../config/app_font.dart';
 import '../config/app_route.dart';
+import '../controller/c_user.dart';
 import '../model/pet.dart';
 import '../widget/button_custom.dart';
 
@@ -35,7 +38,7 @@ class DetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final Pet pet;
+  final cUser = Get.put(CUser());
     
     return Scaffold(
         appBar: AppBar(
@@ -153,7 +156,18 @@ class DetailPage extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: pet.stock! > 0 ? getAdobt(context) : notAdobt(context));
+        bottomNavigationBar: 
+        // ignore: unnecessary_null_comparison
+        cUser.data.id != null ?
+          pet.stock! > 0 ? getAdobt(context) : notAdobt(context)
+        :
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: ButtonCustom(label: 'Login', onTap: () {
+              Get.to(const SigninPage());
+            }, marginHorizontal: 80),
+          )
+        );
   }
 
   Container getAdobt(BuildContext context) {
@@ -164,7 +178,8 @@ class DetailPage extends StatelessWidget {
       ),
       height: 90,
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-      child: ButtonCustom(
+      child: 
+      ButtonCustom(
         label: 'ADOBT NOW',
         onTap: () {
           Navigator.pushNamed(context, AppRoute.checkout, arguments: pet);

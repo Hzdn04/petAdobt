@@ -3,7 +3,7 @@ const { UserController } = require("../controller");
 const authentication = require("../middleware/authentication");
 const upload = require("../middleware/multer");
 
-user.post("/register", upload.single("image"), UserController.register);
+user.post("/register", UserController.register);
 user.post("/login", UserController.login);
 user.get("/", UserController.getUsers);
 user.get("/account", authentication, UserController.account);
@@ -13,6 +13,13 @@ user.put(
   upload.single("image"),
   UserController.update
 );
+
+user.put(
+  "/edit/:id",
+  authentication,
+  UserController.edit
+);
+
 user.delete("/delete/:id", authentication, UserController.delete);
 
 module.exports = user;

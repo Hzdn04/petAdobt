@@ -44,24 +44,21 @@ class ProfilePage extends StatelessWidget {
                   children: [
                     ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: 
-                        // Obx(
-                        //    () {
-                        //     return Image.network(
-                        //       // cUser.data.image ?? 
-                        //       'https://via.placeholder.com/100',
-                        //       width: 152,
-                        //       height: 229,
-                        //       fit: BoxFit.cover,
-                        //     );
-                        //   }
-                        // )),
-                    Image.asset(
-                      'assets/user.png',
-                      width: 152,
-                      height: 229,
-                      fit: BoxFit.cover,
-                    )),
+                        child: Obx(() {
+                          return Image.network(
+                            cUser.data.image ??
+                                'https://via.placeholder.com/100',
+                            width: 152,
+                            height: 229,
+                            fit: BoxFit.cover,
+                          );
+                        })),
+                    // Image.asset(
+                    //   'assets/user.png',
+                    //   width: 152,
+                    //   height: 229,
+                    //   fit: BoxFit.cover,
+                    // )),
                     const SizedBox(
                       width: 9,
                     ),
@@ -74,8 +71,9 @@ class ProfilePage extends StatelessWidget {
                             return Text(
                               cUser.data.name ?? '',
                               style: greyTextStyle.copyWith(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,),
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                              ),
                               maxLines: 2,
                             );
                           }),
@@ -113,7 +111,7 @@ class ProfilePage extends StatelessWidget {
                           ),
                           Obx(() {
                             return Text(
-                              cUser.data.age!.toString(),
+                              cUser.data.age.toString(),
                               style: greyTextStyle.copyWith(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
@@ -240,10 +238,32 @@ class ProfilePage extends StatelessWidget {
               ),
               ButtonCustom(
                   label: 'Edit My profile',
-                  onTap: () => {
-                    Navigator.pushNamed(context, AppRoute.editProfile)
-                  },
+                  onTap: () =>
+                      {Navigator.pushNamed(context, AppRoute.editProfile)},
                   marginHorizontal: 85),
+              const SizedBox(
+                height: 15,
+              ),
+              TextButton(
+                onPressed: () {},
+                style: TextButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8))),
+                child: Container(
+                  height: 25,
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 70, vertical: 10),
+                  child: Text(
+                    'Change Password',
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                        ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
               const SizedBox(
                 height: 15,
               ),

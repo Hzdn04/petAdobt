@@ -16,6 +16,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final controllerUsername = TextEditingController();
   final controllerEmail = TextEditingController();
   final controllerPassword = TextEditingController();
   final controllerPasswordConfrim = TextEditingController();
@@ -33,32 +34,14 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
-// image picker
-  // late XFile image;
-  // final picker = ImagePicker();
-
-  // Future getImage() async {
-  //   // ignore: deprecated_member_use
-  //   final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
-  //   setState(() {
-  //     if (pickedFile != null) {
-  //       image = XFile(pickedFile.path);
-  //     } else {
-  //       // ignore: avoid_print
-  //       print('No image selected.');
-  //     }
-  //   });
-  // }
-
   register() async {
     if (formKey.currentState!.validate()) {
       await SourceUser.register(
           controllerName.text,
+          controllerUsername.text,
           controllerPhone.text,
           controllerEmail.text, 
           controllerPasswordConfrim.text,
-          controllerAddress.text
           );
     }
   }
@@ -127,6 +110,31 @@ class _RegisterPageState extends State<RegisterPage> {
                           height: 20,
                         ),
                         TextFormField(
+                          controller: controllerUsername,
+                          validator: (value) =>
+                              value == '' ? "Don't be empty" : null,
+                          decoration: InputDecoration(
+                              isDense: true,
+                              filled: true,
+                              fillColor: Colors.white,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 16),
+                              hintText: 'Username',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                  borderSide: const BorderSide(
+                                      color: AppColor.secondary)),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                  borderSide: BorderSide.none)),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
                           controller: controllerPhone,
                           validator: (value) =>
                               value == '' ? "Don't be empty" : null,
@@ -136,7 +144,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               fillColor: Colors.white,
                               contentPadding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 16),
-                              hintText: 'Phone',
+                              hintText: 'Number Phone',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(25),
                               ),
@@ -256,47 +264,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                   borderRadius: BorderRadius.circular(25),
                                   borderSide: BorderSide.none)),
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        TextFormField(
-                          maxLines: 5,
-                          cursorHeight: 40,
-                          controller: controllerAddress,
-                          validator: (value) =>
-                              value == '' ? "Don't be empty" : null,
-                          decoration: InputDecoration(
-                              isDense: true,
-                              filled: true,
-                              fillColor: Colors.white,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 16),
-                              hintText: 'Address',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(25),
-                                  borderSide: const BorderSide(
-                                      color: AppColor.secondary)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(25),
-                                  borderSide: BorderSide.none)),
-                        ),
-                        // ignore: unnecessary_null_comparison
-                        // image == null
-                        //     ? const Text('No image selected.')
-                        //     : Image.file(
-                        //         image,
-                        //         height: 300,
-                        //       ),
-                        // const SizedBox(
-                        //   height: 20,
-                        // ),
-                        // TextButton(
-                        //   onPressed: getImage,
-                        //   child: const Text('Select Image'),
-                        // ),
                         const SizedBox(
                           height: 30,
                         ),

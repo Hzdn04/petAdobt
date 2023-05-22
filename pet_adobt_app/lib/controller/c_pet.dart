@@ -41,23 +41,9 @@ class CPet extends GetxController{
       update();
     });
   }
-
-  search(idUser, date) async {
-    _loading.value = true;
-    update();
-
-    _list.value = await SourcePet.pet(token);
-    update();
-
-    Future.delayed(const Duration(milliseconds: 900), () {
-      _loading.value = false;
-      update();
-    });
-  }
-
-  @override
-  void onInit() {
-    getList();
-    super.onInit();
-  }
+  // @override
+  // void onInit() {
+  //   getList();
+  //   super.onInit();
+  // }
 }

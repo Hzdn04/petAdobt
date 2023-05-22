@@ -53,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
       hooks: {
         beforeCreate: (user, option) => {
           user.password = encrypt(user.password);
-          user.image = user.image || "https://via.placeholder.com/100";
+          user.image = "https://via.placeholder.com/100";
           user.role = user.role || 2;
         },
       },

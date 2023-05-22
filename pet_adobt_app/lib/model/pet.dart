@@ -3,6 +3,9 @@ class Pet {
     this.id,
     this.petType,
     this.race,
+    this.sex,
+    this.color,
+    this.weight,
     this.name,
     this.age,
     this.price,
@@ -13,6 +16,9 @@ class Pet {
   int? id;
   String? petType;
   String? race;
+  String? sex;
+  String? color;
+  int? weight;
   String? name;
   int? age;
   int? price;
@@ -23,6 +29,9 @@ class Pet {
         id: json["id"],
         petType: json["pet_type"],
         race: json["race"],
+        sex: json["sex"],
+        color: json["color"],
+        weight: json["weight"],
         name: json["name"],
         age: json["age"],
         price: json["price"],
@@ -36,6 +45,9 @@ class Pet {
         "id": id,
         "id_hotel": petType,
         "race": race,
+        "sex": sex,
+        "color": color,
+        "weight": weight,
         "name": name,
         "age": age,
         "price": price,

@@ -11,6 +11,19 @@ class CAdobtedList extends GetxController{
   // Adobted get adobtedData => _adobtedData.value;
   // set adobtedData(Adobted n) => _adobtedData.value = n;
 
+  final _status = 'PENDING'.obs;
+  String get status => _status.value;
+  set status(n) {
+    _status.value = n;
+    update();
+  }
+
+  List<String> get statuses => [
+    'PENDING',
+    'PAID',
+    'CANCELED'
+  ];
+
   final cUser = Get.put(CUser());
 
   final _loading = false.obs;
@@ -23,7 +36,7 @@ class CAdobtedList extends GetxController{
 
   Future<String?> token = Session.getToken();
 
-  getList(int id) async {
+  getList() async {
     _loading.value = true;
     update();
 

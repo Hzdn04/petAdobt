@@ -20,6 +20,7 @@ class ListPage extends StatefulWidget {
 
 class _ListPageState extends State<ListPage> {
   final cPet = Get.put(CPet());
+  String searchKeyword = '';
 
   refresh() {
     cPet.getList();
@@ -35,6 +36,7 @@ class _ListPageState extends State<ListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          automaticallyImplyLeading: false,
           toolbarHeight: 210,
           backgroundColor: AppColor.bgScaffold,
           elevation: 0,
@@ -59,41 +61,49 @@ class _ListPageState extends State<ListPage> {
         if (_.listPet.isEmpty) return DView.empty('Empty');
         List<Pet> list = _.category == 'All Pet'
             ? _.listPet
-            : _.listPet
-                .where((e) => e.petType == cPet.category)
-                .toList();
-        if (list.isEmpty) {
+            : _.listPet.where((e) => e.petType == cPet.category).toList();
+
+        // List<Pet> result = list.where((pet) {
+          
+        //       pet.race!.toLowerCase().contains(searchKeyword);
+                
+        //       pet.sex!.toLowerCase().contains(searchKeyword);
+              
+        // }).toList();
+
+        List<Pet> result = list.where((pet) => pet.race!.toLowerCase().contains(searchKeyword.toLowerCase())).toList();
+
+        if (result.isEmpty) {
           return const Center(
             child: Text('Empty',
-                style: TextStyle(color: AppColor.secondary, fontSize: 20, fontWeight: FontWeight.bold)),
+                style: TextStyle(
+                    color: AppColor.secondary,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold)),
           );
         }
         return RefreshIndicator(
           onRefresh: () async => refresh(),
           child: ListView.builder(
-            itemCount: list.length,
+            itemCount: result.length,
             itemBuilder: (context, index) {
-              Pet dataPet = list[index];
+              Pet dataPet = result[index];
               return InkWell(
                 onTap: () {
-                  // Get.to(() => DetailPage(id: dataPet.id!));
-                    // Navigator.pushNamed(context, AppRoute.detail,
-                    //     arguments: pet);
-
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => DetailPage(pet: dataPet,)),
+                        builder: (context) => DetailPage(
+                              pet: dataPet,
+                            )),
                   );
-
-                  // Navigator.pushNamed(context, AppRoute.detail,);
                 },
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
                   child: PetCustom(
                     name: dataPet.race!,
-                    gender: true,
+                    gender: dataPet.sex!.toLowerCase(),
                     type: dataPet.petType!,
                     asset: 'assets/cat1.jpg',
                     width: double.infinity,
@@ -118,6 +128,11 @@ class _ListPageState extends State<ListPage> {
         color: Colors.white,
       ),
       child: TextField(
+        onChanged: (value) {
+          setState(() {
+            searchKeyword = value;
+          });
+        },
         decoration: InputDecoration(
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
@@ -151,7 +166,8 @@ class _ListPageState extends State<ListPage> {
                   0,
                 ),
                 child: Material(
-                  color: category == _.category ? AppColor.primary : Colors.white,
+                  color:
+                      category == _.category ? AppColor.primary : Colors.white,
                   borderRadius: BorderRadius.circular(20),
                   child: InkWell(
                     onTap: () {
@@ -165,7 +181,9 @@ class _ListPageState extends State<ListPage> {
                         category,
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
                               fontWeight: FontWeight.bold,
-                              color: category == _.category ? AppColor.white : Colors.black,
+                              color: category == _.category
+                                  ? AppColor.white
+                                  : Colors.black,
                             ),
                       ),
                     ),

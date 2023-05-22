@@ -19,7 +19,6 @@ class PetAdobtController {
     try {
       const userId = req.params.userId;
       let petAdobts = await petAdobt.findAll({
-        attributes: ["id", "petId", "userId", "adobt_date", "total_price"],
         include: [pet, user],
         where: {
           "userId": userId
