@@ -42,7 +42,7 @@ const editPet = async (id, pet) => {
       data: pet,
       headers: { access_token: token, "Content-Type": "multipart/form-data" },
     });
-    Swal.fire(`Pet "${pet.race}" has been updated`, "Success");
+    Swal.fire(`Pet "${pet.name}" has been updated`, "Success");
     // console.log(result.data);
   } catch (error) {
     console.log(error);

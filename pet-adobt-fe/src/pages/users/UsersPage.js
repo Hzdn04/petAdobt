@@ -86,12 +86,9 @@ const UsersPage = () => {
       {
         <div className="container">
           <h4 className="text-center mt-3">Manage Users</h4>
-          {/* <Link to="/adobteds/create" className="btn btn-primary mb-2 mt-2">
-        Add
-      </Link> */}
-          {/* <Link to="/pets" className="btn btn-primary mb-2 mt-2">
-            Add
-          </Link> */}
+          <Link to="/register" className="btn btn-primary mb-2 mt-2">
+            Add User
+          </Link>
           <table className="table">
             <thead className="table-light">
               <tr>

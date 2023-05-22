@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Button, Modal } from "react-bootstrap";
 import { deletePet, getPets } from "../../fetchs/petFetch";
 import Loading from "../../helpers/Loading";
 import { Link, useNavigate } from "react-router-dom";
@@ -16,6 +17,17 @@ const ListPetPage = () => {
 
   const [user, setUser] = useState([]);
 
+  const [currentPet, setCurrentPet] = useState([]);
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = (id) => {
+    const petById = pets.find((pet) => pet.id === id);
+    setCurrentPet(petById);
+    setShow(true);
+  };
+
   // Filter Category
   const [filteredPets, setFilteredPets] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -32,7 +44,7 @@ const ListPetPage = () => {
     } else {
       setFilteredPets(pets);
     }
-    console.log(pets);
+    // console.log(pets);
   };
 
   // Pagination
@@ -147,6 +159,9 @@ const ListPetPage = () => {
     float: {
       float: "right",
     },
+    modal_img: {
+      height: "150px",
+    },
   };
 
   return (
@@ -188,7 +203,20 @@ const ListPetPage = () => {
       <div className="row">
         {filteredPets.length !== 0 ? (
           filteredPets.map((pet) => {
-            const { id, pet_type, race, age, price, stock, image } = pet;
+            const {
+              id,
+              pet_type,
+              name,
+              description,
+              race,
+              sex,
+              color,
+              weight,
+              age,
+              price,
+              stock,
+              image,
+            } = pet;
             return (
               <div className="card mx-2 my-2" style={styles.card} key={id}>
                 <img
@@ -264,48 +292,169 @@ const ListPetPage = () => {
                     </Link>
                   )}
 
-                  <div
-                    className="modal fade"
-                    id="adobtModal{id}"
-                    tabindex="-1"
-                    aria-labelledby="exampleModalLabel"
-                    aria-hidden="true"
-                  >
-                    <div className="modal-dialog">
-                      <div className="modal-content">
-                        <div className="modal-header">
-                          <h1 className="modal-title fs-5" id="exampleModalLabel">
-                            Confirmation
-                          </h1>
-                          <button
-                            type="button"
-                            className="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
+                  {token && user.role === 1 && (
+                    <Button variant="primary" onClick={() => handleShow(id)}>
+                      DETAILS
+                    </Button>
+                  )}
+
+                  <Modal key={id} show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Pet's Detail</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <div class="row my-2">
+                        <div class="row mb-2">
+                          <div class="col-md-7">
+                            <img
+                              src={currentPet.image}
+                              style={styles.modal_img}
+                              alt="..."
+                              className="rounded"
+                            />
+                          </div>
+                          <div class="col-md-5">
+                            <div class="row mb-2">
+                              <div class="form-group">
+                                <label for="name">Pet Name</label>
+                                <input
+                                  type="text"
+                                  name="name"
+                                  id="name"
+                                  class="form-control"
+                                  value={currentPet.name}
+                                  readonly=""
+                                />
+                              </div>
+                            </div>
+                            <div class="row mb-2">
+                              <div class="form-group">
+                                <label for="race">Race</label>
+                                <input
+                                  type="text"
+                                  name="race"
+                                  id="race"
+                                  class="form-control"
+                                  value={currentPet.race}
+                                  readonly=""
+                                />
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div className="modal-body">
-                          Have you ever been here before?
+
+                        <div class="row mb-2">
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label for="sex">Sex</label>
+                              <input
+                                type="text"
+                                name="sex"
+                                id="sex"
+                                class="form-control"
+                                value={currentPet.sex}
+                                readonly=""
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-md-2">
+                            <div class="form-group">
+                              <label for="race">Age</label>
+                              <input
+                                type="text"
+                                name="race"
+                                id="race"
+                                class="form-control"
+                                value={currentPet.age}
+                                readonly=""
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="race">Color</label>
+                              <input
+                                type="text"
+                                name="color"
+                                id="color"
+                                class="form-control"
+                                value={currentPet.color}
+                                readonly=""
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="race">Weight (kg)</label>
+                              <input
+                                type="text"
+                                name="weight"
+                                id="weight"
+                                class="form-control"
+                                value={currentPet.weight}
+                                readonly=""
+                              />
+                            </div>
+                          </div>
                         </div>
-                        <div className="modal-footer">
-                          <a
-                            type="button"
-                            className="btn btn-secondary"
-                            href="/adobts/create/<%= pet.id %>"
-                          >
-                            Nope
-                          </a>
-                          <a
-                            href="/pets/adobt/<%= pet.id %>"
-                            type="button"
-                            className="btn btn-primary"
-                          >
-                            Of Course!
-                          </a>
+
+                        <div class="row mb-2">
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label for="race">Stock</label>
+                              <input
+                                type="text"
+                                name="race"
+                                id="race"
+                                class="form-control"
+                                value={currentPet.stock}
+                                readonly=""
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-md-8">
+                            <div class="form-group">
+                              <label for="race">Price</label>
+                              <input
+                                type="text"
+                                name="price"
+                                id="price"
+                                class="form-control"
+                                value={convertRp(currentPet.price)}
+                                readonly=""
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row mb-2">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label for="description">Description</label>
+                              <textarea
+                                type="text"
+                                name="description"
+                                id="description"
+                                class="form-control"
+                                value={currentPet.description}
+                                rows="3"
+                                readonly=""
+                              />
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button variant="primary" onClick={handleClose}>
+                        Close
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
                 </div>
               </div>
             );
