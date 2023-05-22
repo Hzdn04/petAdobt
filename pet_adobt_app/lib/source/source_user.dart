@@ -5,11 +5,9 @@ import 'package:pet_adobt_app/config/api.dart';
 import 'package:pet_adobt_app/config/app_request.dart';
 import 'package:pet_adobt_app/config/session.dart';
 import 'package:pet_adobt_app/model/user.dart';
-import 'package:pet_adobt_app/pages/home_page.dart';
 import 'package:pet_adobt_app/pages/signin_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../config/app_route.dart';
 import '../controller/c_home.dart';
 
 final cHome = Get.put(CHome());
