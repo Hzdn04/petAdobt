@@ -50,7 +50,7 @@ class PetController {
       const { pet_type, race, age, price, stock } = req.body;
       const image =
         req.protocol + `://` + req.get("host") + "/assets/" + req.file.filename;
-      //   console.log(req.file.path);
+      console.log(req.file.path);
 
       //     console.log(req.userData);
       let resPets = await pet.create({
