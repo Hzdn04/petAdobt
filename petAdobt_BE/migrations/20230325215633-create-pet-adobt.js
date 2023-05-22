@@ -21,8 +21,8 @@ module.exports = {
       total_price: {
         type: Sequelize.INTEGER,
       },
-      address: {
-        type: Sequelize.TEXT,
+      status: {
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
