@@ -40,7 +40,7 @@ class PetCustom extends StatelessWidget {
                     topRight: Radius.circular(16),
                   ),
                   image: DecorationImage(
-                      fit: BoxFit.cover, image: AssetImage(asset))),
+                      fit: BoxFit.cover, image: NetworkImage(asset))),
             ),
             Padding(
               padding: const EdgeInsets.all(14),

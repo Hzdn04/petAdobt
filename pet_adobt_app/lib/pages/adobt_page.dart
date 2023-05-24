@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:pet_adobt_app/config/app_color.dart';
 import 'package:pet_adobt_app/controller/c_pet.dart';
+import 'package:pet_adobt_app/controller/c_user.dart';
 import 'package:pet_adobt_app/model/pet.dart';
 import 'package:pet_adobt_app/widget/pet_custom.dart';
 
-import '../config/app_asset.dart';
 import '../config/app_font.dart';
 import '../config/app_route.dart';
 import '../config/session.dart';
@@ -20,6 +20,8 @@ class AdobtPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final cPet = Get.put(CPet());
 
+    final cUser = Get.put(CUser());
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: ListView(
@@ -27,7 +29,7 @@ class AdobtPage extends StatelessWidget {
           const SizedBox(
             height: 15,
           ),
-          header(context),
+          header(context, cUser),
           const SizedBox(
             height: 24,
           ),
@@ -59,12 +61,21 @@ class AdobtPage extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
+
+              cUser.data.id != null ?
+
               SizedBox(
                   height: 230,
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 15),
                     child: petRecom(cPet),
-                  )),
+                  ))
+
+              :
+
+              const SizedBox(
+                height: 20,
+              ),
             ],
           )
         ],
@@ -107,15 +118,15 @@ class AdobtPage extends StatelessWidget {
                   index == list.length - 1 ? 3 : 1,
                 ),
                 child: PetCustom(
-                    name: pet.race ?? '',
-                    gender: 'male',
-                    asset: 'assets/dog1.jpg',
+                    name: pet.name ?? '',
+                    gender: pet.sex.toString().toLowerCase(),
+                    asset: pet.image!,
                     width: 300,
                     height: 220,
                     price: NumberFormat.currency(
                             locale: 'id', symbol: 'Rp ', decimalDigits: 0)
                         .format(pet.price),
-                    type: pet.petType!),
+                    type: pet.race!),
               ));
         },
       );
@@ -242,7 +253,7 @@ class AdobtPage extends StatelessWidget {
     );
   }
 
-  Row header(BuildContext context) {
+  Row header(BuildContext context, CUser cUser) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -302,12 +313,25 @@ class AdobtPage extends StatelessWidget {
             },
             child: ClipRRect(
               borderRadius: BorderRadius.circular(50),
-              child: Image.asset(
-                AppAsset.profile,
+              child: 
+
+              cUser.data.id != null ?
+
+              Image.network(
+                cUser.data.image ?? '',
                 width: 50,
                 height: 50,
                 fit: BoxFit.cover,
-              ),
+              )
+
+              :
+
+              Image.asset(
+                'assets/user.png',
+                width: 50,
+                height: 50,
+                fit: BoxFit.cover,
+              )
             ),
           ),
         ),
@@ -319,7 +343,7 @@ class AdobtPage extends StatelessWidget {
 class LoadingScreen extends StatelessWidget {
   final bool isLoading;
 
-  LoadingScreen({required this.isLoading});
+  const LoadingScreen({super.key, required this.isLoading});
 
   @override
   Widget build(BuildContext context) {

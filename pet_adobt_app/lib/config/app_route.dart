@@ -9,4 +9,5 @@ class AppRoute {
   static const checkout = "/checkout";
   static const checkoutSuccess = "/checkout_success";
   static const editProfile = "/edit_profile";
+  static const confirm = "/confirm";
 }

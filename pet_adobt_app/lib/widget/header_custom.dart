@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../config/app_asset.dart';
 import '../config/app_route.dart';
 import '../config/session.dart';
 
 class HeaderPage extends StatelessWidget {
-  const HeaderPage({super.key, required this.title, this.subTitle = ""});
+   HeaderPage({super.key, required this.title, this.subTitle = "", required this.image, });
 
   final String title;
   final String subTitle;
+  final String image;
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +53,8 @@ class HeaderPage extends StatelessWidget {
           },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(50),
-            child: Image.asset(
-              AppAsset.profile,
+            child: Image.network(
+              image,
               width: 50,
               height: 50,
               fit: BoxFit.cover,

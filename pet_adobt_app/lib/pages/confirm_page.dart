@@ -1,56 +1,104 @@
+import 'dart:convert';
+
 import 'package:d_info/d_info.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:pet_adobt_app/config/app_format.dart';
+import 'package:pet_adobt_app/model/adobted.dart';
+import 'package:pet_adobt_app/pages/history_page.dart';
+import 'package:pet_adobt_app/source/service_payment.dart';
 import 'package:pet_adobt_app/source/source_adobted.dart';
 import 'package:pet_adobt_app/widget/button_custom.dart';
+import 'package:http/http.dart' as http;
 
 import '../config/app_asset.dart';
 import '../config/app_color.dart';
 import '../config/session.dart';
-import '../controller/c_home.dart';
 import '../controller/c_user.dart';
-import '../model/pet.dart';
-import 'home_page.dart';
 
-class COPage extends StatelessWidget {
-  COPage({super.key});
+class ConfirmPage extends StatelessWidget {
+  ConfirmPage({super.key, required this.adobted});
+
+  final Adobted adobted;
 
   final cUser = Get.put(CUser());
 
-
   @override
   Widget build(BuildContext context) {
-    final cHome = Get.put(CHome());
-    Pet pet = ModalRoute.of(context)!.settings.arguments as Pet;
+    Map<String, dynamic>? payment;
+
+    createPaymentIntent() async {
+      try {
+        Map<String, dynamic> body = {
+          'amount': '1000',
+          'currency': 'USD'
+        };
+        http.Response response = await http.post(
+            Uri.parse(
+                'https://api.stripe.com/v1/payment_intents'), // Ganti dengan endpoint API Anda untuk membuat payment intent
+            body: body,
+            headers: {
+              'Authorization':
+                  'Bearer sk_test_51N8EslDYqJ5SohsvZgIn34nC91JZjf0n8OyuM5v7lj7Y5XIWYrjHggrLZnlwKxoukEoDlFY9r9IjiDrQ4U5DVW2D00sUIeiB6f',
+              'Content-Type': 'application/x-www-form-urlencoded'
+            });
+
+        return json.decode(response.body);
+        // Parse respon dari server Anda
+        // Dapatkan client secret dari respon dan gunakan untuk mengonfirmasi pembayaran di tahap berikutnya
+      } catch (e) {
+        throw Exception(e.toString());
+        // Tangani kesalahan yang terjadi saat membuat payment intent
+      }
+    }
+
+    void displayPaymentSheet() async {
+      try {
+        await Stripe.instance.presentPaymentSheet();
+        print('Done');
+      } catch (e) {
+        print('Failed');
+      }
+    }
+
+    void makePayment() async {
+      try {
+        payment = await createPaymentIntent();
+
+        var gpay = const PaymentSheetGooglePay(
+            merchantCountryCode: "US", currencyCode: "US", testEnv: true);
+        await Stripe.instance.initPaymentSheet(
+            paymentSheetParameters: SetupPaymentSheetParameters(
+                paymentIntentClientSecret: payment!["client_secret"],
+                style: ThemeMode.dark,
+                merchantDisplayName: "petAdobt",
+                googlePay: gpay));
+
+        displayPaymentSheet();
+      } catch (e) {
+        print('Error creating payment method: $e');
+        // Tangani kesalahan yang terjadi saat membuat payment method
+      }
+    }
 
     Future<String?> token = Session.getToken();
 
     // Manual Input
-    int tail = 1;
-    int totalPayment = pet.price! * tail ;
-    int status = 1;
+    int status = 0;
 
-    addAdobted() async {
-      bool? success = await SourceAdobted.add(
-        token,
-        pet.id.toString(),
-        cUser.data.id!.toString(),
-        cUser.data.name!,
-        totalPayment.toString(),
-        status.toString()
+    cancelAdobt(int id) async {
+      bool? yes = await DInfo.dialogConfirmation(
+        context,
+        'Canceled',
+        'Are you sure to cancel this adobted?',
+        textNo: 'Batal',
+        textYes: 'Ya',
       );
-      if (success == true) {
-        DInfo.dialogSuccess('Adobted ${pet.race} Successfully');
-        DInfo.closeDialog(
-          actionAfterClose: () {
-          cHome.indexPage = 0;
-          Get.offAll(() => HomePage());
-        }
-        );
-      } else {
-        DInfo.dialogError('Adobted ${pet.race} Failed!');
-        DInfo.closeDialog();
+
+      if (yes == true) {
+        await SourceAdobted.cancel(token, status.toString(), id.toString());
       }
     }
 
@@ -60,7 +108,7 @@ class COPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.black,
         title: const Text(
-          'Checkout',
+          'Payment Confirmation',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -71,7 +119,8 @@ class COPage extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          adobtDetail(context, pet.petType!, tail, pet.price!.toDouble(), pet.race!, totalPayment.toDouble()),
+          adobtDetail(context, adobted.name!, adobted.status!.toInt(),
+              adobted.totalPrice!.toDouble(), adobted.adobtDate!),
           const SizedBox(
             height: 16,
           ),
@@ -89,10 +138,37 @@ class COPage extends StatelessWidget {
           ),
           height: 90,
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-          child: ButtonCustom(
-              label: 'Confirmation', onTap: () => addAdobted()
-              
-              ,marginHorizontal: 25)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              TextButton(
+                onPressed: () => cancelAdobt(adobted.id!),
+                style: TextButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8))),
+                child: Container(
+                  height: 25,
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                  child: Text(
+                    'Cancel',
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                        ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              ButtonCustom(
+                  label: 'Payment',
+                  onTap: () {
+                    makePayment();
+                  } ,
+                  marginHorizontal: 40),
+            ],
+          )),
     );
   }
 
@@ -105,7 +181,7 @@ class COPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Available Payment',
+            'Payment Method',
             style: Theme.of(context)
                 .textTheme
                 .titleMedium!
@@ -162,8 +238,8 @@ class COPage extends StatelessWidget {
     );
   }
 
-  Container adobtDetail(BuildContext context, String type, int tail, double price,
-      String race, double totalPayment) {
+  Container adobtDetail(BuildContext context, String name, int status,
+      double totalPayment, String adobtDate) {
     return Container(
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(16)),
@@ -172,7 +248,7 @@ class COPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Adobt $type Details',
+            'Adobt $name Details',
             style: Theme.of(context)
                 .textTheme
                 .titleMedium!
@@ -184,9 +260,9 @@ class COPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Type Race', style: Theme.of(context).textTheme.titleMedium),
+              Text('Status', style: Theme.of(context).textTheme.titleMedium),
               Text(
-                race,
+                status == 1 ? 'PENDING' : 'CANCELED',
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!
@@ -200,9 +276,10 @@ class COPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Tail', style: Theme.of(context).textTheme.titleMedium),
+              Text('Checkout Date',
+                  style: Theme.of(context).textTheme.titleMedium),
               Text(
-                tail.toString(),
+                AppFormat.date(adobtDate),
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!
@@ -212,23 +289,6 @@ class COPage extends StatelessWidget {
           ),
           const SizedBox(
             height: 15,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Price', style: Theme.of(context).textTheme.titleMedium),
-              Text(
-                NumberFormat.currency(
-                                      locale: 'id',
-                                      symbol: 'Rp ',
-                                      decimalDigits: 0)
-                                  .format(price),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(fontWeight: FontWeight.bold),
-              ),
-            ],
           ),
           const SizedBox(
             height: 150,
@@ -236,13 +296,15 @@ class COPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Total Payment', style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold)),
+              Text('Total Payment',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(fontWeight: FontWeight.bold)),
               Text(
                 NumberFormat.currency(
-                                      locale: 'id',
-                                      symbol: 'Rp ',
-                                      decimalDigits: 0)
-                                  .format(totalPayment),
+                        locale: 'id', symbol: 'Rp ', decimalDigits: 0)
+                    .format(totalPayment),
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!

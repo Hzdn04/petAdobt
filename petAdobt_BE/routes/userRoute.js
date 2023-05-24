@@ -20,6 +20,19 @@ user.put(
   UserController.edit
 );
 
+user.put(
+  "/change/:id",
+  authentication,
+  UserController.changePassword
+);
+
+user.put(
+  "/upload/:id",
+  authentication,
+  upload.single("image"),
+  UserController.uploadImage
+);
+
 user.delete("/delete/:id", authentication, UserController.delete);
 
 module.exports = user;

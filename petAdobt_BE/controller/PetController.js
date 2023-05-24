@@ -50,7 +50,7 @@ class PetController {
     try {
       const { pet_type, race, age, price, stock } = req.body;
       const image =
-        req.protocol + `://` + req.get("host") + "/assets/" + req.file.filename;
+      "http://192.168.1.3:3001" + "/assets/" + req.file.filename;
       console.log(req.file.path);
 
       //     console.log(req.userData);

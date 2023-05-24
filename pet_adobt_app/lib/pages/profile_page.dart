@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pet_adobt_app/config/app_color.dart';
 import 'package:pet_adobt_app/config/app_font.dart';
 import 'package:pet_adobt_app/controller/c_user.dart';
+import 'package:pet_adobt_app/pages/change_password_page.dart';
 import 'package:pet_adobt_app/widget/button_custom.dart';
 
 import '../config/app_route.dart';
+import '../config/session.dart';
 import '../widget/header_custom.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -14,8 +17,38 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Padding(
+    if (cUser.data.id == null) {
+      return Scaffold(
+        body: Center(
+          child: TextButton(
+                onPressed: () {
+                  Session.clearToken();
+                  Navigator.pushReplacementNamed(context, AppRoute.signin);
+                },
+                style: TextButton.styleFrom(
+                    backgroundColor: AppColor.primary,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8))),
+                child: Container(
+                  height: 25,
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 70, vertical: 10),
+                  child: Text(
+                    'Login',
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                        ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+        ),
+      );
+    } else {
+      return Scaffold(
+        
+      body: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: ListView(
         children: [
@@ -24,7 +57,7 @@ class ProfilePage extends StatelessWidget {
           ),
           Obx(() {
             return HeaderPage(
-                title: 'My Profile', subTitle: cUser.data.username ?? '');
+                title: 'My Profile', subTitle: cUser.data.username ?? '', image: cUser.data.image ?? 'https://via.placeholder.com/100');
           }),
           const SizedBox(
             height: 15,
@@ -42,23 +75,26 @@ class ProfilePage extends StatelessWidget {
                     border: Border.all(color: Colors.white)),
                 child: Row(
                   children: [
+                    cUser.data.id != null ?
                     ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Obx(() {
                           return Image.network(
-                            cUser.data.image ??
-                                'https://via.placeholder.com/100',
+                            cUser.data.image ?? 'https://via.placeholder.com/100',
                             width: 152,
                             height: 229,
                             fit: BoxFit.cover,
                           );
-                        })),
-                    // Image.asset(
-                    //   'assets/user.png',
-                    //   width: 152,
-                    //   height: 229,
-                    //   fit: BoxFit.cover,
-                    // )),
+                        }))
+
+                        : 
+
+                    Image.asset(
+                      'assets/user.png',
+                      width: 152,
+                      height: 229,
+                      fit: BoxFit.cover,
+                    ),
                     const SizedBox(
                       width: 9,
                     ),
@@ -245,7 +281,9 @@ class ProfilePage extends StatelessWidget {
                 height: 15,
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(const ChangePasswordPage());
+                },
                 style: TextButton.styleFrom(
                     backgroundColor: Colors.red,
                     shape: RoundedRectangleBorder(
@@ -273,4 +311,6 @@ class ProfilePage extends StatelessWidget {
       ),
     ));
   }
+    }
+    
 }

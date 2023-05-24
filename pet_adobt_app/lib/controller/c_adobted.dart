@@ -11,17 +11,18 @@ class CAdobtedList extends GetxController{
   // Adobted get adobtedData => _adobtedData.value;
   // set adobtedData(Adobted n) => _adobtedData.value = n;
 
-  final _status = 'PENDING'.obs;
-  String get status => _status.value;
+  final _status = 3.obs;
+  int get status => _status.value;
   set status(n) {
     _status.value = n;
     update();
   }
 
-  List<String> get statuses => [
-    'PENDING',
-    'PAID',
-    'CANCELED'
+  List<int> get statuses => [
+    3,
+    1,
+    2,
+    0
   ];
 
   final cUser = Get.put(CUser());
