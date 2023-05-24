@@ -12,8 +12,8 @@ const getPets = async (callback) => {
       url: `${URL}`,
       headers: { access_token: token },
     });
-    // console.log(pets.headers);
-    callback(pets.data);
+    // console.log(pets);
+    callback(pets.data.data);
   } catch (error) {
     console.log(error);
   }

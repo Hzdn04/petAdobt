@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:pet_adobt_app/config/app_asset.dart';
-import 'package:pet_adobt_app/config/app_color.dart';
+import 'package:get/get.dart';
 import 'package:pet_adobt_app/config/app_font.dart';
+import 'package:pet_adobt_app/controller/c_user.dart';
 import 'package:pet_adobt_app/widget/button_custom.dart';
 
+import '../config/app_route.dart';
 import '../widget/header_custom.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+  ProfilePage({super.key});
+
+  final cUser = Get.put(CUser());
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,10 @@ class ProfilePage extends StatelessWidget {
           const SizedBox(
             height: 25,
           ),
-          const HeaderPage(title: 'My Profile', subTitle: 'Username'),
+          Obx(() {
+            return HeaderPage(
+                title: 'My Profile', subTitle: cUser.data.username ?? '');
+          }),
           const SizedBox(
             height: 15,
           ),
@@ -40,12 +44,21 @@ class ProfilePage extends StatelessWidget {
                   children: [
                     ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: Image.asset(
-                          AppAsset.profile,
-                          width: 152,
-                          height: 229,
-                          fit: BoxFit.cover,
-                        )),
+                        child: Obx(() {
+                          return Image.network(
+                            cUser.data.image ??
+                                'https://via.placeholder.com/100',
+                            width: 152,
+                            height: 229,
+                            fit: BoxFit.cover,
+                          );
+                        })),
+                    // Image.asset(
+                    //   'assets/user.png',
+                    //   width: 152,
+                    //   height: 229,
+                    //   fit: BoxFit.cover,
+                    // )),
                     const SizedBox(
                       width: 9,
                     ),
@@ -54,14 +67,16 @@ class ProfilePage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Lord Rangga',
-                            style: greyTextStyle.copyWith(
-                                fontSize: 25,
+                          Obx(() {
+                            return Text(
+                              cUser.data.name ?? '',
+                              style: greyTextStyle.copyWith(
+                                fontSize: 20,
                                 fontWeight: FontWeight.w600,
-                                overflow: TextOverflow.ellipsis),
-                            maxLines: 2,
-                          ),
+                              ),
+                              maxLines: 2,
+                            );
+                          }),
                           const SizedBox(
                             height: 12,
                           ),
@@ -73,14 +88,16 @@ class ProfilePage extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis),
                             maxLines: 2,
                           ),
-                          Text(
-                            'w@gmail.com',
-                            style: greyTextStyle.copyWith(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                overflow: TextOverflow.ellipsis),
-                            maxLines: 2,
-                          ),
+                          Obx(() {
+                            return Text(
+                              cUser.data.email ?? '',
+                              style: greyTextStyle.copyWith(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  overflow: TextOverflow.ellipsis),
+                              maxLines: 2,
+                            );
+                          }),
                           const SizedBox(
                             height: 12,
                           ),
@@ -92,14 +109,16 @@ class ProfilePage extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis),
                             maxLines: 2,
                           ),
-                          Text(
-                            '23',
-                            style: greyTextStyle.copyWith(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                overflow: TextOverflow.ellipsis),
-                            maxLines: 2,
-                          ),
+                          Obx(() {
+                            return Text(
+                              cUser.data.age.toString(),
+                              style: greyTextStyle.copyWith(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  overflow: TextOverflow.ellipsis),
+                              maxLines: 2,
+                            );
+                          }),
                           const SizedBox(
                             height: 12,
                           ),
@@ -111,14 +130,16 @@ class ProfilePage extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis),
                             maxLines: 2,
                           ),
-                          Text(
-                            '08665456767',
-                            style: greyTextStyle.copyWith(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                overflow: TextOverflow.ellipsis),
-                            maxLines: 2,
-                          ),
+                          Obx(() {
+                            return Text(
+                              cUser.data.phone ?? '',
+                              style: greyTextStyle.copyWith(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  overflow: TextOverflow.ellipsis),
+                              maxLines: 2,
+                            );
+                          }),
                         ],
                       ),
                     )
@@ -199,22 +220,51 @@ class ProfilePage extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    Text(
-                      'Lorem ipsum dolor sit amet, consectetur adipi scing elit. Tortor turpis sodales nulla velit. Nunc cum vitae, rhoncus leo id. Volutpat  Duis tinunt pretium luctus pulvinar pretium.',
-                      style: greyTextStyle.copyWith(
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                          overflow: TextOverflow.ellipsis),
-                      maxLines: 4,
-                    ),
+                    Obx(() {
+                      return Text(
+                        cUser.data.address ?? '',
+                        style: greyTextStyle.copyWith(
+                            fontSize: 12,
+                            fontWeight: FontWeight.normal,
+                            overflow: TextOverflow.ellipsis),
+                        maxLines: 4,
+                      );
+                    }),
                   ],
                 ),
               ),
-            const SizedBox(
+              const SizedBox(
                 height: 25,
               ),
-              ButtonCustom(label: 'Edit My profile', onTap: () => {}, marginHorizontal: 85),
-               const SizedBox(
+              ButtonCustom(
+                  label: 'Edit My profile',
+                  onTap: () =>
+                      {Navigator.pushNamed(context, AppRoute.editProfile)},
+                  marginHorizontal: 85),
+              const SizedBox(
+                height: 15,
+              ),
+              TextButton(
+                onPressed: () {},
+                style: TextButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8))),
+                child: Container(
+                  height: 25,
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 70, vertical: 10),
+                  child: Text(
+                    'Change Password',
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                        ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              const SizedBox(
                 height: 15,
               ),
             ],

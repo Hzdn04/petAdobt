@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:pet_adobt_app/config/session.dart';
+import 'package:pet_adobt_app/pages/checkout_page.dart';
 import 'package:pet_adobt_app/pages/history_page.dart';
 import 'package:pet_adobt_app/pages/profile_page.dart';
 import 'package:pet_adobt_app/pages/signin_page.dart';
@@ -10,7 +11,7 @@ import 'package:pet_adobt_app/pages/signin_page.dart';
 import 'config/app_color.dart';
 import 'config/app_route.dart';
 import 'model/user.dart';
-import 'pages/detail_page.dart';
+import 'pages/edit_profile_page.dart';
 import 'pages/home_page.dart';
 import 'pages/intro_page.dart';
 import 'pages/list_page.dart';
@@ -38,7 +39,16 @@ class MyApp extends StatelessWidget {
           secondary: AppColor.secondary,
         )
       ),
-
+      // home: FutureBuilder(
+      //   future: Session.getUser(),
+      //   builder: (context, AsyncSnapshot<User> snapshot) {
+      //     if (snapshot.data == null || snapshot.data!.id == null) {
+      //           return const IntroPage();
+      //         } else {
+      //           return HomePage();
+      //         }
+      //   },
+      // ),
       routes: {
         '/': (context) {
           return FutureBuilder(
@@ -56,9 +66,11 @@ class MyApp extends StatelessWidget {
         AppRoute.home: (context) => HomePage(),
         AppRoute.list: (context) => const ListPage(),
         AppRoute.history: (context) => const HistoryPage(),
-        AppRoute.profile: (context) => const ProfilePage(),
-        AppRoute.signin: (context) => SigninPage(),
-        AppRoute.detail: (context) => DetailPage()
+        AppRoute.profile: (context) => ProfilePage(),
+        AppRoute.signin: (context) => const SigninPage(),
+        // AppRoute.detail: (context) => DetailPage(),
+        AppRoute.checkout: (context) => COPage(),
+        AppRoute.editProfile: (context) => const EditProfilePage(),
       },
     );
   }

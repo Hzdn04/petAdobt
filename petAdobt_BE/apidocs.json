@@ -1,0 +1,634 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "PetAdobt API",
+    "description": "PetAdobt APIs List",
+    "version": "1.0.0"
+  },
+  "_servers": [
+    {
+      "url": "http://192.168.1.12:3001",
+      "description": "localhost"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Pet",
+      "description": "Pets Endpoint"
+    },
+    {
+      "name": "User",
+      "description": "Users Endpoint"
+    },
+    {
+      "name": "PetAdobt",
+      "description": "PetAdobt Endpoint"
+    }
+  ],
+  "paths": {
+    "/pets": {
+      "get": {
+        "tags": ["Pet"],
+        "summary": "Get Data Pets",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Succeed!"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/pets/info/{id}": {
+      "get": {
+        "tags": ["Pet"],
+        "summary": "Get Pet by ID",
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Pet ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Succeed!"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/pets/create": {
+      "post": {
+        "tags": ["Pet"],
+        "summary": "Post Data Pet",
+        "consumes": "multipart/form-data",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pet_type": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "race": {
+                    "type": "string"
+                  },
+                  "sex": {
+                    "type": "string"
+                  },
+                  "color": {
+                    "type": "string"
+                  },
+                  "weight": {
+                    "type": "integer"
+                  },
+                  "age": {
+                    "type": "integer"
+                  },
+                  "price": {
+                    "type": "integer"
+                  },
+                  "stock": {
+                    "type": "integer"
+                  },
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Succeed!"
+          },
+          "400": {
+            "description": "Error!"
+          }
+        }
+      }
+    },
+    "/pets/update/{id}": {
+      "put": {
+        "tags": ["Pet"],
+        "summary": "Update Pet",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Pet ID"
+          }
+        ],
+        "consumes": "multipart/form-data",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pet_type": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "race": {
+                    "type": "string"
+                  },
+                  "sex": {
+                    "type": "string"
+                  },
+                  "color": {
+                    "type": "string"
+                  },
+                  "weight": {
+                    "type": "integer"
+                  },
+                  "age": {
+                    "type": "integer"
+                  },
+                  "price": {
+                    "type": "integer"
+                  },
+                  "stock": {
+                    "type": "integer"
+                  },
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Succeed!"
+          },
+          "400": {
+            "description": "Error!"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/pets/delete/{id}": {
+      "delete": {
+        "tags": ["Pet"],
+        "summary": "Delete Pet",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Pet ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Succeed!"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Login User/Admin",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Succeed!"
+          },
+          "400": {
+            "description": "Error!"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/users/register": {
+      "post": {
+        "tags": ["User"],
+        "summary": "User/Admin Register",
+        "consumes": "multipart/form-data",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Succeed!"
+          },
+          "400": {
+            "description": "Error!"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get Data Users",
+        "responses": {
+          "200": {
+            "description": "Succeed!"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/account": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get Data Account User",
+        "responses": {
+          "201": {
+            "description": "Succeed!"
+          },
+          "400": {
+            "description": "Error!"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/users/update/{id}": {
+      "put": {
+        "tags": ["User"],
+        "summary": "Update User",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "User ID"
+          }
+        ],
+        "consumes": "multipart/form-data",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Succeed!"
+          },
+          "400": {
+            "description": "Error!"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/users/edit/{id}": {
+      "put": {
+        "tags": ["User"],
+        "summary": "Update User",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "User ID"
+          }
+        ],
+        "consumes": "multipart/form-data",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Succeed!"
+          },
+          "400": {
+            "description": "Error!"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/users/delete/{id}": {
+      "delete": {
+        "tags": ["User"],
+        "summary": "Delete User",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "User ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Succeed!"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/petadobts": {
+      "get": {
+        "tags": ["PetAdobt"],
+        "summary": "Get Data PetAdobts",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Succeed!"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/petadobts/user/{userId}": {
+      "get": {
+        "tags": ["PetAdobt"],
+        "summary": "Get Adobted Pet by User",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "User ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Succeed!"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/petadobts/create": {
+      "post": {
+        "tags": ["PetAdobt"],
+        "summary": "Create Transaction",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "petId": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Succeed!"
+          },
+          "400": {
+            "description": "Error!"
+          }
+        }
+      }
+    },
+    "/petadobts/updatePaymentStatus/{id}": {
+      "put": {
+        "tags": ["PetAdobt"],
+        "summary": "Update Payment Status",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "Transaction ID",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Transaction ID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Succeed!"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/petadobts/delete/{id}": {
+      "delete": {
+        "tags": ["PetAdobt"],
+        "summary": "Delete Transaction",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "Transaction ID",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Transaction ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Succeed!"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}

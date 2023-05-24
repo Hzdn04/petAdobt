@@ -1,11 +1,11 @@
 import 'package:d_info/d_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pet_adobt_app/pages/register_page.dart';
 import 'package:pet_adobt_app/source/source_user.dart';
 
 import '../config/app_asset.dart';
 import '../config/app_color.dart';
-import '../config/app_route.dart';
 import '../widget/button_custom.dart';
 import 'home_page.dart';
 
@@ -20,6 +20,14 @@ class _SigninPageState extends State<SigninPage> {
   final controllerEmail = TextEditingController();
   final controllerPassword = TextEditingController();
   final formKey = GlobalKey<FormState>();
+
+  // password visibilty
+  bool passwordVisible = false;
+  void togglePassword() {
+    setState(() {
+      passwordVisible = !passwordVisible;
+    });
+  }
 
   login() async {
     if (formKey.currentState!.validate()) {
@@ -102,8 +110,16 @@ class _SigninPageState extends State<SigninPage> {
                           controller: controllerPassword,
                           validator: (value) =>
                               value == '' ? "Jangan Kosong" : null,
-                          obscureText: true,
+                          obscureText: !passwordVisible,
                           decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                color: Colors.grey,
+                                splashRadius: 1,
+                                icon: Icon(passwordVisible
+                                    ? Icons.visibility_outlined
+                                    : Icons.visibility_off_outlined),
+                                onPressed: togglePassword,
+                              ),
                               isDense: true,
                               filled: true,
                               fillColor: Colors.white,
@@ -126,7 +142,11 @@ class _SigninPageState extends State<SigninPage> {
                         ),
                         SizedBox(
                           width: double.infinity,
-                          child: ButtonCustom(label: 'Login', onTap: () => login(), marginHorizontal: 80,),
+                          child: ButtonCustom(
+                            label: 'Login',
+                            onTap: () => login(),
+                            marginHorizontal: 80,
+                          ),
                           // child: ButtonCustom(
                           //   label: 'Login',
                           //   onTap: () =>
@@ -138,12 +158,14 @@ class _SigninPageState extends State<SigninPage> {
                           height: 30,
                         ),
                         GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Get.to(const RegisterPage());
+                            },
                             child: const Text(
                               'Create New Account',
                               style: TextStyle(
                                   color: Colors.grey,
-                                  fontSize: 16,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.w500),
                             ))
                       ]),

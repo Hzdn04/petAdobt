@@ -41,27 +41,27 @@ class UserController {
       const { username, email, password, name, age, address, phone, role } =
         req.body;
 
-      const image =
-        req.protocol + `://` + req.get("host") + "/assets/" + req.file.filename;
+      // const image =
+      //   req.protocol + `://` + req.get("host") + "/assets/" + req.file.filename;
 
       //   console.log(image);
       //   console.log(req.get("host"));
 
       let userRegister = await user.create({
-        username,
-        email,
-        password,
-        name,
-        age,
-        address,
-        phone,
-        image,
-        role,
+        username: username,
+        email: email,
+        password: password,
+        name: name,
+        age: age,
+        address: address,
+        phone: phone,
+        role: role,
+        // image: image,
       });
 
       res.status(200).json(userRegister);
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json({ message: "failed", error });
     }
   }
 
@@ -105,7 +105,11 @@ class UserController {
         req.body;
 
       const image =
-        req.protocol + `://` + req.get("host") + "/assets/" + req.file.filename;
+        req.protocol +
+        `://` +
+        "192.168.1.12:3001" +
+        "/assets/" +
+        req.file.filename;
 
       const hashPass = encrypt(password);
 
@@ -123,6 +127,35 @@ class UserController {
         },
         {
           where: { id },
+        }
+      );
+
+      //   console.log(updateUser);
+
+      updateUser[0] === 1
+        ? res.status(200).json({ message: "User has been updated!" })
+        : res.status(400).json({ message: "User not updated" });
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  }
+
+  static async edit(req, res) {
+    try {
+      const id = +req.params.id;
+      const { username, email, name, age, address, phone } = req.body;
+
+      const updateUser = await user.update(
+        {
+          username: username,
+          email: email,
+          name: name,
+          age: age,
+          address: address,
+          phone: phone,
+        },
+        {
+          where: { id: id },
         }
       );
 

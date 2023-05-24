@@ -203,20 +203,7 @@ const ListPetPage = () => {
       <div className="row">
         {filteredPets.length !== 0 ? (
           filteredPets.map((pet) => {
-            const {
-              id,
-              pet_type,
-              name,
-              description,
-              race,
-              sex,
-              color,
-              weight,
-              age,
-              price,
-              stock,
-              image,
-            } = pet;
+            const { id, pet_type, race, age, price, stock, image } = pet;
             return (
               <div className="card mx-2 my-2" style={styles.card} key={id}>
                 <img
@@ -455,6 +442,7 @@ const ListPetPage = () => {
                       </Button>
                     </Modal.Footer>
                   </Modal>
+                  
                 </div>
               </div>
             );
