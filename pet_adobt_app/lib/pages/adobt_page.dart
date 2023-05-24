@@ -377,7 +377,7 @@ class LoadingScreen extends StatelessWidget {
                             fit: BoxFit.cover,
                             image: AssetImage('assets/loading.gif'))),
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.all(14),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -73,29 +73,52 @@ const ListAdobtedPage = () => {
           <tr>
             <td>No</td>
             <td>Pet</td>
-            <td>adobted</td>
-            <td>adobted date</td>
-            <td>address</td>
-            <td>total</td>
+            <td>Adobter</td>
+            <td>Adobted Date</td>
+            <td>Total</td>
+            <td>Payment Status</td>
             <td>Action</td>
           </tr>
         </thead>
         <tbody>
+          {console.log(currentAdobteds)}
           {currentAdobteds.length !== 0 ? (
             currentAdobteds.map((adobted, index) => {
-              const { id, pet, user, adobt_date, total_price } = adobted;
+              const { id, pet, user, adobt_date, total_price, status } =
+                adobted;
               return (
                 <tr key={id}>
                   <td>{index + 1}.</td>
                   <td>{pet.race}</td>
                   <td>{user.name}</td>
                   <td>{adobt_date}</td>
-                  <td>{user.address}</td>
                   <td>{convertRp(total_price)}</td>
+                  {status === 0 ? (
+                    <td>
+                      <a href="#" class="btn btn-danger">
+                        Canceled
+                      </a>
+                    </td>
+                  ) : status === 1 ? (
+                    <td>
+                      <a href="#" class="btn btn-secondary">
+                        Pending
+                      </a>
+                    </td>
+                  ) : (
+                    <td>
+                      <a href="#" class="btn btn-primary">
+                        Done
+                      </a>
+                    </td>
+                  )}
                   <td>
-                    {/* <Link to={`/adobteds/edit/${id}`} className="btn btn-warning mx-1">
+                    <Link
+                      to={`/adobteds/edit/${id}`}
+                      className="btn btn-warning mx-1"
+                    >
                       Edit
-                    </Link> */}
+                    </Link>
 
                     <button
                       onClick={() => deleteHandler(+id)}

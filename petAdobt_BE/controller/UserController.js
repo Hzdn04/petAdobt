@@ -56,6 +56,7 @@ class UserController {
         address: address,
         phone: phone,
         role: role,
+        // image: image,
       });
 
       res.status(200).json(userRegister);
@@ -104,7 +105,11 @@ class UserController {
         req.body;
 
       const image =
-        req.protocol + `://` + req.get("host") + "/assets/" + req.file.filename;
+        req.protocol +
+        `://` +
+        "192.168.1.12:3001" +
+        "/assets/" +
+        req.file.filename;
 
       const hashPass = encrypt(password);
 

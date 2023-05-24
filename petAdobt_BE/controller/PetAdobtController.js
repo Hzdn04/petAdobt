@@ -4,7 +4,14 @@ class PetAdobtController {
   static async getPetAdobts(req, res) {
     try {
       let petAdobts = await petAdobt.findAll({
-        attributes: ["id", "petId", "userId", "adobt_date", "total_price"],
+        attributes: [
+          "id",
+          "petId",
+          "userId",
+          "adobt_date",
+          "total_price",
+          "status",
+        ],
         include: [pet, user],
       });
 
@@ -22,11 +29,11 @@ class PetAdobtController {
         attributes: ["id", "petId", "userId", "name", "adobt_date", "total_price", "status"],
         include: [pet, user],
         where: {
-          "userId": userId
-        }
+          userId: userId,
+        },
       });
 
-      res.status(200).json({data: petAdobts});
+      res.status(200).json({ data: petAdobts });
       //   res.render("petAdobts/index.ejs", { petAdobts });
     } catch (err) {
       res.json(err);
@@ -54,7 +61,7 @@ class PetAdobtController {
 
   static async create(req, res) {
     try {
-      const { petId, name, status } = req.body;
+      const { petId, name, } = req.body;
       const userId = req.userData.id;
       let thisPet = await pet.findByPk(petId);
       //   let tempPrice = await petAdobt.findAll({
@@ -66,6 +73,7 @@ class PetAdobtController {
       let updateStock = await thisPet.decrement("stock");
 
       let total_price = thisPet.price;
+      let status = 1;
       const adobt_date = new Date();
 
       let result = await petAdobt.create({
@@ -129,6 +137,34 @@ class PetAdobtController {
           });
     } catch (err) {
       res.status(500).json(err);
+    }
+  }
+
+  static async updatePaymentStatus(req, res) {
+    try {
+      const id = Number(req.params.id);
+      const { status } = req.body;
+
+      let result = await petAdobt.update(
+        {
+          status,
+        },
+        {
+          where: { id },
+        }
+      );
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  }
+
+  static async increasePetById(req, res) {
+    try {
+      const { petId } = req.body;
+      let thisPet = await pet.findByPk(petId);
+      let updateStock = await thisPet.increment("stock");
+    } catch (error) {
+      res.status(500).json(error);
     }
   }
 }
