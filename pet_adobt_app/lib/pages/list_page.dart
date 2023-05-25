@@ -31,7 +31,9 @@ class _ListPageState extends State<ListPage> {
 
   @override
   void initState() {
-    refresh();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      refresh();
+    });
     super.initState();
   }
 
@@ -140,7 +142,7 @@ class _ListPageState extends State<ListPage> {
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide.none),
-            hintText: 'Search',
+            hintText: 'Search by Breed',
             hintStyle: greyTextStyle.copyWith(
                 fontSize: 16, fontWeight: FontWeight.w400),
             contentPadding:

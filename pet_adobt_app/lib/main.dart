@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -18,7 +17,6 @@ import 'pages/intro_page.dart';
 import 'pages/list_page.dart';
 
 void main() {
-  Stripe.publishableKey = 'pk_test_51N8EslDYqJ5Sohsv74kHM4jV6A154Vdp4QZ6NcwCICorDA8FjFlqhHBGlDcTDjAhBRMfQGjnsmDQ10YwBXiTtLfA00SWlxBEqp';
   WidgetsFlutterBinding.ensureInitialized();
   initializeDateFormatting('id_ID').then((value) => {
     runApp(const MyApp())

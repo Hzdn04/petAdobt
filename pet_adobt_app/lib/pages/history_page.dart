@@ -60,7 +60,9 @@ class _HistoryPageState extends State<HistoryPage> {
 
   @override
   void initState() {
-    refresh();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      refresh();
+    });
     super.initState();
   }
 

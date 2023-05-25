@@ -18,7 +18,6 @@ class COPage extends StatelessWidget {
 
   final cUser = Get.put(CUser());
 
-
   @override
   Widget build(BuildContext context) {
     final cHome = Get.put(CHome());
@@ -28,26 +27,23 @@ class COPage extends StatelessWidget {
 
     // Manual Input
     int tail = 1;
-    int totalPayment = pet.price! * tail ;
+    int totalPayment = pet.price! * tail;
     int status = 1;
 
     addAdobted() async {
       bool? success = await SourceAdobted.add(
-        token,
-        pet.id.toString(),
-        cUser.data.id!.toString(),
-        cUser.data.name!,
-        totalPayment.toString(),
-        status.toString()
-      );
+          token,
+          pet.id.toString(),
+          cUser.data.id!.toString(),
+          cUser.data.name!,
+          totalPayment.toString(),
+          status.toString());
       if (success == true) {
         DInfo.dialogSuccess('Adobted ${pet.race} Successfully');
-        DInfo.closeDialog(
-          actionAfterClose: () {
-          cHome.indexPage = 0;
-          Get.offAll(() => HomePage());
-        }
-        );
+        DInfo.closeDialog(actionAfterClose: () {
+          cHome.indexPage = 2;
+          Get.offAll(HomePage());
+        });
       } else {
         DInfo.dialogError('Adobted ${pet.race} Failed!');
         DInfo.closeDialog();
@@ -71,7 +67,8 @@ class COPage extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          adobtDetail(context, pet.petType!, tail, pet.price!.toDouble(), pet.race!, totalPayment.toDouble()),
+          adobtDetail(context, pet.petType!, tail, pet.price!.toDouble(),
+              pet.race!, totalPayment.toDouble()),
           const SizedBox(
             height: 16,
           ),
@@ -90,9 +87,9 @@ class COPage extends StatelessWidget {
           height: 90,
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
           child: ButtonCustom(
-              label: 'Confirmation', onTap: () => addAdobted()
-              
-              ,marginHorizontal: 25)),
+              label: 'Confirmation',
+              onTap: () => addAdobted(),
+              marginHorizontal: 25)),
     );
   }
 
@@ -162,8 +159,8 @@ class COPage extends StatelessWidget {
     );
   }
 
-  Container adobtDetail(BuildContext context, String type, int tail, double price,
-      String race, double totalPayment) {
+  Container adobtDetail(BuildContext context, String type, int tail,
+      double price, String race, double totalPayment) {
     return Container(
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(16)),
@@ -219,10 +216,8 @@ class COPage extends StatelessWidget {
               Text('Price', style: Theme.of(context).textTheme.titleMedium),
               Text(
                 NumberFormat.currency(
-                                      locale: 'id',
-                                      symbol: 'Rp ',
-                                      decimalDigits: 0)
-                                  .format(price),
+                        locale: 'id', symbol: 'Rp ', decimalDigits: 0)
+                    .format(price),
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!
@@ -236,13 +231,15 @@ class COPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Total Payment', style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold)),
+              Text('Total Payment',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(fontWeight: FontWeight.bold)),
               Text(
                 NumberFormat.currency(
-                                      locale: 'id',
-                                      symbol: 'Rp ',
-                                      decimalDigits: 0)
-                                  .format(totalPayment),
+                        locale: 'id', symbol: 'Rp ', decimalDigits: 0)
+                    .format(totalPayment),
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!

@@ -1,87 +1,87 @@
-import 'dart:convert';
-
 import 'package:d_info/d_info.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:pet_adobt_app/config/app_format.dart';
 import 'package:pet_adobt_app/model/adobted.dart';
-import 'package:pet_adobt_app/pages/history_page.dart';
 import 'package:pet_adobt_app/source/service_payment.dart';
 import 'package:pet_adobt_app/source/source_adobted.dart';
 import 'package:pet_adobt_app/widget/button_custom.dart';
-import 'package:http/http.dart' as http;
 
 import '../config/app_asset.dart';
 import '../config/app_color.dart';
 import '../config/session.dart';
 import '../controller/c_user.dart';
 
-class ConfirmPage extends StatelessWidget {
+class ConfirmPage extends StatefulWidget {
   ConfirmPage({super.key, required this.adobted});
 
   final Adobted adobted;
 
+  @override
+  State<ConfirmPage> createState() => _ConfirmPageState();
+}
+
+class _ConfirmPageState extends State<ConfirmPage> {
   final cUser = Get.put(CUser());
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic>? payment;
+    // Map<String, dynamic>? payment;
 
-    createPaymentIntent() async {
-      try {
-        Map<String, dynamic> body = {
-          'amount': '1000',
-          'currency': 'USD'
-        };
-        http.Response response = await http.post(
-            Uri.parse(
-                'https://api.stripe.com/v1/payment_intents'), // Ganti dengan endpoint API Anda untuk membuat payment intent
-            body: body,
-            headers: {
-              'Authorization':
-                  'Bearer sk_test_51N8EslDYqJ5SohsvZgIn34nC91JZjf0n8OyuM5v7lj7Y5XIWYrjHggrLZnlwKxoukEoDlFY9r9IjiDrQ4U5DVW2D00sUIeiB6f',
-              'Content-Type': 'application/x-www-form-urlencoded'
-            });
+    // createPaymentIntent() async {
+    //   try {
+    //     Map<String, dynamic> body = {
+    //       'amount': '1000',
+    //       'currency': 'USD'
+    //     };
+    //     http.Response response = await http.post(
+    //         Uri.parse(
+    //             'https://api.stripe.com/v1/payment-intents'), // Ganti dengan endpoint API Anda untuk membuat payment intent
+    //         body: body,
+    //         headers: {
+    //           'Authorization':
+    //               'Bearer sk_test_51N8EslDYqJ5SohsvZgIn34nC91JZjf0n8OyuM5v7lj7Y5XIWYrjHggrLZnlwKxoukEoDlFY9r9IjiDrQ4U5DVW2D00sUIeiB6f',
+    //           'Content-Type': 'application/x-www-form-urlencoded'
+    //         });
 
-        return json.decode(response.body);
-        // Parse respon dari server Anda
-        // Dapatkan client secret dari respon dan gunakan untuk mengonfirmasi pembayaran di tahap berikutnya
-      } catch (e) {
-        throw Exception(e.toString());
-        // Tangani kesalahan yang terjadi saat membuat payment intent
-      }
-    }
+    //     return json.decode(response.body);
+    //     // Parse respon dari server Anda
+    //     // Dapatkan client secret dari respon dan gunakan untuk mengonfirmasi pembayaran di tahap berikutnya
+    //   } catch (e) {
+    //     throw Exception(e.toString());
+    //     // Tangani kesalahan yang terjadi saat membuat payment intent
+    //   }
+    // }
 
-    void displayPaymentSheet() async {
-      try {
-        await Stripe.instance.presentPaymentSheet();
-        print('Done');
-      } catch (e) {
-        print('Failed');
-      }
-    }
+    // void displayPaymentSheet() async {
+    //   try {
+    //     await Stripe.instance.presentPaymentSheet();
+    //     print('Done');
+    //   } catch (e) {
+    //     print('Failed');
+    //   }
+    // }
 
-    void makePayment() async {
-      try {
-        payment = await createPaymentIntent();
+    // void makePayment() async {
+    //   try {
+    //     payment = await createPaymentIntent();
 
-        var gpay = const PaymentSheetGooglePay(
-            merchantCountryCode: "US", currencyCode: "US", testEnv: true);
-        await Stripe.instance.initPaymentSheet(
-            paymentSheetParameters: SetupPaymentSheetParameters(
-                paymentIntentClientSecret: payment!["client_secret"],
-                style: ThemeMode.dark,
-                merchantDisplayName: "petAdobt",
-                googlePay: gpay));
+    //     var gpay = const PaymentSheetGooglePay(
+    //         merchantCountryCode: "US", currencyCode: "US", testEnv: true);
+    //     await Stripe.instance.initPaymentSheet(
+    //         paymentSheetParameters: SetupPaymentSheetParameters(
+    //             paymentIntentClientSecret: payment!["client_secret"],
+    //             style: ThemeMode.light,
+    //             merchantDisplayName: "petAdobt",
+    //             googlePay: gpay));
 
-        displayPaymentSheet();
-      } catch (e) {
-        print('Error creating payment method: $e');
-        // Tangani kesalahan yang terjadi saat membuat payment method
-      }
-    }
+    //     displayPaymentSheet();
+    //   } catch (e) {
+    //     print('Error creating payment method: $e');
+    //     // Tangani kesalahan yang terjadi saat membuat payment method
+    //   }
+    // }
 
     Future<String?> token = Session.getToken();
 
@@ -119,8 +119,8 @@ class ConfirmPage extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          adobtDetail(context, adobted.name!, adobted.status!.toInt(),
-              adobted.totalPrice!.toDouble(), adobted.adobtDate!),
+          adobtDetail(context, widget.adobted.name!, widget.adobted.status!.toInt(),
+              widget.adobted.totalPrice!.toDouble(), widget.adobted.adobtDate!),
           const SizedBox(
             height: 16,
           ),
@@ -138,11 +138,9 @@ class ConfirmPage extends StatelessWidget {
           ),
           height: 90,
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              TextButton(
-                onPressed: () => cancelAdobt(adobted.id!),
+          child: 
+          TextButton(
+                onPressed: () => cancelAdobt(widget.adobted.id!),
                 style: TextButton.styleFrom(
                     backgroundColor: Colors.red,
                     shape: RoundedRectangleBorder(
@@ -150,7 +148,7 @@ class ConfirmPage extends StatelessWidget {
                 child: Container(
                   height: 25,
                   margin:
-                      const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                      const EdgeInsets.symmetric(horizontal: 25),
                   child: Text(
                     'Cancel',
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
@@ -161,15 +159,67 @@ class ConfirmPage extends StatelessWidget {
                   ),
                 ),
               ),
-              ButtonCustom(
-                  label: 'Payment',
-                  onTap: () {
-                    makePayment();
-                  } ,
-                  marginHorizontal: 40),
-            ],
-          )),
-    );
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //   children: [
+          //     TextButton(
+          //       onPressed: () => cancelAdobt(widget.adobted.id!),
+          //       style: TextButton.styleFrom(
+          //           backgroundColor: Colors.red,
+          //           shape: RoundedRectangleBorder(
+          //               borderRadius: BorderRadius.circular(8))),
+          //       child: Container(
+          //         height: 25,
+          //         margin:
+          //             const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+          //         child: Text(
+          //           'Cancel',
+          //           style: Theme.of(context).textTheme.titleMedium!.copyWith(
+          //                 color: Colors.white,
+          //                 fontWeight: FontWeight.w700,
+          //               ),
+          //           textAlign: TextAlign.center,
+          //         ),
+          //       ),
+          //     ),
+          //     ButtonCustom(
+          //         label: 'Payment',
+          //         onTap: () async {
+          //           // makePayment();
+                    
+          //           var items = [
+          //             {
+          //               'totalPrice': 2,
+          //               'petId': "adobted.petId",
+          //               'qty': 1
+          //             },
+          //             {
+          //               'totalPrice': 2,
+          //               'petId': "adobted.petId",
+          //               'qty': 1
+          //             }
+          //           ];
+
+          //           await StripeService.stripePaymentCheckout(
+          //             items,
+          //             400,
+          //             context,
+          //             mounted,
+          //             onSuccess: () {
+          //               print('SUCCESS');
+          //             },
+          //             onCencel: () {
+          //               print('Cancel');
+          //             },
+          //             onError: (e) {
+          //               print('Error: ' + e.toString());
+          //             },
+          //           );
+          //         },
+          //         marginHorizontal: 40),
+          //   ],
+          // )),
+    ));
   }
 
   Container paymentMethod(BuildContext context) {
