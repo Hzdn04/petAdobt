@@ -62,8 +62,7 @@ const updatePaymentStatus = async (id, status) => {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
-
-    Swal.fire(`Payment status changed to "${status}"`, "Success");
+    Swal.fire("Finished!", `Payment status is already changed`, "Success");
   } catch (error) {
     console.log(error);
   }
