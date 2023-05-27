@@ -13,7 +13,12 @@ const CreatePetPage = () => {
 
   const [form, setForm] = useState({
     pet_type: "",
+    name: "",
+    description: "",
     race: "",
+    sex: "",
+    color: "",
+    weight: 0,
     age: 0,
     price: 0,
     stock: 0,
@@ -76,12 +81,67 @@ const CreatePetPage = () => {
             </div>
 
             <div className="mb-3">
+              <label>Name</label>
+              <input
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                type="text"
+                className="form-control"
+                placeholder="Jack"
+              />
+            </div>
+
+            <div className="mb-3">
+              <label>Description</label>
+              <textarea
+                onChange={(e) =>
+                  setForm({ ...form, description: e.target.value })
+                }
+                class="form-control"
+                name="description"
+                id="description"
+                rows="3"
+              ></textarea>
+            </div>
+
+            <div className="mb-3">
               <label>Race</label>
               <input
                 onChange={(e) => setForm({ ...form, race: e.target.value })}
                 type="text"
                 className="form-control"
                 placeholder="Persia"
+              />
+            </div>
+
+            <div className="mb-3">
+              <label>Sex</label>
+              <select
+                onChange={(e) => setForm({ ...form, sex: e.target.value })}
+                class="form-select"
+                name="sex"
+                for="sex"
+                id="sex"
+              >
+                <option selected>Sex</option>
+                <option name="sex" value="Male">
+                  Male
+                </option>
+                <option name="sex" value="Female">
+                  Female
+                </option>
+                <option name="sex" value="Unknown">
+                  Unknown
+                </option>
+              </select>
+            </div>
+
+            <div className="mb-3">
+              <label>Color</label>
+              <input
+                onChange={(e) => setForm({ ...form, color: e.target.value })}
+                type="text"
+                className="form-control"
+                placeholder="White"
               />
             </div>
 
@@ -94,6 +154,17 @@ const CreatePetPage = () => {
                 placeholder="2"
               />
             </div>
+
+            <div className="mb-3">
+              <label>Weight (kg)</label>
+              <input
+                onChange={(e) => setForm({ ...form, age: e.target.value })}
+                type="number"
+                className="form-control"
+                placeholder="in kg"
+              />
+            </div>
+
             <div className="mb-3">
               <label>Price</label>
               <input
@@ -103,6 +174,7 @@ const CreatePetPage = () => {
                 placeholder="200000"
               />
             </div>
+
             <div className="mb-3">
               <label>Stock</label>
               <input
@@ -112,8 +184,9 @@ const CreatePetPage = () => {
                 placeholder="2"
               />
             </div>
+
             <div className="mb-3">
-              <label>Image Link</label>
+              <label>Image</label>
               <input
                 onChange={(e) => setForm({ ...form, image: e.target.files[0] })}
                 type="file"

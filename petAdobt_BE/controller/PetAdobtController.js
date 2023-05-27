@@ -36,7 +36,7 @@ class PetAdobtController {
 
   static async create(req, res) {
     try {
-      const { petId, address } = req.body;
+      const { petId } = req.body;
       const userId = req.userData.id;
       let thisPet = await pet.findByPk(petId);
       //   let tempPrice = await petAdobt.findAll({
@@ -49,13 +49,14 @@ class PetAdobtController {
 
       let total_price = thisPet.price;
       const adobt_date = new Date();
+      let status = 1;
 
       let result = await petAdobt.create({
         petId: +petId,
         userId: +userId,
         adobt_date,
         total_price,
-        address,
+        status,
       });
 
       res.status(201).json(result);

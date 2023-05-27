@@ -5,7 +5,12 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 const EditPetPage = () => {
   const [form, setForm] = useState({
     pet_type: "",
+    name: "",
+    description: "",
     race: "",
+    sex: "",
+    color: "",
+    weight: 0,
     age: 0,
     price: 0,
     stock: 0,

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Button, Modal } from "react-bootstrap";
 import { deletePet, getPets } from "../../fetchs/petFetch";
 import Loading from "../../helpers/Loading";
 import { Link, useNavigate } from "react-router-dom";
@@ -16,9 +17,19 @@ const ListPetPage = () => {
 
   const [user, setUser] = useState([]);
 
+  const [show, setShow] = useState(false);
+
+  const handleShow = (id) => {
+    const petById = pets.filter((pet) => pet.id === id);
+    setCurrentPet(petById);
+    setShow(true);
+  };
+  const handleClose = () => setShow(false);
+
   // Filter Category
   const [filteredPets, setFilteredPets] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [currentPet, setCurrentPet] = useState([]);
   // const [selectedType, setSelectedType] = useState("");
 
   const handleCategoryChange = (event) => {
@@ -264,6 +275,81 @@ const ListPetPage = () => {
                     </Link>
                   )}
 
+                  {token && user.role === 1 && (
+                    // <Link
+                    //   to={`/pets/update/${id}`}
+                    //   className="btn btn-primary mx-1"
+                    //   style={styles.float}
+                    //   data-bs-toggle="modal"
+                    //   data-bs-target={`#detailModal-${pets.id}`}
+                    // >
+                    //   DETAIL
+                    // </Link>
+                    <Button variant="primary" onClick={handleShow}>
+                      DETAIL
+                    </Button>
+                  )}
+
+                  <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Modal heading</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      Woohoo, you're reading this text in a modal!
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button variant="secondary" onClick={handleClose}>
+                        Close
+                      </Button>
+                      <Button variant="primary" onClick={handleClose}>
+                        Save Changes
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
+
+                  {/* <div
+                    className="modal fade"
+                    id={`detailModal-${pets.id}`}
+                    tabIndex="-1"
+                    aria-labelledby={`detailModalLabel-${id}`}
+                    aria-hidden="false"
+                  >
+                    <div className="modal-dialog">
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h5
+                            className="modal-title"
+                            id={`detailModalLabel-${id}`}
+                          >
+                            Detail Pet
+                          </h5>
+                          <button
+                            type="button"
+                            className="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div className="modal-body">
+                          <h5>{pet_type}</h5>
+                          <p>Race: {race}</p>
+                          <p>Age: {age} Month</p>
+                          <p>Price: {convertRp(price)}</p>
+                        </div>
+                        <div className="modal-footer">
+                          <button
+                            type="button"
+                            className="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                          >
+                            Close
+                          </button>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div> */}
+
                   <div
                     className="modal fade"
                     id="adobtModal{id}"
@@ -274,7 +360,10 @@ const ListPetPage = () => {
                     <div className="modal-dialog">
                       <div className="modal-content">
                         <div className="modal-header">
-                          <h1 className="modal-title fs-5" id="exampleModalLabel">
+                          <h1
+                            className="modal-title fs-5"
+                            id="exampleModalLabel"
+                          >
                             Confirmation
                           </h1>
                           <button
