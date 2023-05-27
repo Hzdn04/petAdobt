@@ -4,9 +4,10 @@ class PetController {
   static async getPets(req, res) {
     try {
       let pets = await pet.findAll({ order: [["race", "ASC"]] });
-
+      let status = true;
       //   const rpConvert = require("rupiah-format");
-      res.status(200).json(pets);
+      res.status(200).json({ status, data: pets });
+      // res.status(200).json(pets);
       //   res.render("pets/index.ejs", { pets, adobts, rpConvert });
     } catch (err) {
       res.status(500).json(err);
@@ -47,15 +48,30 @@ class PetController {
 
   static async create(req, res) {
     try {
-      const { pet_type, race, age, price, stock } = req.body;
-      const image =
-        req.protocol + `://` + req.get("host") + "/assets/" + req.file.filename;
+      const {
+        pet_type,
+        name,
+        description,
+        race,
+        sex,
+        color,
+        weight,
+        age,
+        price,
+        stock,
+      } = req.body;
+      const image = "http://192.168.1.12:3001" + "/assets/" + req.file.filename;
       console.log(req.file.path);
 
       //     console.log(req.userData);
       let resPets = await pet.create({
         pet_type,
+        name,
+        description,
         race,
+        sex,
+        color,
+        weight,
         age,
         price,
         stock,
@@ -115,15 +131,30 @@ class PetController {
   static async update(req, res) {
     try {
       const id = Number(req.params.id);
-      const { pet_type, race, age, price, stock } = req.body;
+      const {
+        pet_type,
+        name,
+        description,
+        race,
+        sex,
+        color,
+        weight,
+        age,
+        price,
+        stock,
+      } = req.body;
 
-      const image =
-        req.protocol + `://` + req.get("host") + "/assets/" + req.file.filename;
+      const image = "http://192.168.1.12:3001" + "/assets/" + req.file.filename;
 
       let result = await pet.update(
         {
           pet_type,
+          name,
+          description,
           race,
+          sex,
+          color,
+          weight,
           age,
           price,
           stock,

@@ -1,16 +1,21 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:pet_adobt_app/pages/signin_page.dart';
 
 import '../config/app_asset.dart';
 import '../config/app_color.dart';
 import '../config/app_font.dart';
-import '../config/app_format.dart';
 import '../config/app_route.dart';
+import '../controller/c_user.dart';
+import '../model/pet.dart';
 import '../widget/button_custom.dart';
 
 class DetailPage extends StatelessWidget {
-  DetailPage({super.key});
+  DetailPage({super.key, required this.pet});
+
+  final Pet pet;
 
   final List facilities = [
     {
@@ -22,7 +27,7 @@ class DetailPage extends StatelessWidget {
       'label': 'Color',
     },
     {
-      'title': 'Persian',    
+      'title': 'Persian',
       'label': 'Bread',
     },
     {
@@ -33,36 +38,136 @@ class DetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Hotel hotel = ModalRoute.of(context)!.settings.arguments as Hotel;
-    // BookingSource.checkIsBooked(cUser.data.id!, hotel.id).then((bookingValue) {
-    //   bookedData = bookingValue ?? initBooking;
-    // });
+  final cUser = Get.put(CUser());
+    
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
           foregroundColor: Colors.black,
-          title: const Text(
-            'Pet Detail',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          title: Text(
+            '${pet.petType} Detail',
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           centerTitle: true,
         ),
-        // bottomNavigationBar: bookingNow(hotel, context),
-        // bottomNavigationBar: Obx(() {
-        //   if (bookedData.id == '') return bookingNow(hotel, context);
-        //   return viewReceipt(context);
-        // }),
+        
         backgroundColor: AppColor.bgScaffold,
         body: SingleChildScrollView(
           child: Stack(
             children: [
-              backgroundImage(),
-              content(),
+              backgroundImage(context),
+              Column(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.only(top: 380),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 25,
+                    ),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(32),
+                          topRight: Radius.circular(32)),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              pet.race ?? 'Pet',
+                              style: blackTextStyle.copyWith(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                            InkWell(
+                              onTap: () {},
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: 48,
+                                height: 48,
+                                decoration: BoxDecoration(
+                                    color: AppColor.primary,
+                                    borderRadius: BorderRadius.circular(40)),
+                                child: const Icon(
+                                  Icons.pets_outlined,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              pet.petType!,
+                              style: blackTextStyle.copyWith(
+                                  fontSize: 18, fontWeight: FontWeight.w600),
+                            ),
+                            Text(
+                              NumberFormat.currency(
+                                      locale: 'id',
+                                      symbol: 'Rp ',
+                                      decimalDigits: 0)
+                                  .format(pet.price),
+                              style: blackTextStyle.copyWith(
+                                  fontSize: 15, fontWeight: FontWeight.normal),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        gridFacilities(),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'Description',
+                          style: blackTextStyle.copyWith(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 6,
+                        ),
+                        Text(
+                          'Berada di jalur jalan provinsi yang menghubungkan Denpasar Singaraja serta letaknya yang dekat dengan Kebun Raya Eka Karya menjadikan tempat Bali.',
+                          style: blackTextStyle.copyWith(
+                            height: 2,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
-        bottomNavigationBar: getAdobt(context));
+        bottomNavigationBar: 
+        // ignore: unnecessary_null_comparison
+        cUser.data.id != null ?
+          pet.stock! > 0 ? getAdobt(context) : notAdobt(context)
+        :
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: ButtonCustom(label: 'Login', onTap: () {
+              Get.to(const SigninPage());
+            }, marginHorizontal: 80),
+          )
+        );
   }
 
   Container getAdobt(BuildContext context) {
@@ -71,124 +176,56 @@ class DetailPage extends StatelessWidget {
         color: Colors.white,
         border: Border(top: BorderSide(color: Colors.grey[100]!, width: 1.5)),
       ),
-      height: 80,
+      height: 90,
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-      child: ButtonCustom(
-        label: 'BOOKING NOW',
+      child: 
+      ButtonCustom(
+        label: 'ADOBT NOW',
         onTap: () {
-          Navigator.pushNamed(context, AppRoute.checkout);
+          Navigator.pushNamed(context, AppRoute.checkout, arguments: pet);
         },
         marginHorizontal: 25,
       ),
     );
   }
 
-  Widget backgroundImage() {
+  Container notAdobt(BuildContext context) {
     return Container(
-      width: double.infinity,
-      height: 450,
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          fit: BoxFit.cover,
-          image: AssetImage('assets/cat2.jpg'),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border(top: BorderSide(color: Colors.grey[100]!, width: 1.5)),
+      ),
+      height: 80,
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+      child: Material(
+        color: Colors.grey[300],
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          padding:
+              const EdgeInsets.symmetric(horizontal: 30, vertical: 16),
+          child: const Text(
+            'Out of Stock',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.w900),
+          ),
         ),
       ),
     );
   }
 
-  Widget content() {
-    return Column(
-      children: [
-        Container(
-          width: double.infinity,
-          margin: EdgeInsets.only(top: 380),
-          padding: EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 25,
-          ),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(32), topRight: Radius.circular(32)),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Jack',
-                    style: blackTextStyle.copyWith(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                          color: AppColor.primary,
-                          borderRadius: BorderRadius.circular(40)),
-                      child: const Icon(
-                        Icons.heart_broken,
-                        color: Colors.white,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '📍 Malang',
-                    style: blackTextStyle.copyWith(
-                        fontSize: 15, fontWeight: FontWeight.normal),
-                  ),
-                  Text(
-                    NumberFormat.currency(
-                            locale: 'id', symbol: 'Rp ', decimalDigits: 0)
-                        .format(2000000),
-                    style: blackTextStyle.copyWith(
-                        fontSize: 15, fontWeight: FontWeight.normal),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              gridFacilities(),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Description',
-                style: blackTextStyle.copyWith(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(
-                height: 6,
-              ),
-              Text(
-                'Berada di jalur jalan provinsi yang menghubungkan Denpasar Singaraja serta letaknya yang dekat dengan Kebun Raya Eka Karya menjadikan tempat Bali.',
-                style: blackTextStyle.copyWith(
-                  height: 2,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-            ],
-          ),
+  Widget backgroundImage(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 450,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: NetworkImage(pet.image ?? AppAsset.imageNet),
         ),
-      ],
+      ),
     );
   }
 
@@ -225,6 +262,4 @@ class DetailPage extends StatelessWidget {
           crossAxisCount: 4, crossAxisSpacing: 20, mainAxisSpacing: 25),
     );
   }
-
-
 }

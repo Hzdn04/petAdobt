@@ -65,7 +65,7 @@ const CreatePetPage = () => {
                 <option name="pet_type" value="Dog">
                   Dog
                 </option>
-                <option name="pet_type" value="Turt">
+                <option name="pet_type" value="Turtle">
                   Turtle
                 </option>
                 <option name="pet_type" value="Hams">
@@ -146,22 +146,22 @@ const CreatePetPage = () => {
             </div>
 
             <div className="mb-3">
+              <label>Weight (kg)</label>
+              <input
+                onChange={(e) => setForm({ ...form, weight: e.target.value })}
+                type="number"
+                className="form-control"
+                placeholder="in kg"
+              />
+            </div>
+
+            <div className="mb-3">
               <label>Age</label>
               <input
                 onChange={(e) => setForm({ ...form, age: e.target.value })}
                 type="number"
                 className="form-control"
                 placeholder="2"
-              />
-            </div>
-
-            <div className="mb-3">
-              <label>Weight (kg)</label>
-              <input
-                onChange={(e) => setForm({ ...form, age: e.target.value })}
-                type="number"
-                className="form-control"
-                placeholder="in kg"
               />
             </div>
 

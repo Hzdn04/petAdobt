@@ -6,6 +6,9 @@ module.exports = {
     return queryInterface.bulkInsert('pets', [{
       pet_type: 'Cat',
       race: 'Persia',
+      sex: 'male',
+      color: 'black',
+      weight: 2,
       age: 2,
       price: 230000,
       stock: 10,

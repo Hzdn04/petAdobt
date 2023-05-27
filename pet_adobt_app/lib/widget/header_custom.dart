@@ -47,6 +47,7 @@ class HeaderPage extends StatelessWidget {
                   )
                 ]).then((value) {
               Session.clearUser();
+              Session.clearToken();
               Navigator.pushReplacementNamed(context, AppRoute.signin);
             });
           },

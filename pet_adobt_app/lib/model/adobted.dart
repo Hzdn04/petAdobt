@@ -1,19 +1,21 @@
 class Adobted {
   Adobted({
-    required this.id,
-    required this.petId,
-    required this.userId,
-    required this.adobtDate,
-    required this.totalPrice,
-    required this.isDone,
+    this.id,
+    this.petId,
+    this.userId,
+    this.adobtDate,
+    this.totalPrice,
+    this.address,
+    this.user,
   });
 
-  String? id;
-  String? petId;
-  String? userId;
+  int? id;
+  int? petId;
+  int? userId;
   String? adobtDate;
   int? totalPrice;
-  bool? isDone;
+  String? address;
+  List<dynamic>? user;
 
   factory Adobted.fromJson(Map<String, dynamic> json) => Adobted(
         id: json["id"],
@@ -21,23 +23,20 @@ class Adobted {
         userId: json["userId"],
         adobtDate: json["adobt_date"],
         totalPrice: json["total_price"],
-        isDone: json["is_done"],
+        address: json["address"],
+        // user: List<dynamic>.from(json["user"]),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "id_hotel": petId,
+        "petId": petId,
         "userId": userId,
         "adobt_date": adobtDate,
         "total_price": totalPrice,
-        "is_done": isDone,
+        "address": address,
+        "user": user,
       };
 }
 
-Adobted get initAdobted => Adobted(
-    id: '',
-    petId: '',
-    userId: '',
-    adobtDate: '',
-    totalPrice: 0,
-    isDone: false);
+// Adobted get initAdobted =>
+//     Adobted(id: "", petId: 0, userId: 0, adobtDate: '', totalPrice: 0);

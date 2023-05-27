@@ -4,11 +4,35 @@ class PetAdobtController {
   static async getPetAdobts(req, res) {
     try {
       let petAdobts = await petAdobt.findAll({
-        attributes: ["id", "petId", "userId", "adobt_date", "total_price"],
+        attributes: [
+          "id",
+          "petId",
+          "userId",
+          "adobt_date",
+          "total_price",
+          "status",
+        ],
         include: [pet, user],
       });
 
       res.status(200).json(petAdobts);
+      //   res.render("petAdobts/index.ejs", { petAdobts });
+    } catch (err) {
+      res.json(err);
+    }
+  }
+
+  static async getPetAdobtsByUser(req, res) {
+    try {
+      const userId = req.params.userId;
+      let petAdobts = await petAdobt.findAll({
+        include: [pet, user],
+        where: {
+          userId: userId,
+        },
+      });
+
+      res.status(200).json({ data: petAdobts });
       //   res.render("petAdobts/index.ejs", { petAdobts });
     } catch (err) {
       res.json(err);
@@ -48,8 +72,8 @@ class PetAdobtController {
       let updateStock = await thisPet.decrement("stock");
 
       let total_price = thisPet.price;
-      const adobt_date = new Date();
       let status = 1;
+      const adobt_date = new Date();
 
       let result = await petAdobt.create({
         petId: +petId,
@@ -77,14 +101,51 @@ class PetAdobtController {
 
       deleteData === 1
         ? //   res.redirect("/petAdobts")
-          res.status(200).json({ message: `Data has been deleted` })
+          res.status(200).json({ message: true })
         : res.status(400).json({
-            message: `Data not deleted!`,
+            message: false,
           });
     } catch (err) {
       res.status(500).json(err);
     }
   }
+
+  static async updatePaymentStatus(req, res) {
+    try {
+      const id = Number(req.params.id);
+      const { status } = req.body;
+
+      let result = await petAdobt.update(
+        {
+          status: +status,
+        },
+        {
+          where: { id },
+        }
+      );
+
+      result[0] === 1
+        ? res.status(200).json({
+            message: `Id ${id} has been updated`,
+          })
+        : //   res.redirect("/pets")
+          res.status(400).json({
+            message: `Id ${id} not updated`,
+          });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+
+  //   static async increasePetById(req, res) {
+  //     try {
+  //       const { petId } = req.body;
+  //       let thisPet = await pet.findByPk(petId);
+  //       let updateStock = await thisPet.increment("stock");
+  //     } catch (error) {
+  //       res.status(500).json(error);
+  //     }
+  //   }
 }
 
 module.exports = PetAdobtController;

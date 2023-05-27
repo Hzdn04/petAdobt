@@ -137,7 +137,7 @@ const RegisterPage = () => {
                 </label>
               </div>
             </div>
-            <div className="">
+            <div className="mb-3">
               <label for="address" className="mb-2 mx-2">
                 Address
               </label>
@@ -149,7 +149,7 @@ const RegisterPage = () => {
                 rows="3"
               ></textarea>
             </div>
-            <div class="mb-3">
+            {/* <div class="mb-3">
               <label className="mb-2 mt-3 mx-2">Upload your pict</label>
               <input
                 onChange={(e) => setForm({ ...form, image: e.target.files[0] })}
@@ -158,7 +158,7 @@ const RegisterPage = () => {
                 class="form-control"
                 id="image"
               />
-            </div>
+            </div> */}
 
             <button
               class="w-100 btn btn-lg btn-primary"

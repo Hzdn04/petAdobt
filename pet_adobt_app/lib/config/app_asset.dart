@@ -13,4 +13,5 @@ class AppAsset {
   static const iconOffice = 'assets/icon_office.png';
   static const iconStore = 'assets/icon_store.png';
   static const iconWifi = 'assets/icon_wifi.png';
+  static const imageNet = 'https://media.istockphoto.com/id/1296353202/photo/group-of-pets-posing-around-a-border-collie-dog-cat-ferret-rabbit-bird-fish-rodent.jpg?s=612x612&w=0&k=20&c=l4UJze9hXcNABS_3QJcaOU07R1pcuV3L7w_IJTu9o2c=';
 }
