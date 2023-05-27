@@ -442,7 +442,6 @@ const ListPetPage = () => {
                       </Button>
                     </Modal.Footer>
                   </Modal>
-                  
                 </div>
               </div>
             );

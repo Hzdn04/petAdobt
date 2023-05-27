@@ -8,6 +8,7 @@ import {
   EditPetPage,
   AdobtedPage,
   ListAdobtedPage,
+  EditAdobtedPage,
   UserPage,
   LoginPage,
   RegisterPage,
@@ -46,6 +47,9 @@ const Main = (props) => {
 
         <Route path="adobteds" element={<AdobtedPage />}>
           <Route path="" element={<ListAdobtedPage />}></Route>
+          <Route path="edit">
+            <Route path=":id" element={<EditAdobtedPage />}></Route>
+          </Route>
         </Route>
 
         <Route path="profile" element={<UserPage />}>
