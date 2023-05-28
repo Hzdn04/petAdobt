@@ -50,6 +50,24 @@ const editAdobted = async (id, adobted) => {
   }
 };
 
+const updatePaymentStatus = async (id, status) => {
+  try {
+    console.log(id, +status);
+    const result = await axios({
+      method: "PUT",
+      url: `${URL}/updatePaymentStatus/${id}`,
+      data: status,
+      headers: {
+        access_token: token,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+    Swal.fire("Finished!", `Payment status is already changed`, "Success");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const deleteAdobted = async (id) => {
   try {
     Swal.fire({
@@ -89,4 +107,11 @@ const getAdobted = async (id, callback) => {
   }
 };
 
-export { getAdobteds, addAdobted, editAdobted, deleteAdobted, getAdobted };
+export {
+  getAdobteds,
+  addAdobted,
+  editAdobted,
+  deleteAdobted,
+  getAdobted,
+  updatePaymentStatus,
+};

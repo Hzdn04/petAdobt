@@ -17,7 +17,7 @@ const ListPetPage = () => {
 
   const [user, setUser] = useState([]);
 
-  const [currentPet, setCurrentPet] = useState([]);
+  //   const [currentPet, setCurrentPet] = useState([]);
 
   const [show, setShow] = useState(false);
 
@@ -31,6 +31,7 @@ const ListPetPage = () => {
   // Filter Category
   const [filteredPets, setFilteredPets] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [currentPet, setCurrentPet] = useState([]);
   // const [selectedType, setSelectedType] = useState("");
 
   const handleCategoryChange = (event) => {
@@ -279,6 +280,66 @@ const ListPetPage = () => {
                     </Link>
                   )}
 
+                  <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Modal heading</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      Woohoo, you're reading this text in a modal!
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button variant="secondary" onClick={handleClose}>
+                        Close
+                      </Button>
+                      <Button variant="primary" onClick={handleClose}>
+                        Save Changes
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
+
+                  {/* <div
+                    className="modal fade"
+                    id={`detailModal-${pets.id}`}
+                    tabIndex="-1"
+                    aria-labelledby={`detailModalLabel-${id}`}
+                    aria-hidden="false"
+                  >
+                    <div className="modal-dialog">
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h5
+                            className="modal-title"
+                            id={`detailModalLabel-${id}`}
+                          >
+                            Detail Pet
+                          </h5>
+                          <button
+                            type="button"
+                            className="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div className="modal-body">
+                          <h5>{pet_type}</h5>
+                          <p>Race: {race}</p>
+                          <p>Age: {age} Month</p>
+                          <p>Price: {convertRp(price)}</p>
+                        </div>
+                        <div className="modal-footer">
+                          <button
+                            type="button"
+                            className="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                          >
+                            Close
+                          </button>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div> */}
+
                   {token && user.role === 1 && (
                     <Button variant="primary" onClick={() => handleShow(id)}>
                       DETAILS
@@ -442,7 +503,6 @@ const ListPetPage = () => {
                       </Button>
                     </Modal.Footer>
                   </Modal>
-                  
                 </div>
               </div>
             );

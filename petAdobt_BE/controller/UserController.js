@@ -41,6 +41,7 @@ class UserController {
       const { username, email, password, name, age, address, phone, role } =
         req.body;
 
+      console.log(req.body);
       // const image =
       //   req.protocol + `://` + req.get("host") + "/assets/" + req.file.filename;
 
