@@ -106,6 +106,30 @@ class SourceAdobted {
     return responseBody['message'];
   }
 
+  static Future<bool?> payment(
+    token,
+    String status,
+    String id,
+  ) async {
+    String url = '${Api.adobted}cancel/$id';
+
+    Session.getToken().then((value) {
+      tokenAccess = value!;
+    });
+
+    Map? responseBody = await AppRequest.update(url, {
+      'status': status,
+      'updated_at': DateTime.now().toIso8601String(),
+    }, headers: {
+      'Accept': 'application/json',
+      'access_token': tokenAccess
+    });
+
+    if (responseBody == null) return null;
+
+    return responseBody['message'];
+  }
+
   static Future<bool?> delete(token, String idAdobted) async {
     Session.getToken().then((value) {
       tokenAccess = value!;

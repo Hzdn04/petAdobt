@@ -11,7 +11,7 @@ class CAdobtedList extends GetxController{
   // Adobted get adobtedData => _adobtedData.value;
   // set adobtedData(Adobted n) => _adobtedData.value = n;
 
-  final _status = 3.obs;
+  final _status = 4.obs;
   int get status => _status.value;
   set status(n) {
     _status.value = n;
@@ -19,8 +19,9 @@ class CAdobtedList extends GetxController{
   }
 
   List<int> get statuses => [
-    3,
+    4,
     1,
+    3,
     2,
     0
   ];

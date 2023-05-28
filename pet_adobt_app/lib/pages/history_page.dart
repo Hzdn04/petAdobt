@@ -6,6 +6,7 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 import 'package:pet_adobt_app/controller/c_adobted.dart';
 import 'package:pet_adobt_app/pages/confirm_page.dart';
+import 'package:pet_adobt_app/pages/paid_page.dart';
 import 'package:pet_adobt_app/source/source_adobted.dart';
 
 import '../config/app_asset.dart';
@@ -151,7 +152,7 @@ class _HistoryPageState extends State<HistoryPage> {
               ),
             );
           }
-          List<Adobted> list = _.status == 3
+          List<Adobted> list = _.status == 4
               ? _.listAdobted
               : _.listAdobted
                   .where((e) => e.status == cAdobtedList.status)
@@ -195,7 +196,15 @@ class _HistoryPageState extends State<HistoryPage> {
                                             adobted: element,
                                           )),
                                 )
-                              : delete(element.id.toString());
+                              : element.status == 3
+                                  ? Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => PaidPage(
+                                                adobted: element,
+                                              )),
+                                    )
+                                  : delete(element.id.toString());
                         },
                         child: item(context, element));
                   },
@@ -304,15 +313,17 @@ class _HistoryPageState extends State<HistoryPage> {
                     ? Colors.yellow[800]
                     : element.status == 2
                         ? Colors.green[600]
-                        : Colors.red[600],
+                        : element.status == 3
+                            ? Colors.blue[600]
+                            : Colors.red[600],
                 borderRadius: BorderRadius.circular(30)),
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
             child: Text(
-                element.status == 3
-                    ? 'ALL'
-                    : element.status == 1
-                        ? 'PENDING'
-                        : element.status == 2
+                element.status == 1
+                    ? 'PENDING'
+                    : element.status == 2
+                        ? 'DONE'
+                        : element.status == 3
                             ? 'PAID'
                             : 'CANCELED',
                 style: const TextStyle(color: Colors.white, fontSize: 12)),
@@ -352,13 +363,15 @@ class _HistoryPageState extends State<HistoryPage> {
                       alignment: Alignment.center,
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       child: Text(
-                        status == 3
+                        status == 4
                             ? 'ALL'
                             : status == 1
                                 ? 'PENDING'
-                                : status == 2
-                                    ? 'DONE'
-                                    : 'CENCELED',
+                                : status == 3
+                                    ? 'PAID'
+                                    : status == 2
+                                        ? 'DONE'
+                                        : 'CENCELED',
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
                               fontWeight: FontWeight.bold,
                               color: status == _.status
