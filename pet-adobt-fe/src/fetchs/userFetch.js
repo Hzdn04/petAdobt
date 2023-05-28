@@ -44,7 +44,7 @@ const RegisterUser = async (user) => {
       url: `${URL}/register`,
       data: user,
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/x-www-form-urlencoded",
       },
     });
     Swal.fire("User has been added", "Success");

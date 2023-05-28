@@ -117,26 +117,35 @@ class PetAdobtController {
 
       let result = await petAdobt.update(
         {
-          status,
+          status: +status,
         },
         {
           where: { id },
         }
       );
-    } catch (error) {
-      res.status(500).json(error);
+
+      result[0] === 1
+        ? res.status(200).json({
+            message: `Id ${id} has been updated`,
+          })
+        : //   res.redirect("/pets")
+          res.status(400).json({
+            message: `Id ${id} not updated`,
+          });
+    } catch (err) {
+      res.status(500).json(err);
     }
   }
 
-  static async increasePetById(req, res) {
-    try {
-      const { petId } = req.body;
-      let thisPet = await pet.findByPk(petId);
-      let updateStock = await thisPet.increment("stock");
-    } catch (error) {
-      res.status(500).json(error);
-    }
-  }
+  //   static async increasePetById(req, res) {
+  //     try {
+  //       const { petId } = req.body;
+  //       let thisPet = await pet.findByPk(petId);
+  //       let updateStock = await thisPet.increment("stock");
+  //     } catch (error) {
+  //       res.status(500).json(error);
+  //     }
+  //   }
 }
 
 module.exports = PetAdobtController;

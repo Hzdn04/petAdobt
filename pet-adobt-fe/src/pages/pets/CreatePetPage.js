@@ -174,6 +174,7 @@ const CreatePetPage = () => {
                 placeholder="200000"
               />
             </div>
+
             <div className="mb-3">
               <label>Stock</label>
               <input
@@ -183,8 +184,9 @@ const CreatePetPage = () => {
                 placeholder="2"
               />
             </div>
+
             <div className="mb-3">
-              <label>Image Link</label>
+              <label>Image</label>
               <input
                 onChange={(e) => setForm({ ...form, image: e.target.files[0] })}
                 type="file"
