@@ -5,10 +5,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../config/app_color.dart';
 import '../config/app_format.dart';
-import '../controller/c_home.dart';
 import '../controller/c_user.dart';
 import '../model/adobted.dart';
-import '../widget/button_custom.dart';
 
 class PaidPage extends StatelessWidget {
   const PaidPage({super.key, required this.adobted});
@@ -17,10 +15,7 @@ class PaidPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cUser = Get.put(CUser());
-
-    final cHome = Get.put(CHome());
-
+    
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -68,9 +63,9 @@ class PaidPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8))),
           child: Container(
             height: 25,
-            margin: const EdgeInsets.symmetric(vertical: 25),
+            margin: const EdgeInsets.symmetric(horizontal: 25),
             child: Text(
-              'Confirm',
+              'Contact Admin',
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
@@ -84,15 +79,20 @@ class PaidPage extends StatelessWidget {
   }
 
   void _launchWhatsApp() async {
+    final cUser = Get.put(CUser());
     // Ganti nomor telepon di bawah ini sesuai dengan nomor yang ingin Anda tuju
     String phoneNumber = '+6285755000708';
     String message =
-        'Halo, saya hjk yang ingin mengadobsi, saya akan mengirim bukti transfernya!';
+        'Halo, saya ${cUser.data.name} yang ingin mengadobsi, saya akan mengirim bukti transfernya!';
 
-    var url = '/wa.me/$phoneNumber/?text=${Uri.parse(message)}';
+    // var url = 'wa.me/$phoneNumber/?text=${Uri.parse(message)}';
 
-    if (await canLaunchUrl(Uri(scheme: 'https', path: url))) {
-      await launchUrl(Uri(scheme: 'https', path: url));
+    if (await canLaunchUrl(Uri(scheme: 'sms', path: phoneNumber, queryParameters: <String, String>{
+      'body': Uri.encodeComponent(message)
+    }))) {
+      await launchUrl(Uri(scheme: 'sms', path: phoneNumber, queryParameters: <String, String>{
+        'body': Uri.encodeComponent(message)
+      }));
     } else {
       throw 'Tidak dapat membuka WhatsApp.';
     }
@@ -126,17 +126,18 @@ class PaidPage extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const SizedBox(
-                      width: 13,
-                    ),
                     Expanded(
                       child: Text(
-                        'A/N Zoe Abbas',
+                        'Please wait for confirmation of payment from admin. If you have not received confirmation yet, you can contact admin by sending your proof of payment.',
+                        textAlign: TextAlign.justify,
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!
-                            .copyWith(fontWeight: FontWeight.bold),
+                            .copyWith(fontWeight: FontWeight.w400,),
                       ),
+                    ),
+                    const SizedBox(
+                      width: 13,
                     ),
                     const Icon(
                       Icons.check_circle,
@@ -176,7 +177,7 @@ class PaidPage extends StatelessWidget {
             children: [
               Text('Status', style: Theme.of(context).textTheme.titleMedium),
               Text(
-                status == 1 ? 'PENDING' : 'CANCELED',
+                status == 3 ? 'DONE' : 'CANCELED',
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!
