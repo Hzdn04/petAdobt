@@ -169,13 +169,13 @@ const ListAdobtedPage = () => {
                     </td>
                   ) : status === 2 ? (
                     <td>
-                      <Button onClick={() => handleShow(id)} variant="success">
+                      <Button onClick={() => handleShow(id)} variant="primary">
                         Done
                       </Button>
                     </td>
                   ) : (
                     <td>
-                      <Button onClick={() => handleShow(id)} variant="primary">
+                      <Button onClick={() => handleShow(id)} variant="success">
                         Paid
                       </Button>
                     </td>
