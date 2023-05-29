@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pet_adobt_app/config/app_color.dart';
 import 'package:pet_adobt_app/config/app_font.dart';
 import 'package:pet_adobt_app/controller/c_image.dart';
@@ -13,15 +14,34 @@ import '../config/app_route.dart';
 import '../config/session.dart';
 import '../widget/header_custom.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   ProfilePage({super.key});
 
-  final cUser = Get.put(CUser());
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
 
-  final cImage = Get.put(ImagePickerController());
+class _ProfilePageState extends State<ProfilePage> {
+  final cUser = Get.put(CUser());
 
   @override
   Widget build(BuildContext context) {
+    // Get.lazyPut(() => ImagePickerController());
+
+    File? _image;
+    PickedFile? _pickedFile;
+    final _picker = ImagePicker();
+    // Implementing the image picker
+    Future<void> _pickImage() async {
+      _pickedFile = await _picker.getImage(source: ImageSource.gallery);
+      if (_pickedFile != null) {
+        setState(() {
+          _image = File(_pickedFile!.path);
+        });
+      }
+      print(_pickedFile);
+    }
+
     if (cUser.data.id == null) {
       return Scaffold(
         body: Center(
@@ -80,61 +100,73 @@ class ProfilePage extends StatelessWidget {
                       border: Border.all(color: Colors.white)),
                   child: Row(
                     children: [
-                      cUser.data.id != null
-                          ? Obx(() {
-                              return Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(80),
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.transparent,
-                                      radius: 80,
-                                      child: Image.network(
-                                        cUser.data.image ?? '',
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  ClipRect(
-                                      child: CircleAvatar(
-                                          radius: 80,
-                                          backgroundColor: Colors.transparent,
-                                          backgroundImage: cImage
-                                                  .imagePath.isNotEmpty
-                                              ? FileImage(File(
-                                                  cImage.imagePath.toString()))
-                                              : null)
-                                      //     Image.network(
-                                      //   (cImage.imagePath.isNotEmpty
-                                      //       ? FileImage(
-                                      //           File(cImage.imagePath.toString()))
-                                      //       : null) as String,
-                                      //   width: 152,
-                                      //   height: 229,
-                                      //   fit: BoxFit.cover,
-                                      // ),
-                                      ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 50),
-                                    child: TextButton(
-                                        onPressed: () {
-                                          cImage.getImage();
-                                        },
-                                        child: const Icon(
-                                          Icons.photo_camera,
-                                          size: 30,
-                                        )),
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: _pickedFile != null
+                                ?
+                                Image.file(
+                                    File(_pickedFile!.path),
+                                    width: 152,
+                                    height: 229,
+                                    fit: BoxFit.cover,
                                   )
-                                ],
-                              );
-                            })
-                          : Image.asset(
-                              'assets/user.png',
-                              width: 152,
-                              height: 229,
-                              fit: BoxFit.cover,
-                            ),
+                                : const Text('Please select an image'),
+                          ),
+                          // GetBuilder<ImagePickerController>(builder: (_) {
+                          //   return ClipRRect(
+                          //     borderRadius: BorderRadius.circular(25),
+                          //     child: Get.find<ImagePickerController>().pickedFile != null
+                          //         ? Image.file(
+                          //             File(Get.find<ImagePickerController>().pickedFile!.path),
+                          //             width: 152,
+                          //             height: 229,
+                          //             fit: BoxFit.cover,
+                          //           )
+                          //         :
+                          //         CircleAvatar(
+                          //             backgroundColor: Colors.transparent,
+                          //             radius: 80,
+                          //             child: Image.network(
+                          //               cUser.data.image ?? '',
+                          //               fit: BoxFit.cover,
+                          //             ),
+                          //           ),
+                          //     // CircleAvatar(
+                          //     //     radius: 80,
+                          //     //     backgroundColor: Colors.transparent,
+                          //     //     backgroundImage: cImage
+                          //     //             .imagePath.isNotEmpty
+                          //     //         ? FileImage(File(
+                          //     //             cImage.imagePath.toString()))
+                          //     //         : null)
+                          //     //     Image.network(
+                          //     //   (cImage.imagePath.isNotEmpty
+                          //     //       ? FileImage(
+                          //     //           File(cImage.imagePath.toString()))
+                          //     //       : null) as String,
+                          //     //   width: 152,
+                          //     //   height: 229,
+                          //     //   fit: BoxFit.cover,
+                          //     // ),
+                          //   );
+                          // }),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 50),
+                            child: TextButton(
+                                onPressed: () {
+                                  // cImage.getImage();
+                                  _pickImage();
+                                },
+                                child: const Icon(
+                                  Icons.photo_camera,
+                                  size: 30,
+                                )),
+                          )
+                        ],
+                      ),
                       const SizedBox(
                         width: 9,
                       ),

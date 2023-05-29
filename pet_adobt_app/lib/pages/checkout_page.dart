@@ -1,4 +1,4 @@
-import 'package:d_info/d_info.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -8,10 +8,8 @@ import 'package:pet_adobt_app/widget/button_custom.dart';
 import '../config/app_asset.dart';
 import '../config/app_color.dart';
 import '../config/session.dart';
-import '../controller/c_home.dart';
 import '../controller/c_user.dart';
 import '../model/pet.dart';
-import 'home_page.dart';
 
 class COPage extends StatelessWidget {
   COPage({super.key});
@@ -20,7 +18,6 @@ class COPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cHome = Get.put(CHome());
     Pet pet = ModalRoute.of(context)!.settings.arguments as Pet;
 
     Future<String?> token = Session.getToken();
@@ -31,23 +28,13 @@ class COPage extends StatelessWidget {
     int status = 1;
 
     addAdobted() async {
-      bool? success = await SourceAdobted.add(
+       await SourceAdobted.add(
           token,
           pet.id.toString(),
           cUser.data.id!.toString(),
           cUser.data.name!,
           totalPayment.toString(),
           status.toString());
-      if (success == true) {
-        DInfo.dialogSuccess('Adobted ${pet.race} Successfully');
-        DInfo.closeDialog(actionAfterClose: () {
-          cHome.indexPage = 2;
-          Get.offAll(HomePage());
-        });
-      } else {
-        DInfo.dialogError('Adobted ${pet.race} Failed!');
-        DInfo.closeDialog();
-      }
     }
 
     return Scaffold(

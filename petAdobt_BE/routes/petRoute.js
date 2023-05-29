@@ -23,4 +23,11 @@ petRoute.put(
   PetController.update
 );
 
+petRoute.put(
+  "/updatePaymentStatus/:id",
+  authentication,
+  upload.single("image"),
+  PetController.update
+);
+
 module.exports = petRoute;

@@ -36,7 +36,7 @@ class SourceAdobted {
     return [];
   }
 
-  static Future<bool?> add(token, String petId, String userId, String name,
+  static Future<String?> add(token, String petId, String userId, String name,
       String totalPrice, String status) async {
     String url = '${Api.adobted}create';
 
@@ -58,13 +58,17 @@ class SourceAdobted {
       'access_token': tokenAccess
     });
 
-    if (responseBody == null) return false;
+    if (responseBody == null) return null;
 
-    if (responseBody['message']) {
-      DInfo.dialogSuccess('Berhasil Adobsi');
-      DInfo.closeDialog();
+    // ignore: unnecessary_null_comparison
+    if (responseBody['message'] == 'done') {
+      DInfo.dialogSuccess('Adobted Successfully');
+        DInfo.closeDialog(actionAfterClose: () {
+          cHome.indexPage = 2;
+          Get.offAll(HomePage());
+        });
     } else {
-      DInfo.dialogError('Gagal Adobsi');
+      DInfo.dialogError('Adobted Failed!, please click again');
       DInfo.closeDialog();
     }
 

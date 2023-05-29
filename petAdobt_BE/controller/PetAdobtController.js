@@ -61,7 +61,7 @@ class PetAdobtController {
 
   static async create(req, res) {
     try {
-      const { petId, name, } = req.body;
+      const { petId, name} = req.body;
       const userId = req.userData.id;
       let thisPet = await pet.findByPk(petId);
       //   let tempPrice = await petAdobt.findAll({
@@ -85,9 +85,7 @@ class PetAdobtController {
         status: status,
       });
 
-      let message = true;
-
-      res.status(201).json({message, result});
+      res.status(201).json({message: 'done', result});
       // res.json(thisPet);
       //   res.redirect("/petAdobts");
     } catch (err) {
