@@ -26,6 +26,7 @@ class PetAdobtController {
     try {
       const userId = req.params.userId;
       let petAdobts = await petAdobt.findAll({
+        attributes: ["id", "petId", "userId", "name", "adobt_date", "total_price", "status"],
         include: [pet, user],
         where: {
           userId: userId,
@@ -60,7 +61,7 @@ class PetAdobtController {
 
   static async create(req, res) {
     try {
-      const { petId } = req.body;
+      const { petId, name, } = req.body;
       const userId = req.userData.id;
       let thisPet = await pet.findByPk(petId);
       //   let tempPrice = await petAdobt.findAll({
@@ -78,18 +79,47 @@ class PetAdobtController {
       let result = await petAdobt.create({
         petId: +petId,
         userId: +userId,
+        name: name,
         adobt_date,
         total_price,
-        status,
+        status: status,
       });
 
-      res.status(201).json(result);
+      let message = true;
+
+      res.status(201).json({message, result});
       // res.json(thisPet);
       //   res.redirect("/petAdobts");
     } catch (err) {
       res.status(500).json(err);
     }
   }
+
+  static async cancelAdobt(req, res) {
+    try {
+      const id = +req.params.id;
+
+      const { status } = req.body;
+
+      const result = await petAdobt.update(
+        {
+          status: status,
+        },
+        {
+          where: { id: id },
+        }
+      );
+
+      //   console.log(result);
+
+      result[0] === 1
+        ? res.status(200).json({ message: true })
+        : res.status(400).json({ message: false });
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  }
+
 
   static async delete(req, res) {
     try {

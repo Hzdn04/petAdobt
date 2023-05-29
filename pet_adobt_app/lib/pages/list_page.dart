@@ -9,6 +9,7 @@ import 'package:pet_adobt_app/widget/pet_custom.dart';
 import '../config/app_color.dart';
 import '../config/app_font.dart';
 import '../config/app_format.dart';
+import '../controller/c_user.dart';
 import '../model/pet.dart';
 
 class ListPage extends StatefulWidget {
@@ -20,6 +21,8 @@ class ListPage extends StatefulWidget {
 
 class _ListPageState extends State<ListPage> {
   final cPet = Get.put(CPet());
+  final cUser = Get.put(CUser());
+
   String searchKeyword = '';
 
   refresh() {
@@ -28,7 +31,9 @@ class _ListPageState extends State<ListPage> {
 
   @override
   void initState() {
-    refresh();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      refresh();
+    });
     super.initState();
   }
 
@@ -47,7 +52,7 @@ class _ListPageState extends State<ListPage> {
                 const SizedBox(
                   height: 15,
                 ),
-                const HeaderPage(title: 'Pet', subTitle: 'list'),
+                HeaderPage(title: 'Pet', subTitle: 'list', image: cUser.data.image ?? 'https://via.placeholder.com/100',),
                 const SizedBox(
                   height: 20,
                 ),
@@ -105,7 +110,7 @@ class _ListPageState extends State<ListPage> {
                     name: dataPet.race!,
                     gender: dataPet.sex!.toLowerCase(),
                     type: dataPet.petType!,
-                    asset: 'assets/cat1.jpg',
+                    asset: dataPet.image ?? '',
                     width: double.infinity,
                     height: 205,
                     price: AppFormat.currency(dataPet.price!.toDouble()),
@@ -137,7 +142,7 @@ class _ListPageState extends State<ListPage> {
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide.none),
-            hintText: 'Search',
+            hintText: 'Search by Breed',
             hintStyle: greyTextStyle.copyWith(
                 fontSize: 16, fontWeight: FontWeight.w400),
             contentPadding:

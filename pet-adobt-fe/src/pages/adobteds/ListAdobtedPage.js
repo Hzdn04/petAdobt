@@ -128,9 +128,9 @@ const ListAdobtedPage = () => {
       {/* <Link to="/adobteds/create" className="btn btn-primary mb-2 mt-2">
         Add
       </Link> */}
-      <Link to="/pets" className="btn btn-primary mb-2 mt-2">
+      {/* <Link to="/pets" className="btn btn-primary mb-2 mt-2">
         Add
-      </Link>
+      </Link> */}
       <table className="table">
         <thead className="table-light">
           <tr>
@@ -163,17 +163,20 @@ const ListAdobtedPage = () => {
                     </td>
                   ) : status === 1 ? (
                     <td>
-                      <Button
-                        onClick={() => handleShow(id)}
-                        variant="secondary"
-                      >
+                      <Button onClick={() => handleShow(id)} variant="warning">
                         Pending
+                      </Button>
+                    </td>
+                  ) : status === 2 ? (
+                    <td>
+                      <Button onClick={() => handleShow(id)} variant="success">
+                        Done
                       </Button>
                     </td>
                   ) : (
                     <td>
                       <Button onClick={() => handleShow(id)} variant="primary">
-                        Done
+                        Paid
                       </Button>
                     </td>
                   )}
@@ -204,6 +207,9 @@ const ListAdobtedPage = () => {
                               <option name="status" value={2}>
                                 Done
                               </option>
+                              <option name="status" value={3}>
+                                Paid
+                              </option>
                               <option name="status" value={1}>
                                 Pending
                               </option>
@@ -228,12 +234,12 @@ const ListAdobtedPage = () => {
                     </Modal.Footer>
                   </Modal>
                   <td>
-                    <Link
+                    {/* <Link
                       to={`/adobteds/edit/${id}`}
                       className="btn btn-warning mx-1"
                     >
                       Edit
-                    </Link>
+                    </Link> */}
 
                     <button
                       onClick={() => deleteHandler(+id)}

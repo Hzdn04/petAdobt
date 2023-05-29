@@ -15,6 +15,9 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
       },
+      name: {
+        type: Sequelize.STRING,
+      },
       adobt_date: {
         type: Sequelize.DATE,
       },

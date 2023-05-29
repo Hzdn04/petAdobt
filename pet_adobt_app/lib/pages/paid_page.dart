@@ -1,62 +1,28 @@
-import 'package:d_info/d_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:pet_adobt_app/source/source_adobted.dart';
-import 'package:pet_adobt_app/widget/button_custom.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-import '../config/app_asset.dart';
 import '../config/app_color.dart';
-import '../config/session.dart';
-import '../controller/c_home.dart';
+import '../config/app_format.dart';
 import '../controller/c_user.dart';
-import '../model/pet.dart';
-import 'home_page.dart';
+import '../model/adobted.dart';
 
-class COPage extends StatelessWidget {
-  COPage({super.key});
+class PaidPage extends StatelessWidget {
+  const PaidPage({super.key, required this.adobted});
 
-  final cUser = Get.put(CUser());
+  final Adobted adobted;
 
   @override
   Widget build(BuildContext context) {
-    final cHome = Get.put(CHome());
-    Pet pet = ModalRoute.of(context)!.settings.arguments as Pet;
-
-    Future<String?> token = Session.getToken();
-
-    // Manual Input
-    int tail = 1;
-    int totalPayment = pet.price! * tail;
-    int status = 1;
-
-    addAdobted() async {
-      bool? success = await SourceAdobted.add(
-          token,
-          pet.id.toString(),
-          cUser.data.id!.toString(),
-          cUser.data.name!,
-          totalPayment.toString(),
-          status.toString());
-      if (success == true) {
-        DInfo.dialogSuccess('Adobted ${pet.race} Successfully');
-        DInfo.closeDialog(actionAfterClose: () {
-          cHome.indexPage = 2;
-          Get.offAll(HomePage());
-        });
-      } else {
-        DInfo.dialogError('Adobted ${pet.race} Failed!');
-        DInfo.closeDialog();
-      }
-    }
-
+    
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.black,
         title: const Text(
-          'Checkout',
+          'Payment Confirmation',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -67,8 +33,12 @@ class COPage extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          adobtDetail(context, pet.petType!, tail, pet.price!.toDouble(),
-              pet.race!, totalPayment.toDouble()),
+          adobtDetail(
+              context,
+              adobted.name!,
+              adobted.status!.toInt(),
+              adobted.totalPrice!.toDouble(),
+              adobted.adobtDate!),
           const SizedBox(
             height: 16,
           ),
@@ -79,18 +49,53 @@ class COPage extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border:
-                Border(top: BorderSide(color: Colors.grey[100]!, width: 1.5)),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(top: BorderSide(color: Colors.grey[100]!, width: 1.5)),
+        ),
+        height: 90,
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+        child: TextButton(
+          onPressed: () => _launchWhatsApp(),
+          style: TextButton.styleFrom(
+              backgroundColor: Colors.blue,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8))),
+          child: Container(
+            height: 25,
+            margin: const EdgeInsets.symmetric(horizontal: 25),
+            child: Text(
+              'Contact Admin',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                  ),
+              textAlign: TextAlign.center,
+            ),
           ),
-          height: 90,
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-          child: ButtonCustom(
-              label: 'Confirmation',
-              onTap: () => addAdobted(),
-              marginHorizontal: 25)),
+        ),
+      ),
     );
+  }
+
+  void _launchWhatsApp() async {
+    final cUser = Get.put(CUser());
+    // Ganti nomor telepon di bawah ini sesuai dengan nomor yang ingin Anda tuju
+    String phoneNumber = '+6285755000708';
+    String message =
+        'Halo, saya ${cUser.data.name} yang ingin mengadobsi, saya akan mengirim bukti transfernya!';
+
+    // var url = 'wa.me/$phoneNumber/?text=${Uri.parse(message)}';
+
+    if (await canLaunchUrl(Uri(scheme: 'sms', path: phoneNumber, queryParameters: <String, String>{
+      'body': Uri.encodeComponent(message)
+    }))) {
+      await launchUrl(Uri(scheme: 'sms', path: phoneNumber, queryParameters: <String, String>{
+        'body': Uri.encodeComponent(message)
+      }));
+    } else {
+      throw 'Tidak dapat membuka WhatsApp.';
+    }
   }
 
   Container paymentMethod(BuildContext context) {
@@ -102,7 +107,7 @@ class COPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Available Payment',
+            'Payment Method',
             style: Theme.of(context)
                 .textTheme
                 .titleMedium!
@@ -117,40 +122,29 @@ class COPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: Colors.grey[300]!)),
             padding: const EdgeInsets.all(14),
-            child: Row(
+            child: Column(
               children: [
-                Image.asset(
-                  AppAsset.iconMasteCard,
-                  width: 50,
-                ),
-                const SizedBox(
-                  width: 13,
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        cUser.data.name!,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        'BRI, BCA, & BNI',
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Please wait for confirmation of payment from admin. If you have not received confirmation yet, you can contact admin by sending your proof of payment.',
+                        textAlign: TextAlign.justify,
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!
-                            .copyWith(fontWeight: FontWeight.w300),
+                            .copyWith(fontWeight: FontWeight.w400,),
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      width: 13,
+                    ),
+                    const Icon(
+                      Icons.check_circle,
+                      color: AppColor.secondary,
+                    )
+                  ],
                 ),
-                const Icon(
-                  Icons.check_circle,
-                  color: AppColor.secondary,
-                )
               ],
             ),
           )
@@ -159,8 +153,8 @@ class COPage extends StatelessWidget {
     );
   }
 
-  Container adobtDetail(BuildContext context, String type, int tail,
-      double price, String race, double totalPayment) {
+  Container adobtDetail(BuildContext context, String name, int status,
+      double totalPayment, String adobtDate) {
     return Container(
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(16)),
@@ -169,7 +163,7 @@ class COPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Adobt $type Details',
+            'Adobt $name Details',
             style: Theme.of(context)
                 .textTheme
                 .titleMedium!
@@ -181,9 +175,9 @@ class COPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Type Race', style: Theme.of(context).textTheme.titleMedium),
+              Text('Status', style: Theme.of(context).textTheme.titleMedium),
               Text(
-                race,
+                status == 3 ? 'DONE' : 'CANCELED',
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!
@@ -197,9 +191,10 @@ class COPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Tail', style: Theme.of(context).textTheme.titleMedium),
+              Text('Checkout Date',
+                  style: Theme.of(context).textTheme.titleMedium),
               Text(
-                tail.toString(),
+                AppFormat.date(adobtDate),
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!
@@ -209,21 +204,6 @@ class COPage extends StatelessWidget {
           ),
           const SizedBox(
             height: 15,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Price', style: Theme.of(context).textTheme.titleMedium),
-              Text(
-                NumberFormat.currency(
-                        locale: 'id', symbol: 'Rp ', decimalDigits: 0)
-                    .format(price),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(fontWeight: FontWeight.bold),
-              ),
-            ],
           ),
           const SizedBox(
             height: 150,

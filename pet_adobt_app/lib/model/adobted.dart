@@ -3,38 +3,38 @@ class Adobted {
     this.id,
     this.petId,
     this.userId,
+    this.name,
     this.adobtDate,
     this.totalPrice,
-    this.address,
-    this.user,
+    this.status,
   });
 
   int? id;
   int? petId;
   int? userId;
+  String? name;
   String? adobtDate;
   int? totalPrice;
-  String? address;
-  List<dynamic>? user;
+  int? status;
 
   factory Adobted.fromJson(Map<String, dynamic> json) => Adobted(
         id: json["id"],
         petId: json["petId"],
         userId: json["userId"],
+        name: json["name"],
         adobtDate: json["adobt_date"],
         totalPrice: json["total_price"],
-        address: json["address"],
-        // user: List<dynamic>.from(json["user"]),
+        status: json["status"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "petId": petId,
         "userId": userId,
+        "name": name,
         "adobt_date": adobtDate,
         "total_price": totalPrice,
-        "address": address,
-        "user": user,
+        "status": status,
       };
 }
 

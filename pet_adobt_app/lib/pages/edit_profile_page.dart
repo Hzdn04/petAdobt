@@ -1,3 +1,4 @@
+import 'package:d_info/d_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pet_adobt_app/source/source_user.dart';
@@ -56,18 +57,26 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Future<String?> token = Session.getToken();
 
   editProfile() async {
-    if (formKey.currentState!.validate()) {
-      await SourceUser.edit(
-        controllerUsername.text,
-        controllerEmail.text,
-        controllerName.text,
-        controllerAge.text,
-        controllerAddress.text,
-        controllerPhone.text,
-        cUser.data.id.toString(),
-        token,
-        context
-      );
+    bool? yes = await DInfo.dialogConfirmation(
+      context,
+      'Canceled',
+      'Are you sure to edit your profile?',
+      textNo: 'Batal',
+      textYes: 'Ya',
+    );
+
+    if (yes == true) {
+      if (formKey.currentState!.validate()) {
+        await SourceUser.edit(
+            controllerUsername.text,
+            controllerEmail.text,
+            controllerName.text,
+            controllerAge.text,
+            controllerAddress.text,
+            controllerPhone.text,
+            cUser.data.id.toString(),
+            token);
+      }
     }
   }
 
@@ -281,8 +290,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         ),
                         SizedBox(
                           width: double.infinity,
-                          child: 
-                          ButtonCustom(
+                          child: ButtonCustom(
                             label: 'Update',
                             onTap: () => editProfile(),
                             marginHorizontal: 80,

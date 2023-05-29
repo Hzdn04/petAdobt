@@ -51,22 +51,4 @@ class SourcePet {
 
     return null;
   }
-
-  static Future<List<Pet>> search(
-       String race, String price) async {
-    String url = '${Api.pets}/search';
-    Map? responseBody = await AppRequest.post(url, {
-      'race': race,
-      'price': price,
-    });
-
-    if (responseBody == null) return [];
-
-    if (responseBody['data'] != null) {
-      List list = responseBody['data'];
-      return list.map((e) => Pet.fromJson(e)).toList();
-    }
-
-    return [];
-  }
 }

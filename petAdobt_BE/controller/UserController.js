@@ -170,6 +170,58 @@ class UserController {
     }
   }
 
+  static async changePassword(req, res) {
+    try {
+      const id = +req.params.id;
+
+      const { password } = req.body;
+
+      const hashPass = encrypt(password);
+
+      const result = await user.update(
+        {
+          password: hashPass,
+        },
+        {
+          where: { id: id },
+        }
+      );
+
+      //   console.log(result);
+
+      result[0] === 1
+        ? res.status(200).json({ message: "Password has been updated!" })
+        : res.status(400).json({ message: "Password not updated" });
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  }
+
+  static async uploadImage(req, res) {
+    try {
+      const id = +req.params.id;
+
+      const image = "http://192.168.1.2:3001" + "/assets/" + req.file.filename;
+
+      const result = await user.update(
+        {
+          image: image,
+        },
+        {
+          where: { id: id },
+        }
+      );
+
+      //   console.log(result);
+
+      result[0] === 1
+        ? res.status(200).json({ message: "Upload Success" })
+        : res.status(400).json({ message: "Upload Failed" });
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  }
+
   static async delete(req, res) {
     const id = +req.params.id;
     let deleteUser = await user.destroy({ where: { id } });

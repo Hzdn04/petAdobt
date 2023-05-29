@@ -1,16 +1,20 @@
+// import 'dart:html';
+
 import 'package:d_info/d_info.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pet_adobt_app/config/api.dart';
 import 'package:pet_adobt_app/config/app_request.dart';
 import 'package:pet_adobt_app/config/session.dart';
 import 'package:pet_adobt_app/model/user.dart';
+import 'package:pet_adobt_app/pages/home_page.dart';
 import 'package:pet_adobt_app/pages/signin_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 import '../controller/c_home.dart';
 
 final cHome = Get.put(CHome());
+
 class SourceUser {
   static String tokenAccess = "";
 
@@ -75,16 +79,8 @@ class SourceUser {
     return responseBody['message'];
   }
 
-  static Future<String?> edit(
-      String username,
-      String email,
-      String name,
-      String age,
-      String address,
-      String phone,
-      String id,
-      token,
-      BuildContext context) async {
+  static Future<String?> edit(String username, String email, String name,
+      String age, String address, String phone, String id, token) async {
     String url = '${Api.user}edit/$id';
 
     Session.getToken().then((value) {
@@ -106,30 +102,118 @@ class SourceUser {
 
     if (responseBody == null) return null;
 
-    // ignore: use_build_context_synchronously
-    bool? yes = await DInfo.dialogConfirmation(
-      context,
-      'Updated',
-      'if there is any alteration or modification in your profile, you must necessary to LogOut!',
-      textNo: 'Batal',
-      textYes: 'Ya',
-    );
-
-    if (yes == true) {
-      if (responseBody['message'] == 'User has been updated!') {
-        DInfo.dialogSuccess(
-            'Updated SuccessFully');
-        DInfo.closeDialog(
-            durationBeforeClose: const Duration(seconds: 5),
-            actionAfterClose: () {
-              Session.clearUser();
-            });
-      } else {
-        DInfo.dialogError('Updated Failed');
-        DInfo.closeDialog();
-      }
+    if (responseBody['message'] == 'User has been updated!') {
+      DInfo.dialogSuccess('Updated SuccessFully');
+      DInfo.closeDialog(
+          durationBeforeClose: const Duration(seconds: 5),
+          actionAfterClose: () {
+            Session.clearUser();
+            cHome.indexPage = 0;
+            Get.offAll(HomePage());
+          });
+    } else {
+      DInfo.dialogError('Updated Failed');
+      DInfo.closeDialog();
     }
 
     return responseBody['message'];
   }
+
+  static Future<String?> changePassword(
+      String password, String id, token) async {
+    String url = '${Api.user}change/$id';
+
+    Session.getToken().then((value) {
+      tokenAccess = value!;
+    });
+
+    Map? responseBody = await AppRequest.update(url, {
+      'password': password,
+      'updated_at': DateTime.now().toIso8601String(),
+    }, headers: {
+      'Accept': 'application/json',
+      'access_token': tokenAccess
+    });
+
+    if (responseBody == null) return null;
+
+    if (responseBody['message'] == 'Password has been updated!') {
+      DInfo.dialogSuccess('Updated SuccessFully');
+      DInfo.closeDialog(
+          durationBeforeClose: const Duration(seconds: 5),
+          actionAfterClose: () {
+            Session.clearUser();
+            cHome.indexPage = 0;
+            Get.offAll(HomePage());
+          });
+    } else {
+      DInfo.dialogError('Change Password Failed');
+      DInfo.closeDialog();
+    }
+
+    return responseBody['message'];
+  }
+
+  static Future<String?> upload(
+      String image, String id, token) async {
+
+    String url = '${Api.user}upload/$id';
+
+    Session.getToken().then((value) {
+      tokenAccess = value!;
+    });
+
+    Map? responseBody = await AppRequest.update(url, {
+      'image': image,
+      'updated_at': DateTime.now().toIso8601String(),
+    }, headers: {
+      'Accept': 'application/json',
+      'access_token': tokenAccess
+    });
+
+    if (responseBody == null) return null;
+
+    if (responseBody['message'] == 'Upload Success') {
+      DInfo.dialogSuccess('Upload SuccessFully');
+      DInfo.closeDialog(
+          durationBeforeClose: const Duration(seconds: 5),
+          actionAfterClose: () {
+            Session.clearUser();
+            cHome.indexPage = 0;
+            Get.offAll(HomePage());
+          });
+    } else {
+      DInfo.dialogError('Upload Failed');
+      DInfo.closeDialog();
+    }
+
+    return responseBody['message'];
+  }
+
+//   Future<void> uploadProfilePicture(File imageFile, String id) async {
+//   var uri = Uri.parse('${Api.user}upload/$id');
+//   var request = http.MultipartRequest('PUT', uri);
+
+//   Session.getToken().then((value) {
+//       tokenAccess = value!;
+//     });
+
+//   request.headers['access_token'] = tokenAccess;
+
+//   List<int> imageBytes = imageFile.relativePath as List<int>;
+//   request.files.add(http.MultipartFile.fromBytes(
+//     'profile_picture',
+//     imageBytes,
+//     filename: 'profile_picture.jpg',
+//   ));
+
+//   var response = await request.send();
+//   if (response.statusCode == 200) {
+//     print('Profile picture uploaded successfully');
+//   } else {
+//     print('Failed to upload profile picture. Error: ${response.reasonPhrase}');
+//   }
+// }
+
 }
+

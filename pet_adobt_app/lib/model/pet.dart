@@ -7,6 +7,7 @@ class Pet {
     this.color,
     this.weight,
     this.name,
+    this.description,
     this.age,
     this.price,
     this.stock,
@@ -20,6 +21,7 @@ class Pet {
   String? color;
   int? weight;
   String? name;
+  String? description;
   int? age;
   int? price;
   int? stock;
@@ -33,6 +35,7 @@ class Pet {
         color: json["color"],
         weight: json["weight"],
         name: json["name"],
+        description: json["description"],
         age: json["age"],
         price: json["price"],
         stock: json["stock"],
@@ -49,6 +52,7 @@ class Pet {
         "color": color,
         "weight": weight,
         "name": name,
+        "description": description,
         "age": age,
         "price": price,
         "stock": stock,

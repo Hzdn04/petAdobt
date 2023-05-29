@@ -85,11 +85,11 @@ const Navbar = (props) => {
                 )}
                 {/* <li><Link className="nav-link scrollto" to="/adobter">Adobters</Link></li>
           <li><Link className="nav-link scrollto" to="/">Adobted Pets</Link></li> */}
-                <li>
+                {/* <li>
                   <Link className="nav-link scrollto" to="/about">
                     About
                   </Link>
-                </li>
+                </li> */}
                 {loginStatus ? (
                   <div className="dropstart mx-auto" style={styles.dropdown}>
                     <li className="dropdown">

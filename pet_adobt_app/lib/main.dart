@@ -7,6 +7,7 @@ import 'package:pet_adobt_app/pages/checkout_page.dart';
 import 'package:pet_adobt_app/pages/history_page.dart';
 import 'package:pet_adobt_app/pages/profile_page.dart';
 import 'package:pet_adobt_app/pages/signin_page.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 
 import 'config/app_color.dart';
 import 'config/app_route.dart';
@@ -18,6 +19,8 @@ import 'pages/list_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey =
+      'pk_test_51N8EslDYqJ5Sohsv74kHM4jV6A154Vdp4QZ6NcwCICorDA8FjFlqhHBGlDcTDjAhBRMfQGjnsmDQ10YwBXiTtLfA00SWlxBEqp';
   initializeDateFormatting('id_ID').then((value) => {
     runApp(const MyApp())
   });

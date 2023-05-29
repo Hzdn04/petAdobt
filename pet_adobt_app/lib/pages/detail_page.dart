@@ -2,12 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:pet_adobt_app/pages/signin_page.dart';
 
 import '../config/app_asset.dart';
 import '../config/app_color.dart';
 import '../config/app_font.dart';
 import '../config/app_route.dart';
+import '../config/session.dart';
 import '../controller/c_user.dart';
 import '../model/pet.dart';
 import '../widget/button_custom.dart';
@@ -16,25 +16,6 @@ class DetailPage extends StatelessWidget {
   DetailPage({super.key, required this.pet});
 
   final Pet pet;
-
-  final List facilities = [
-    {
-      'title': 'Male',
-      'label': 'Sex',
-    },
-    {
-      'title': 'Black',
-      'label': 'Color',
-    },
-    {
-      'title': 'Persian',
-      'label': 'Bread',
-    },
-    {
-      'title': '2Kg',
-      'label': 'Weight',
-    }
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +60,7 @@ class DetailPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              pet.race ?? 'Pet',
+                              pet.name ?? 'budi',
                               style: blackTextStyle.copyWith(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
@@ -107,7 +88,7 @@ class DetailPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              pet.petType!,
+                              pet.race!,
                               style: blackTextStyle.copyWith(
                                   fontSize: 18, fontWeight: FontWeight.w600),
                             ),
@@ -125,7 +106,7 @@ class DetailPage extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        gridFacilities(),
+                        gridFacilities(pet),
                         const SizedBox(
                           height: 20,
                         ),
@@ -140,7 +121,7 @@ class DetailPage extends StatelessWidget {
                           height: 6,
                         ),
                         Text(
-                          'Berada di jalur jalan provinsi yang menghubungkan Denpasar Singaraja serta letaknya yang dekat dengan Kebun Raya Eka Karya menjadikan tempat Bali.',
+                          pet.description ?? '',
                           style: blackTextStyle.copyWith(
                             height: 2,
                           ),
@@ -164,7 +145,8 @@ class DetailPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(15),
             child: ButtonCustom(label: 'Login', onTap: () {
-              Get.to(const SigninPage());
+                Session.clearToken();
+                Navigator.pushReplacementNamed(context, AppRoute.signin);
             }, marginHorizontal: 80),
           )
         );
@@ -229,7 +211,25 @@ class DetailPage extends StatelessWidget {
     );
   }
 
-  GridView gridFacilities() {
+  GridView gridFacilities(Pet pet) {
+    final List facilities = [
+    {
+      'title': pet.sex,
+      'label': 'Sex',
+    },
+    {
+      'title': pet.color,
+      'label': 'Color',
+    },
+    {
+      'title': pet.stock.toString(),
+      'label': 'Available',
+    },
+    {
+      'title': '${pet.weight}Kg',
+      'label': 'Weight',
+    }
+  ];
     return GridView.builder(
       itemCount: facilities.length,
       shrinkWrap: true,
