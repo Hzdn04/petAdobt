@@ -59,7 +59,7 @@ class ImagePickerController extends GetxController {
     });
 
     http.MultipartRequest request =
-        http.MultipartRequest('POST', Uri.parse('${Api.baseUrl}/upload/$id'));
+        http.MultipartRequest('PUT', Uri.parse('${Api.baseUrl}/upload/$id'));
     request.headers.addAll(<String, String>{
       "Content-Type": 'application/json',
       'Accept': 'application/json',

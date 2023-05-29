@@ -24,11 +24,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final cUser = Get.put(CUser());
 
-  @override
-  Widget build(BuildContext context) {
-    // Get.lazyPut(() => ImagePickerController());
-
-    File? _image;
+  File? _image;
     PickedFile? _pickedFile;
     final _picker = ImagePicker();
     // Implementing the image picker
@@ -39,8 +35,11 @@ class _ProfilePageState extends State<ProfilePage> {
           _image = File(_pickedFile!.path);
         });
       }
-      print(_pickedFile);
     }
+
+  @override
+  Widget build(BuildContext context) {
+    // Get.lazyPut(() => ImagePickerController());
 
     if (cUser.data.id == null) {
       return Scaffold(

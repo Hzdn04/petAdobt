@@ -53,6 +53,9 @@ class _ConfirmPageState extends State<ConfirmPage> {
       }
     }
 
+    double toDolar = widget.adobted.totalPrice!.toDouble() / 15000;
+    int roundedNumber = toDolar.round();
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -161,7 +164,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
             ),
             ButtonCustom(
                 label: 'Payment',
-                onTap: () => cPayment.makePayment(amount: '1', currency: 'USD', id: widget.adobted.id.toString()),
+                onTap: () => cPayment.makePayment(amount: roundedNumber.toString(), currency: 'USD', id: widget.adobted.id.toString()),
                 marginHorizontal: 40),
           ],
         ),

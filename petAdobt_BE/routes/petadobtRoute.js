@@ -18,6 +18,12 @@ petadobt.put(
     PetAdobtController.cancelAdobt
   );
 
+  petadobt.put(
+    "/updatePaymentStatus/:id",
+    authentication,
+    PetAdobtController.updatePaymentStatus
+  );
+
 petadobt.delete("/delete/:id", authentication, PetAdobtController.delete);
 
 module.exports = petadobt;

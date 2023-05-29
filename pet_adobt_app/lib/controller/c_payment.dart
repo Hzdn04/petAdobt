@@ -94,7 +94,7 @@ class PaymentController extends GetxController {
   }
 
   calculateAmount(String amount) {
-    final a = (int.parse(amount)) * 10000;
+    final a = (int.parse(amount)) * 100;
     return a.toString();
   }
 }
