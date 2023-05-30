@@ -60,7 +60,7 @@ class PetController {
         price,
         stock,
       } = req.body;
-      const image = "http://192.168.1.12:3001" + "/assets/" + req.file.filename;
+      const image = "http://192.168.1.13:3001" + "/assets/" + req.file.filename;
       console.log(req.file.path);
 
       //     console.log(req.userData);
@@ -144,7 +144,7 @@ class PetController {
         stock,
       } = req.body;
 
-      const image = "http://192.168.1.12:3001" + "/assets/" + req.file.filename;
+      const image = "http://192.168.1.13:3001" + "/assets/" + req.file.filename;
 
       let result = await pet.update(
         {

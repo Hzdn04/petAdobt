@@ -52,7 +52,7 @@ const editAdobted = async (id, adobted) => {
 
 const updatePaymentStatus = async (id, status) => {
   try {
-    console.log(id, +status);
+    console.log(id, status);
     const result = await axios({
       method: "PUT",
       url: `${URL}/updatePaymentStatus/${id}`,

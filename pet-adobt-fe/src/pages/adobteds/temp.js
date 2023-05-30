@@ -3,12 +3,12 @@ import { Button, Modal } from "react-bootstrap";
 import {
   deleteAdobted,
   getAdobteds,
-  editPaymentStatus,
+  updatePaymentStatus,
 } from "../../fetchs/adobtedFetch";
 import { getPet } from "../../fetchs/petFetch";
 import { getAccount } from "../../fetchs/userFetch";
 import Loading from "../../helpers/Loading";
-import { Link } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import convertRp from "../../helpers/RpFormatter";
 import Swal from "sweetalert2";
 
@@ -20,18 +20,14 @@ const ListAdobtedPage = () => {
   const [totalPrice, setTotalPrice] = useState(0);
 
   const [user, setUser] = useState([]);
-  const [payStatus, setPayStatus] = useState({
-    status: 1,
-  });
+  const [payStatus, setPayStatus] = useState({});
 
   const [show, setShow] = useState(false);
 
+  const navigate = useNavigate();
+  const params = useParams();
   const handleClose = () => setShow(false);
   const handleShow = (id) => {
-    const paymentStatus = adobteds
-      .filter((adobted) => adobted.id === id)
-      .map((adobted) => adobted.status);
-    setPayStatus(paymentStatus);
     setShow(true);
   };
 
@@ -71,8 +67,12 @@ const ListAdobtedPage = () => {
   };
 
   useEffect(() => {
+    const { id } = params;
     getAdobteds((result) => setAdobteds(result));
     getAccount((result) => setUser(result));
+    getAdobteds(id, (result) => {
+      setPayStatus(result.status);
+    });
   }, []);
 
   const deleteHandler = (id) => {
@@ -101,7 +101,7 @@ const ListAdobtedPage = () => {
   //       }).then(async (result) => {
   //         if (result.isConfirmed) {
   //           // Mengirim permintaan ke server atau basis data untuk mengubah status pembayaran
-  //           const response = await editPaymentStatus(id, 2); // Menggunakan nilai payStatus langsung di sini
+  //           const response = await updatePaymentStatus(id, 2); // Menggunakan nilai payStatus langsung di sini
 
   //           //   if (response.success) {
   //           //     // Jika pengiriman berhasil, tampilkan notifikasi
@@ -119,9 +119,8 @@ const ListAdobtedPage = () => {
   //   };
 
   const statusHandler = (id) => {
-    console.log(id, payStatus);
-    editPaymentStatus(id, payStatus);
-    getAdobteds((result) => setAdobteds(result));
+    updatePaymentStatus(id, payStatus);
+    navigate("/");
   };
 
   return (
@@ -129,9 +128,9 @@ const ListAdobtedPage = () => {
       {/* <Link to="/adobteds/create" className="btn btn-primary mb-2 mt-2">
         Add
       </Link> */}
-      <Link to="/pets" className="btn btn-primary mb-2 mt-2">
+      {/* <Link to="/pets" className="btn btn-primary mb-2 mt-2">
         Add
-      </Link>
+      </Link> */}
       <table className="table">
         <thead className="table-light">
           <tr>
@@ -158,23 +157,26 @@ const ListAdobtedPage = () => {
                   <td>{convertRp(total_price)}</td>
                   {status === 0 ? (
                     <td>
-                      <Button onClick={() => handleShow(+id)} variant="danger">
+                      <Button onClick={() => handleShow(id)} variant="danger">
                         Canceled
                       </Button>
                     </td>
                   ) : status === 1 ? (
                     <td>
-                      <Button
-                        onClick={() => handleShow(+id)}
-                        variant="secondary"
-                      >
+                      <Button onClick={() => handleShow(id)} variant="warning">
                         Pending
+                      </Button>
+                    </td>
+                  ) : status === 2 ? (
+                    <td>
+                      <Button onClick={() => handleShow(id)} variant="primary">
+                        Done
                       </Button>
                     </td>
                   ) : (
                     <td>
-                      <Button onClick={() => handleShow(+id)} variant="primary">
-                        Done
+                      <Button onClick={() => handleShow(id)} variant="success">
+                        Paid
                       </Button>
                     </td>
                   )}
@@ -198,11 +200,15 @@ const ListAdobtedPage = () => {
                               for="status"
                               id="status"
                             >
+                              <option selected>Select Status</option>
                               {/* <option value={`${payStatus}`} selected>
                                 {`${payStatus}`}
                               </option> */}
                               <option name="status" value={2}>
                                 Done
+                              </option>
+                              <option name="status" value={3}>
+                                Paid
                               </option>
                               <option name="status" value={1}>
                                 Pending
@@ -228,12 +234,12 @@ const ListAdobtedPage = () => {
                     </Modal.Footer>
                   </Modal>
                   <td>
-                    <Link
+                    {/* <Link
                       to={`/adobteds/edit/${id}`}
                       className="btn btn-warning mx-1"
                     >
                       Edit
-                    </Link>
+                    </Link> */}
 
                     <button
                       onClick={() => deleteHandler(+id)}

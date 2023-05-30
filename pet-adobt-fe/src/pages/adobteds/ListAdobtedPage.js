@@ -24,10 +24,16 @@ const ListAdobtedPage = () => {
 
   const [show, setShow] = useState(false);
 
+  const [currentAdobted, setCurrentAdobted] = useState([]);
+
+  const [selectedStatus, setSelectedStatus] = useState({ status: 1 });
+
   const navigate = useNavigate();
   const params = useParams();
   const handleClose = () => setShow(false);
   const handleShow = (id) => {
+    const adobtedById = adobteds.find((adobted) => adobted.id === id);
+    setCurrentAdobted(adobtedById);
     setShow(true);
   };
 
@@ -70,9 +76,9 @@ const ListAdobtedPage = () => {
     const { id } = params;
     getAdobteds((result) => setAdobteds(result));
     getAccount((result) => setUser(result));
-    getAdobteds(id, (result) => {
-      setPayStatus(result.status);
-    });
+    // getAdobteds(id, (result) => {
+    //   setPayStatus(result.status);
+    // });
   }, []);
 
   const deleteHandler = (id) => {
@@ -118,9 +124,15 @@ const ListAdobtedPage = () => {
   //     }
   //   };
 
-  const statusHandler = (id) => {
-    updatePaymentStatus(id, payStatus);
-    navigate("/");
+  const statusHandler = (id, selectedStatus) => {
+    updatePaymentStatus(id, selectedStatus)
+      .then(() => {
+        getAdobteds((result) => setAdobteds(result));
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -191,7 +203,7 @@ const ListAdobtedPage = () => {
                             <label for="status">Payment Status</label>
                             <select
                               onChange={(e) =>
-                                setPayStatus({
+                                setSelectedStatus({
                                   status: e.target.value,
                                 })
                               }
@@ -220,11 +232,39 @@ const ListAdobtedPage = () => {
                           </div>
                         </div>
                       </div>
+                      {/* <div class="row my-2">
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <label for="race">Pet Race</label>
+                            <input
+                              type="text"
+                              name="race"
+                              value={currentAdobted.pet.race}
+                              readOnly
+                            />
+                          </div>
+                        </div>
+                      </div> */}
+                      {/* <div class="row my-2">
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <label for="race">ID</label>
+                            <input
+                              type="text"
+                              name="id"
+                              value={currentAdobted.id}
+                              readOnly
+                            />
+                          </div>
+                        </div>
+                      </div> */}
                     </Modal.Body>
                     <Modal.Footer>
                       <Button
                         variant="primary"
-                        onClick={() => statusHandler(id)}
+                        onClick={() =>
+                          statusHandler(currentAdobted.id, selectedStatus)
+                        }
                       >
                         Update
                       </Button>
