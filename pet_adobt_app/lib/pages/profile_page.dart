@@ -1,14 +1,17 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:d_info/d_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pet_adobt_app/config/app_color.dart';
 import 'package:pet_adobt_app/config/app_font.dart';
-import 'package:pet_adobt_app/controller/c_image.dart';
 import 'package:pet_adobt_app/controller/c_user.dart';
 import 'package:pet_adobt_app/pages/change_password_page.dart';
 import 'package:pet_adobt_app/widget/button_custom.dart';
+import 'package:http/http.dart' as http;
+import 'package:pet_adobt_app/config/api.dart';
 
 import '../config/app_route.dart';
 import '../config/session.dart';
@@ -24,23 +27,74 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final cUser = Get.put(CUser());
 
+  // ignore: unused_field
   File? _image;
-    PickedFile? _pickedFile;
-    final _picker = ImagePicker();
-    // Implementing the image picker
-    Future<void> _pickImage() async {
-      _pickedFile = await _picker.getImage(source: ImageSource.gallery);
-      if (_pickedFile != null) {
-        setState(() {
-          _image = File(_pickedFile!.path);
-        });
-      }
+  PickedFile? _pickedFile;
+  final _picker = ImagePicker();
+
+  // Implementing the image picker
+  Future<void> _pickImage() async {
+    _pickedFile = await _picker.getImage(source: ImageSource.gallery);
+    if (_pickedFile != null) {
+      setState(() {
+        _image = File(_pickedFile!.path);
+      });
     }
+  }
+
+  Future<bool?> upload() async {
+    bool success = false;
+
+    http.StreamedResponse response =
+        await updateProfile(_pickedFile, cUser.data.id.toString());
+
+    if (response.statusCode == 200) {
+      // ignore: unused_local_variable
+      Map map = jsonDecode(await response.stream.bytesToString());
+      // String message = map["message"];
+
+      success = true;
+      DInfo.dialogSuccess('Upload Successful. Please logOut for the latest update!');
+      DInfo.closeDialog();
+    } else {
+      DInfo.dialogError('Upload Image Failed!, please click again');
+      DInfo.closeDialog();
+    }
+
+    return success;
+  }
+
+  static String tokenAccess = "";
+
+  Future<http.StreamedResponse> updateProfile(
+      PickedFile? data, String id) async {
+    Session.getToken().then((value) {
+      tokenAccess = value!;
+    });
+
+    http.MultipartRequest request =
+        http.MultipartRequest('PUT', Uri.parse('${Api.user}upload/$id'));
+    request.headers.addAll(<String, String>{
+      "Content-Type": 'application/json',
+      'Accept': 'application/json',
+      'access_token': tokenAccess
+    });
+
+    // File? _file = null;
+
+    if (GetPlatform.isMobile && data != null) {
+      File? _file = File(data.path);
+      request.files.add(http.MultipartFile(
+          'image', _file.readAsBytes().asStream(), _file.lengthSync(),
+          filename: _file.path.split('/').last));
+    }
+
+    http.StreamedResponse response = await request.send();
+    return response;
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Get.lazyPut(() => ImagePickerController());
-
     if (cUser.data.id == null) {
       return Scaffold(
         body: Center(
@@ -90,7 +144,7 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 Container(
                   width: double.infinity,
-                  height: 250,
+                  height: 280,
                   padding: const EdgeInsets.all(15),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
@@ -99,71 +153,95 @@ class _ProfilePageState extends State<ProfilePage> {
                       border: Border.all(color: Colors.white)),
                   child: Row(
                     children: [
-                      Stack(
-                        alignment: Alignment.center,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: _pickedFile != null
-                                ?
-                                Image.file(
-                                    File(_pickedFile!.path),
-                                    width: 152,
-                                    height: 229,
-                                    fit: BoxFit.cover,
-                                  )
-                                : const Text('Please select an image'),
+                          Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: _pickedFile != null
+                                    ? Image.file(
+                                        File(_pickedFile!.path),
+                                        width: 152,
+                                        height: 200,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: Image.network(
+                                          cUser.data.image ?? '',
+                                          width: 152,
+                                          height: 200,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                              ),
+                              // GetBuilder<ImagePickerController>(builder: (_) {
+                              //   return ClipRRect(
+                              //     borderRadius: BorderRadius.circular(25),
+                              //     child: Get.find<ImagePickerController>().pickedFile != null
+                              //         ? Image.file(
+                              //             File(Get.find<ImagePickerController>().pickedFile!.path),
+                              //             width: 152,
+                              //             height: 229,
+                              //             fit: BoxFit.cover,
+                              //           )
+                              //         :
+                              //         CircleAvatar(
+                              //             backgroundColor: Colors.transparent,
+                              //             radius: 80,
+                              //             child: Image.network(
+                              //               cUser.data.image ?? '',
+                              //               fit: BoxFit.cover,
+                              //             ),
+                              //           ),
+                              //     // CircleAvatar(
+                              //     //     radius: 80,
+                              //     //     backgroundColor: Colors.transparent,
+                              //     //     backgroundImage: cImage
+                              //     //             .imagePath.isNotEmpty
+                              //     //         ? FileImage(File(
+                              //     //             cImage.imagePath.toString()))
+                              //     //         : null)
+                              //     //     Image.network(
+                              //     //   (cImage.imagePath.isNotEmpty
+                              //     //       ? FileImage(
+                              //     //           File(cImage.imagePath.toString()))
+                              //     //       : null) as String,
+                              //     //   width: 152,
+                              //     //   height: 229,
+                              //     //   fit: BoxFit.cover,
+                              //     // ),
+                              //   );
+                              // }),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 50),
+                                child: TextButton(
+                                    onPressed: () {
+                                      // cImage.getImage();
+                                      _pickImage();
+                                    },
+                                    child: const Icon(
+                                      Icons.photo_camera,
+                                      size: 30,
+                                    )),
+                              )
+                            ],
                           ),
-                          // GetBuilder<ImagePickerController>(builder: (_) {
-                          //   return ClipRRect(
-                          //     borderRadius: BorderRadius.circular(25),
-                          //     child: Get.find<ImagePickerController>().pickedFile != null
-                          //         ? Image.file(
-                          //             File(Get.find<ImagePickerController>().pickedFile!.path),
-                          //             width: 152,
-                          //             height: 229,
-                          //             fit: BoxFit.cover,
-                          //           )
-                          //         :
-                          //         CircleAvatar(
-                          //             backgroundColor: Colors.transparent,
-                          //             radius: 80,
-                          //             child: Image.network(
-                          //               cUser.data.image ?? '',
-                          //               fit: BoxFit.cover,
-                          //             ),
-                          //           ),
-                          //     // CircleAvatar(
-                          //     //     radius: 80,
-                          //     //     backgroundColor: Colors.transparent,
-                          //     //     backgroundImage: cImage
-                          //     //             .imagePath.isNotEmpty
-                          //     //         ? FileImage(File(
-                          //     //             cImage.imagePath.toString()))
-                          //     //         : null)
-                          //     //     Image.network(
-                          //     //   (cImage.imagePath.isNotEmpty
-                          //     //       ? FileImage(
-                          //     //           File(cImage.imagePath.toString()))
-                          //     //       : null) as String,
-                          //     //   width: 152,
-                          //     //   height: 229,
-                          //     //   fit: BoxFit.cover,
-                          //     // ),
-                          //   );
-                          // }),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 50),
-                            child: TextButton(
-                                onPressed: () {
-                                  // cImage.getImage();
-                                  _pickImage();
-                                },
-                                child: const Icon(
-                                  Icons.photo_camera,
-                                  size: 30,
-                                )),
-                          )
+                          _pickedFile != null
+                              ? TextButton(
+                                  onPressed: () {
+                                    upload();
+                                  },
+                                  child: const Icon(
+                                    Icons.upload,
+                                    size: 30,
+                                  ))
+                              : const SizedBox(
+                                  height: 2,
+                                )
                         ],
                       ),
                       const SizedBox(

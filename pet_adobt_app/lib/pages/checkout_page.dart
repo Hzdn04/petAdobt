@@ -32,7 +32,7 @@ class COPage extends StatelessWidget {
           token,
           pet.id.toString(),
           cUser.data.id!.toString(),
-          cUser.data.name!,
+          pet.race!,
           totalPayment.toString(),
           status.toString());
     }

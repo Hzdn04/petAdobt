@@ -97,7 +97,7 @@ class AdobtPage extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
         reverse: true,
-        itemCount: list.length < 2 ? list.length : 2,
+        itemCount: list.length < 5 ? list.length : 5,
         itemBuilder: (context, index) {
           Pet pet = list[index];
           return GestureDetector(
@@ -118,7 +118,7 @@ class AdobtPage extends StatelessWidget {
                   index == list.length - 1 ? 3 : 1,
                 ),
                 child: PetCustom(
-                    name: pet.name ?? '',
+                    name: pet.race ?? '',
                     gender: pet.sex.toString().toLowerCase(),
                     asset: pet.image!,
                     width: 300,
@@ -377,7 +377,7 @@ class LoadingScreen extends StatelessWidget {
                             fit: BoxFit.cover,
                             image: AssetImage('assets/loading.gif'))),
                   ),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.all(14),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -201,7 +201,7 @@ class UserController {
     try {
       const id = +req.params.id;
 
-      const image = "http://192.168.1.2:3001" + "/assets/" + req.file.filename;
+      const image = "http://192.168.1.6:3001" + "/assets/" + req.file.filename;
 
       const result = await user.update(
         {
