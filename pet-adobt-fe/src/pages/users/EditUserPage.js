@@ -76,7 +76,7 @@ const EditUserPage = () => {
               />
             </div>
 
-            <div className="mb-3">
+            {/* <div className="mb-3">
               <label>Password</label>
               <input
                 value={form.password}
@@ -85,7 +85,7 @@ const EditUserPage = () => {
                 className="form-control"
                 readOnly
               />
-            </div>
+            </div> */}
             <div className="mb-3">
               <label>Name</label>
               <input

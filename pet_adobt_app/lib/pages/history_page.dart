@@ -43,8 +43,8 @@ class _HistoryPageState extends State<HistoryPage> {
       context,
       'Delete',
       'Are you sure to deleted this adobted history?',
-      textNo: 'Batal',
-      textYes: 'Ya',
+      textNo: 'Abord',
+      textYes: 'Yes',
     );
     if (yes == true) {
       bool? success = await SourceAdobted.delete(token, id);
@@ -371,7 +371,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                     ? 'PAID'
                                     : status == 2
                                         ? 'DONE'
-                                        : 'CENCELED',
+                                        : 'CANCELED',
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
                               fontWeight: FontWeight.bold,
                               color: status == _.status

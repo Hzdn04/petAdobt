@@ -93,7 +93,7 @@ class PetAdobtController {
       });
       console.log(result);
 
-      res.status(201).json({message: 'done', result});
+      res.status(201).json({ message, result });
       // res.json(thisPet);
       //   res.redirect("/petAdobts");
     } catch (err) {

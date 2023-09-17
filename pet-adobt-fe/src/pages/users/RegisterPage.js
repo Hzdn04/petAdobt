@@ -165,11 +165,11 @@ const RegisterPage = () => {
               onClick={() => submitHandler()}
               type="submit"
             >
-              Sign up
+              Regist
             </button>
-            <Link className="link" to="/register">
+            {/* <Link className="link" to="/register">
               <p class="mt-2 mb-3 text-muted">login here!</p>
-            </Link>
+            </Link> */}
           </form>
         </div>
       </div>

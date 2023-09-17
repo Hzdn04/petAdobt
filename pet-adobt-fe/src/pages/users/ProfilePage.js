@@ -53,7 +53,7 @@ const ProfilePage = () => {
           <p class="card-text">
             <small class="text-body-secondary">{form.address}</small>
           </p>
-          <div className="float-right">
+          {/* <div className="float-right">
             <Link
               to={`/profile/update/${form.id}`}
               class="btn btn-warning"
@@ -61,7 +61,7 @@ const ProfilePage = () => {
             >
               EDIT
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

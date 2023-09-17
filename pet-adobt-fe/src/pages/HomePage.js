@@ -15,13 +15,14 @@ const HomePage = (props) => {
         <div className="hero-container" data-aos="zoom-in" data-aos-delay="100">
           <h1>Welcome to petAdobt</h1>
           <h2>Highest Quality Care For Pets You'll Love</h2>
-          {!token ? (
+          {token ? (
+            <Link to="/pets" className="btn-get-started">
+            Manage Pets
+          </Link>
+            
+          ) : (
             <Link to="/login" className="btn-get-started">
               Login
-            </Link>
-          ) : (
-            <Link to="/pets" className="btn-get-started">
-              Manage Pets
             </Link>
           )}
         </div>

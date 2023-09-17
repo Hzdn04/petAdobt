@@ -1,12 +1,6 @@
 import React from "react";
 
 const Footer = () => {
-
-  const styles ={
-    footer:{
-      bottom: "0"
-    }
-  }
   return (
     <div>
       <footer id="footer" className="footer fixed-bottom">
@@ -19,7 +13,14 @@ const Footer = () => {
             &copy; Copyright <strong>petAdobt</strong>. All Rights Reserved
           </div>
           <div class="credits">
-            Designed by <a className="link" href="https://www.instagram.com/h_zdn04/">GGMU</a>
+            Designed by
+            <a className="link" href="https://www.instagram.com/h_zdn04/">
+              Hafiz
+            </a>
+            and
+            <a className="link" href="https://www.instagram.com/kmonding/">
+              Kevinsy
+            </a>
           </div>
         </div>
       </footer>

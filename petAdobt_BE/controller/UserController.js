@@ -108,7 +108,7 @@ class UserController {
       const image =
         req.protocol +
         `://` +
-        "192.168.1.12:3001" +
+        "192.168.245.142:3001" +
         "/assets/" +
         req.file.filename;
 
@@ -201,7 +201,8 @@ class UserController {
     try {
       const id = +req.params.id;
 
-      const image = "http://192.168.1.6:3001" + "/assets/" + req.file.filename;
+      const image =
+        "http://192.168.245.142:3001" + "/assets/" + req.file.filename;
 
       const result = await user.update(
         {

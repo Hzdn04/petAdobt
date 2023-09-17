@@ -100,9 +100,9 @@ const LoginPage = (props) => {
             >
               Sign in
             </button>
-            <Link className="link" to="/register">
+            {/* <Link className="link" to="/register">
               <p className="mt-2 mb-3 text-muted">have't account?</p>
-            </Link>
+            </Link> */}
           </form>
         </div>
       </div>
