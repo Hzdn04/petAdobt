@@ -143,7 +143,7 @@ class _HistoryPageState extends State<HistoryPage> {
                               image: AssetImage('assets/no.png'))),
                     ),
                     Text(
-                      'Not Transaction',
+                      'No Transaction',
                       style: blackTextStyle.copyWith(
                           fontSize: 26, fontWeight: FontWeight.w800),
                     ),
@@ -188,23 +188,25 @@ class _HistoryPageState extends State<HistoryPage> {
                   itemBuilder: (context, element) {
                     return GestureDetector(
                         onTap: () {
-                          element.status == 1
-                              ? Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ConfirmPage(
-                                            adobted: element,
-                                          )),
-                                )
-                              : element.status == 3
-                                  ? Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => PaidPage(
-                                                adobted: element,
-                                              )),
-                                    )
-                                  : delete(element.id.toString());
+                          if (element.status != '') {
+                            element.status == 1
+                                ? Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ConfirmPage(
+                                              adobted: element,
+                                            )),
+                                  )
+                                : element.status == 3
+                                    ? Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => PaidPage(
+                                                  adobted: element,
+                                                )),
+                                      )
+                                    : delete(element.id.toString());
+                          }
                         },
                         child: item(context, element));
                   },

@@ -80,6 +80,7 @@ class PetAdobtController {
       //   res.json(tempPrice[0].total_price);
       let updateStock = await thisPet.decrement("stock");
 
+      let name = thisPet.name;
       let total_price = thisPet.price;
       let status = 1;
       const adobt_date = new Date();
@@ -87,6 +88,7 @@ class PetAdobtController {
       let result = await petAdobt.create({
         petId: +petId,
         userId: +userId,
+        name,
         adobt_date,
         total_price,
         status: status,

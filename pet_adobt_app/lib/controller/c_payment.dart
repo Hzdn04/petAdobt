@@ -4,6 +4,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../model/adobted.dart';
 import '../config/session.dart';
 import '../pages/home_page.dart';
 import '../source/source_adobted.dart';
@@ -12,6 +13,8 @@ class PaymentController extends GetxController {
   Map<String, dynamic>? paymentIntentData;
 
   Future<String?> token = Session.getToken();
+
+  final _adobted = Adobted().obs;
 
   int statusPay = 3;
 

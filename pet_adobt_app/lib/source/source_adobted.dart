@@ -61,12 +61,12 @@ class SourceAdobted {
     if (responseBody == null) return null;
 
     // ignore: unnecessary_null_comparison
-    if (responseBody['message'] == 'done') {
+    if (responseBody != null) {
       DInfo.dialogSuccess('Adobted Successfully');
-        DInfo.closeDialog(actionAfterClose: () {
-          cHome.indexPage = 2;
-          Get.offAll(HomePage());
-        });
+      DInfo.closeDialog(actionAfterClose: () {
+        cHome.indexPage = 2;
+        Get.offAll(HomePage());
+      });
     } else {
       DInfo.dialogError('Adobted Failed!, please click again');
       DInfo.closeDialog();
@@ -80,14 +80,14 @@ class SourceAdobted {
     String status,
     String id,
   ) async {
-    String url = '${Api.adobted}cancel/$id';
+    String url = '${Api.adobted}updatePaymentStatus/$id';
 
     Session.getToken().then((value) {
       tokenAccess = value!;
     });
 
     Map? responseBody = await AppRequest.update(url, {
-      'status': status,
+      'status': status = "0",
       'updated_at': DateTime.now().toIso8601String(),
     }, headers: {
       'Accept': 'application/json',
@@ -96,7 +96,7 @@ class SourceAdobted {
 
     if (responseBody == null) return null;
 
-    if (responseBody['message']) {
+    if (responseBody != {}) {
       DInfo.dialogSuccess('Cancel SuccessFully');
       DInfo.closeDialog(actionAfterClose: () {
         cHome.indexPage = 2;
@@ -115,7 +115,7 @@ class SourceAdobted {
     String status,
     String id,
   ) async {
-    String url = '${Api.adobted}cancel/$id';
+    String url = '${Api.adobted}updatePaymentStatus/$id';
 
     Session.getToken().then((value) {
       tokenAccess = value!;
@@ -130,6 +130,17 @@ class SourceAdobted {
     });
 
     if (responseBody == null) return null;
+
+    if (responseBody != {}) {
+      DInfo.dialogSuccess('Payment Successfully');
+      DInfo.closeDialog(actionAfterClose: () {
+        cHome.indexPage = 2;
+        Get.offAll(HomePage());
+      });
+    } else {
+      DInfo.dialogError('Payment Failed');
+      DInfo.closeDialog();
+    }
 
     return responseBody['message'];
   }

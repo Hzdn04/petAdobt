@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -19,8 +18,8 @@ class DetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  final cUser = Get.put(CUser());
-    
+    final cUser = Get.put(CUser());
+
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -32,7 +31,6 @@ class DetailPage extends StatelessWidget {
           ),
           centerTitle: true,
         ),
-        
         backgroundColor: AppColor.bgScaffold,
         body: SingleChildScrollView(
           child: Stack(
@@ -137,19 +135,23 @@ class DetailPage extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: 
-        // ignore: unnecessary_null_comparison
-        cUser.data.id != null ?
-          pet.stock! > 0 ? getAdobt(context) : notAdobt(context)
-        :
-          Padding(
-            padding: const EdgeInsets.all(15),
-            child: ButtonCustom(label: 'Login', onTap: () {
-                Session.clearToken();
-                Navigator.pushReplacementNamed(context, AppRoute.signin);
-            }, marginHorizontal: 80),
-          )
-        );
+        bottomNavigationBar:
+            // ignore: unnecessary_null_comparison
+            cUser.data.id != null
+                ? pet.stock! > 0
+                    ? getAdobt(context)
+                    : notAdobt(context)
+                : Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: ButtonCustom(
+                        label: 'Login',
+                        onTap: () {
+                          Session.clearToken();
+                          Navigator.pushReplacementNamed(
+                              context, AppRoute.signin);
+                        },
+                        marginHorizontal: 80),
+                  ));
   }
 
   Container getAdobt(BuildContext context) {
@@ -160,9 +162,8 @@ class DetailPage extends StatelessWidget {
       ),
       height: 90,
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-      child: 
-      ButtonCustom(
-        label: 'ADOBT NOW',
+      child: ButtonCustom(
+        label: 'ADOPT NOW',
         onTap: () {
           Navigator.pushNamed(context, AppRoute.checkout, arguments: pet);
         },
@@ -183,15 +184,12 @@ class DetailPage extends StatelessWidget {
         color: Colors.grey[300],
         borderRadius: BorderRadius.circular(20),
         child: Container(
-          padding:
-              const EdgeInsets.symmetric(horizontal: 30, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 16),
           child: const Text(
             'Out of Stock',
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: Colors.black,
-                fontSize: 16,
-                fontWeight: FontWeight.w900),
+                color: Colors.black, fontSize: 16, fontWeight: FontWeight.w900),
           ),
         ),
       ),
@@ -213,23 +211,23 @@ class DetailPage extends StatelessWidget {
 
   GridView gridFacilities(Pet pet) {
     final List facilities = [
-    {
-      'title': pet.sex,
-      'label': 'Sex',
-    },
-    {
-      'title': pet.color,
-      'label': 'Color',
-    },
-    {
-      'title': pet.stock.toString(),
-      'label': 'Available',
-    },
-    {
-      'title': '${pet.weight}Kg',
-      'label': 'Weight',
-    }
-  ];
+      {
+        'title': pet.sex,
+        'label': 'Sex',
+      },
+      {
+        'title': pet.color,
+        'label': 'Color',
+      },
+      {
+        'title': pet.stock.toString(),
+        'label': 'Available',
+      },
+      {
+        'title': '${pet.weight}Kg',
+        'label': 'Weight',
+      }
+    ];
     return GridView.builder(
       itemCount: facilities.length,
       shrinkWrap: true,
